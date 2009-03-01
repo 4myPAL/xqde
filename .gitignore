@@ -1,1 +1,16 @@
-.svn 
+trunk/debug
+trunk/qtc-gdbmacros
+trunk/release
+trunk/*.txt~
+trunk/Makefile
+trunk/Makefile.*
+trunk/libxqdebase.pro.user
+
+#Remove compiled files
+libxqdebase
+
+#Remove dolphin files
+.directory
+
+#Remove temp files
+.*~
