@@ -1,0 +1,120 @@
+# Anjuta Version 0.1.8
+Compatibility Level: 1
+
+<PROJECT_DESCRIPTION_START>
+Some description<PROJECT_DESCRIPTION_END>
+<CONFIG_PROGS_START>
+<CONFIG_PROGS_END>
+<CONFIG_LIBS_START>
+<CONFIG_LIBS_END>
+<CONFIG_HEADERS_START>
+<CONFIG_HEADERS_END>
+<CONFIG_CHARACTERISTICS_START>
+<CONFIG_CHARACTERISTICS_END>
+<CONFIG_LIB_FUNCS_START>
+<CONFIG_LIB_FUNCS_END>
+<CONFIG_ADDITIONAL_START>
+<CONFIG_ADDITIONAL_END>
+<CONFIG_FILES_START>
+<CONFIG_FILES_END>
+<MAKEFILE_AM_START>
+<MAKEFILE_AM_END>
+
+props.file.type=project
+
+anjuta.version=0.1.8
+anjuta.compatibility.level=1
+
+project.name=libxqdebase
+project.type=GENERIC
+project.target.type=EXECUTABLE
+project.version=0.99
+project.author=stefano
+project.source.target=unknown
+
+# List of modules (directory or files) to be excluded from
+# symbol browsing and project listing.
+project.excluded.modules=intl
+
+project.has.gettext=0
+
+project.programming.language=C
+
+project.menu.entry=Unknown
+project.menu.group=Application
+project.menu.comment=No comment
+project.menu.icon=unknown_icon.xpm
+project.menu.need.terminal=0
+
+project.configure.options=
+
+anjuta.program.arguments=
+
+# This project has been blocked from overwriting the build files.
+# To unblock it, set it to 0, but at the same time, please make
+# sure to edit it properly.
+project.config.blocked=1
+
+project.config.disable.overwriting=1 1 1 1 1 1 1 1 1
+project.config.extra.modules.before=
+project.config.extra.modules.after=
+
+module.include.name=.
+module.include.type=
+module.include.expanded=0
+module.include.files= libxqdebase.h xqdeaction.h xqdedevice.h xqdeenvironment.h xqdewindowmanagerinterface.h import_netwm.h xqdeio.h xqdebasket.h xqdeslotsensor.h xqdesensormouse.h xqdeplugin_analogclock.h xqdeplugin.h xqdeproxy.h xqdeclass.h xqtext.h netwm_def.h xqdesensor_systemtray.h qxembed.h xqdesensor_taskmanager.h xqdeanimation.h xqdeconfigurator.h xqwfirsthand_right.h netwm_p.h xqwfirsthand_bottom.h xquniqueapplication.h kdetrayproxy.h xqwfirsthand_left.h xqwfirsthand_top.h xqde.h xqderuler.h xqwidget.h xqdepuzzle.h xqwfirsthand.h xqdeicon.h xqdesensor_zoomengine.h xqimageautozoom.h xqdemain.h xqimage.h xqdeuiiconwindow.h xqderoot.h
+
+module.source.name=.
+module.source.type=
+module.source.expanded=1
+module.source.files= xqdepuzzle.cpp xqdeplugin.cpp qxembed.cpp xqdeplugin_analogclock.cpp xqdeslotsensor.cpp xquniqueapplication.cpp xqwidget.cpp xqdewindowmanagerinterface.cpp xqdeclass.cpp main.cpp import_netwm.cpp xqdeanimation.cpp xqdesensor_systemtray.cpp xqdesensor_taskmanager.cpp xqdeconfigurator.cpp xqwfirsthand_right.cpp xqdesensormouse.cpp xqdeuiiconwindow.cpp libxqdebase.cpp xqdeproxy.cpp xqwfirsthand_bottom.cpp xqdebasket.cpp xqtext.cpp xqimage.cpp xqdeicon.cpp kdetrayproxy.cpp xqdeenvironment.cpp xqdemain.cpp xqderuler.cpp xqdesensor_zoomengine.cpp xqdeio.cpp xqdedevice.cpp xqimageautozoom.cpp xqwfirsthand_top.cpp xqwfirsthand_left.cpp xqdeaction.cpp xqderoot.cpp xqwfirsthand.cpp
+
+module.pixmap.name=.
+module.pixmap.type=
+module.pixmap.expanded=0
+module.pixmap.files=
+
+module.data.name=.
+module.data.type=
+module.data.expanded=0
+module.data.files=
+
+module.help.name=.
+module.help.type=
+module.help.expanded=0
+module.help.files=
+
+module.doc.name=.
+module.doc.type=
+module.doc.expanded=0
+module.doc.files=
+
+module.po.expanded=0
+module.po.files=
+
+compiler.options.supports=
+
+compiler.options.include.paths=. ..
+
+compiler.options.library.paths=
+
+compiler.options.libraries=
+
+compiler.options.libraries.selected=0
+
+compiler.options.defines=HAVE_CONFIG_H
+
+compiler.options.warning.buttons=0 0 1 1 0 1 0 0 0 0 0 0 0 1 0 0
+
+compiler.options.optimize.buttons=0 0 1 0
+
+compiler.options.other.buttons=1 0
+
+compiler.options.other.c.flags=
+
+compiler.options.other.l.flags=
+
+compiler.options.other.l.libs=
+
+project.source.paths=
+

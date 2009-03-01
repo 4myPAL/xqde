@@ -1,0 +1,88 @@
+Changelog:
+(16.02.09)
+- gestione mouse con Qt e non X11
+- antialiasing testo e icone (togliere icone? - tolto!)
+- semplificato e migliorato XQWidget
+- attivato riflesso icone
+- migliorato effetto fly, al click dell'applicazione rimbalza diminuendo ampiezza
+- semplificazione variabili ad es. cy, cx --> cursor_x , cursor_y
+- NEW! analog clock plugin, funzionante
+(21.02.09)
+- bugfix (see changelog)
+- code cleenup
+(22.02.09)
+- code cleenup
+- migliorato effetto rimpicciolimento dock con ogni dimensione della dock
+(23.02.09)
+- miglioramenti nella maschera della dock
+(24.02.09)
+- ogni nuova icona caricata, viene salvata nella "cache" (/icons), risolve parzialmente 2°bug
+(26.02.09)
+- cleenup XRenderResizeImage
+
+ToDo:
+- plugin: aggiungere dati come nome cognome....
+- plugin: caricamento automatico, con ricerca directory possibili
+- icon: non ricaricare icona ogni volta, usare una cache?
+- painting: migliorare gestione immagini per ottimizzare codice
+- text: sfondo costumizzabile da pannello configurazione
+- text: posizionarlo al centro dell'icona
+- widget: disable shadows con kwin, usare KWin::setShadowSize()
+- (dettettare finestre ridotte a task bar)
+- ottimizzazione memoria e prestazioni
+- aggiungere separazioni (con plugin?)
+- creare delle aree, ad es: programmi memorizzati, in esecuzione, plugins, ecc....
+- funzionalità: opzione per poter scegliere se ragguruppare icone in una sola o no
+
+
+
+Futuri ToDo:
+- plugin
+- drag&drop icon 
+- pannello configurazione e plugin/temi
+- usare le QGraphicsView?
+
+
+ToDo Done:
+(25.02.09)
+- plugin: gestire meglio "PluginPollingRate" non viene aggiornato, bisogna passare con il mouse sull'icona
+
+
+Bugs:
+- sensor: taskmanager, alcune applicazioni non vengono trovate, PID corretto?
+- icon: non eliminare icona quando viene chiusa applicazione (succede solo con certi PID)
+- sensor: taskmanager, funzione "updateWindowPixmap" crash applicazione
+- reflections: non aggiornate quando cambia icona
+(21.02.09)
+- xqde: start dock on bottom  (use MakeWindowOnBottom((void*)winId()); but where?)
+- firsthand: mousePolling sempre attivo? (ora è gestito con una variabile)
+- animation fly: non viene cancellata subito l'immagine di partenza
+- animation fly: icona saltella dietro allo sfondo
+- animation fly: rendere più fluida l'animazione
+- icon: quando app. si chiude (es.kontact, kopete) ed entra nella systray di kde non trova più immagine da abbinare (usare una cache? o salvare le immagini?)
+(22.02.09)
+- cambiando dimensioni dock ed icone dal pannello configurazione non si aggiorna dock
+(23.02.09)
+- alcuni problemi se la dock è piccola e l'effetto zoom è grande - bassa priorità
+(24.02.09)
+- non esegue applicazione subito dopo primo click icona
+- non esegue applicazione se quest'ultima è ridotta a systray
+(25.02.09)
+- plugin: aggiornamento riflesso quando "repaint"
+(27.02.09)
+- mask: se mouse è in basso sull'ultimo pixel l'animazione si ferma
+
+
+Bugs Solved:
+(21.02.09)
+- non si alza dock quando una finestra è in fullscreen sopra alle altre, aggiungere una maschera da 1px in basso sopra a tutto per dettettare mouse?
+- quando carica nuovo widget crea rettangolo bianco
+- se uscita laterale dalla dock nessuna animazione e non è centrata dal desktop
+- mask dock, per alzare dock quando sopra finestra <-> da perfezionare
+(22.02.09)
+- !!se mouse in uscita laterale la dock non resta centrata!!
+(23.02.09)
+- sfarfalli in uscita dalla parte sinistra dock (parte destra perfetta!)
+- firsthand: controllare maschera applicazione per rendere più naturali movimenti
+- firsthand_bottom: mask non ancora perfetto, a sinistra c'è più spazio che a destra
+
