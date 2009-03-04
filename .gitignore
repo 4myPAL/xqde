@@ -1,10 +1,10 @@
+#Remove QtCreator files
 trunk/debug
 trunk/qtc-gdbmacros
 trunk/release
 trunk/*.txt~
-trunk/Makefile
-trunk/Makefile.*
-trunk/libxqdebase.pro.user
+trunk/Makefile*
+trunk/*.pro.user
 
 #Remove compiled files
 libxqdebase
