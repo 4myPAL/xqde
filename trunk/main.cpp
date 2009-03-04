@@ -1,8 +1,12 @@
+#include <QLocale>
+#include <QTranslator>
+
 #include <xqdemain.h>
 #include <xqde.h>
 //#include <X11/Xlib.h>
 #include <X11/extensions/Xrender.h>
 //#include <X11/Xatom.h>
+
 
 Display *dpy;
 Colormap colormap;
@@ -68,6 +72,14 @@ int main(int argc, char *argv[])
 	//app->setName("xqde");
 	QCoreApplication::setOrganizationDomain ("www.xiaprojects.com");
         QCoreApplication::setOrganizationName("XIA Projects 2009");
+
+        //Load translation, ex. file: trans_Italian.ts
+        QTranslator translator;
+        QString translationFile = QLocale::languageToString(QLocale::system().language());
+        translationFile = ":/trans_"+translationFile+".ts";
+        translator.load(translationFile);
+        app->installTranslator(&translator);
+
 	app->xReset();
 	return app->exec();
 }
