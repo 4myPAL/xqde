@@ -68,6 +68,7 @@ SOURCES += libxqdebase.cpp \
     xqdeproxy.cpp \
     xqdeplugin_webhelper.cpp \
     xqdeio.cpp
+TRANSLATIONS += trans_Italian.ts
 TEMPLATE = app
 LIBS += -lXcomposite
 QT += network \
