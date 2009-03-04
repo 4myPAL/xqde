@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
         QString translationFile = QLocale::languageToString(QLocale::system().language());
         translationFile = ":/trans_"+translationFile+".ts";
         translator.load(translationFile);
-        app.installTranslator(&translator);
+        app->installTranslator(&translator);
 
 	app->xReset();
 	return app->exec();
