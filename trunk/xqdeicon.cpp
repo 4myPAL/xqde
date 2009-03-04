@@ -130,7 +130,7 @@ void XQDEIcon::xSetParent( QObject *newParent)
 
 void XQDEIcon::localfillPopup(QMenu *ContextPopupMenu,XQDEIcon *pMe)
 {
-	ContextPopupMenu->addAction(QIcon(DesktopEnvironment->Theme.findImage("new")),"New window",this,SLOT(menu_newWindow()));
+        ContextPopupMenu->addAction(QIcon(DesktopEnvironment->Theme.findImage("new")),"New window",this,SLOT(menu_newWindow()));
 	if(storeOnExit==0)
 	{
 		ContextPopupMenu->addAction(QIcon(DesktopEnvironment->Theme.findImage("keepindock")),"Keep in dock",this,SLOT(menu_setKeepInDock()));
@@ -143,21 +143,24 @@ void XQDEIcon::localfillPopup(QMenu *ContextPopupMenu,XQDEIcon *pMe)
 	ContextPopupMenu->addAction(QIcon(DesktopEnvironment->Theme.findImage("configure")),"Global configuration",this,SLOT(xConfigurator()));
 	Q_UNUSED(pMe);
 }
+
 void XQDEIcon::menu_newWindow()
 {
 	XQDEAction *sx=(actions->value("XQDE_USER_ACTION_CLICKSX"));
 	sx->Pointer=this;
 	sx->doit();
 }
+
 void XQDEIcon::menu_setKeepInDock()
 {
 	storeOnExit=1;
 	Basket->FreezeSave("");
 }
+
 void XQDEIcon::menu_setRemoveOnExit()
 {
 	storeOnExit=0;
-Basket->FreezeSave("");
+        Basket->FreezeSave("");
 }
 
 void XQDEIcon::userActionDefault(int a,int ,int )
@@ -184,6 +187,9 @@ void XQDEIcon::userActionDefault(int a,int ,int )
 				sx->Pointer=this;
 				sx->doit();
 			}
+                //New (04.03.09) start application on middle click
+                case XQDE_USER_ACTION_CLICKMI:
+                        menu_newWindow();
 		break;
 	}
 }
