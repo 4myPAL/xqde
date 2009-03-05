@@ -22,15 +22,16 @@
 #include <QPainter>
 #include <QRegion>
 #include <QTimer>
-#include <xqtext.h>
 
-#include <xqwfirsthand.h>
-#include <xqdeenvironment.h>
-#include <xqdeicon.h>
-#include <xqdebasket.h>
-#include <xqdeanimation.h>
-#include <xqdeaction.h>
-#include <xqdeproxy.h>
+
+#include "xqtext.h"
+#include "xqwfirsthand.h"
+#include "xqdeenvironment.h"
+#include "xqdeicon.h"
+#include "xqdebasket.h"
+#include "xqdeanimation.h"
+#include "xqdeaction.h"
+#include "xqdeproxy.h"
 
 //#include <X11/Xlib.h>
 

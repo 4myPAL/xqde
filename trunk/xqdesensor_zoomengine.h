@@ -12,7 +12,7 @@
 #ifndef XQDESENSOR_ZOOMENGINE_H
 #define XQDESENSOR_ZOOMENGINE_H
 
-#include <xqdedevice.h>
+#include "xqdedevice.h"
 
 const int MAXICONSIZE=256;
 

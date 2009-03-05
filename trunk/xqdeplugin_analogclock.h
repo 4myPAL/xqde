@@ -12,7 +12,8 @@
 #ifndef XQDEPLUGIN_ANALOGCLOCK_H
 #define XQDEPLUGIN_ANALOGCLOCK_H
 
-#include <xqdeplugin.h>
+#include "xqdeplugin.h"
+
 #ifndef RESIZEVIAXRENDER
 	#include <QImage>
 #else

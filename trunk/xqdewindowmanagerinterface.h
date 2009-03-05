@@ -12,9 +12,9 @@
 #ifndef XQDEWINDOWMANAGERINTERFACE_H
 #define XQDEWINDOWMANAGERINTERFACE_H
 
-#include <xqdeclass.h>
-
 #include <import_netwm.h>
+
+#include "xqdeclass.h"
 
 /**
 	@author Stefano Zingarini <stefano@xiaprojects.com>

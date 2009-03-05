@@ -12,7 +12,7 @@
 #ifndef XQWFIRSTHAND_BOTTOM_H
 #define XQWFIRSTHAND_BOTTOM_H
 
-#include <xqwfirsthand.h>
+#include "xqwfirsthand.h"
 
 /**
 	@author Stefano Zingarini <stefano@xiaprojects.com>
@@ -24,7 +24,7 @@ protected:
 	virtual void xMakeUp_BackgroundCoords();
 	virtual void xMakeCentered();
 	virtual void purgeCacheFixBorder(int ,int &,int &xLastY_notmanaged,int &);
-        virtual void purgeCacheFixMouse(int ,int &,int &,int &); //Removed (22.02.09)
+        virtual void purgeCacheFixMouse(int ,int &,int &,int &);
 	virtual int iconIndexByCoords(int,int);
 	virtual void mouseMoveEventSWIcon(int,int,int,XQDEIcon *,int);
 	virtual XQDEIconRect iconCoordsByIndex(int);

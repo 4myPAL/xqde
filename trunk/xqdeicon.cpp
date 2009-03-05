@@ -9,21 +9,22 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include <xqdeicon.h>
-#include <xqdeenvironment.h>
+
 
 #include <QPainter>
 #include <QMenu>
-
-// will be remove
-#include <xqdebasket.h>
-
-#include <xqdeuiiconwindow.h>
 #include <QMap>
-#include <xqdeenvironment.h>
-#include <xqdeaction.h>
-#include <xqdeanimation.h>
-#include <xqtext.h>
+
+
+#include "xqdeicon.h"
+#include "xqdeenvironment.h"
+// will be remove
+#include "xqdebasket.h"
+#include "xqdeuiiconwindow.h"
+#include "xqdeenvironment.h"
+#include "xqdeaction.h"
+#include "xqdeanimation.h"
+#include "xqtext.h"
 
 void MakeWindowOnTopPillow(void *);
 extern QImage *XQDE_ImageReflectBottom(QImage &xImgSource,QImage &newImage, int rHeight);

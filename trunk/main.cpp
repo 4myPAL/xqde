@@ -1,10 +1,11 @@
 #include <QLocale>
 #include <QTranslator>
 
-#include <xqdemain.h>
-#include <xqde.h>
-//#include <X11/Xlib.h>
+#include "xqdemain.h"
+#include "xqde.h"
+
 #include <X11/extensions/Xrender.h>
+//#include <X11/Xlib.h>
 //#include <X11/Xatom.h>
 
 

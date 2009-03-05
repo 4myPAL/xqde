@@ -9,14 +9,14 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include "xqdeplugin_webhelper.h"
-#include <xqdeenvironment.h>
-#include <xqde.h>
 
 #include <QFile>
 #include <QDir>
 #include <QProcess>
 
+#include "xqdeplugin_webhelper.h"
+#include "xqdeenvironment.h"
+#include "xqde.h"
 
 XQDEPlugin_WebHelper::XQDEPlugin_WebHelper(QObject *parent) : XQDEClass(parent)
 {

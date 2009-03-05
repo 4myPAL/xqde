@@ -9,12 +9,13 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include "xquniqueapplication.h"
 
 #include <QtDBus/QDBusConnection>
 #include <QtDBus/QDBusConnectionInterface>
 #include <QtDBus/QDBusInterface>
 #include <QStringList>
+
+#include "xquniqueapplication.h"
 
 XQUniqueApplication::XQUniqueApplication(Display * display, int & argc, char ** argv, Qt::HANDLE visual, Qt::HANDLE colormap):
 QApplication (display,argc, argv,visual, colormap)

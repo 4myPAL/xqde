@@ -12,8 +12,9 @@
 #ifndef XQDESENSOR_SYSTEMTRAY_H
 #define XQDESENSOR_SYSTEMTRAY_H
 
-#include <xqwidget.h>
-#include <import_netwm.h>
+#include "xqwidget.h"
+#include "import_netwm.h"
+
 class QVBoxLayout;
 
 /**

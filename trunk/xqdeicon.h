@@ -12,12 +12,9 @@
 #ifndef XQDEICON_H
 #define XQDEICON_H
 
-#include <xqde.h>
-
-#include <xqwidget.h>
-#include <xqdeslotsensor.h>
-//#include <QImage>
-//#include <QList>
+#include "xqde.h"
+#include "xqwidget.h"
+#include "xqdeslotsensor.h"
 
 #ifndef RESIZEVIAXRENDER
 	

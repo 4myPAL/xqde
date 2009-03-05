@@ -13,8 +13,8 @@
 #define XQWIDGET_H
 
 #include <QWidget>
-#include <xqde.h>
 #include <QImage>
+#include "xqde.h"
 
 
 /**

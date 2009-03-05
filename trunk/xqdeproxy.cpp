@@ -10,11 +10,8 @@
 //
 //
 #include "xqdeproxy.h"
-
-
-//
-#include <xqdeplugin_analogclock.h>
-#include <xqdeplugin_webhelper.h>
+#include "xqdeplugin_analogclock.h"
+#include "xqdeplugin_webhelper.h"
 
 XQDEProxy *proxy;
 

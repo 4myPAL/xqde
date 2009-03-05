@@ -9,14 +9,17 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include "xqdeuiiconwindow.h"
-#include <xqdeicon.h>
-#include <xqdeaction.h>
+
 #include <QLineEdit>
 #include <QListWidget>
-#include <xqdebasket.h>
 #include <QListWidgetItem>
 #include <QVariant>
+
+#include "xqdebasket.h"
+#include "xqdeuiiconwindow.h"
+#include "xqdeicon.h"
+#include "xqdeaction.h"
+
 XQDEUIIconWindow::XQDEUIIconWindow()
     : QDialog()
 {

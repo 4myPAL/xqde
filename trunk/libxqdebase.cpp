@@ -2,19 +2,21 @@
 
 
 #include "libxqdebase.h"
+#include "xqdeenvironment.h"
+#include "xqtext.h"
+#include "import_netwm.h"
+#include "xqderuler.h"
 
-#include <xqimage.h>
-//#include <xqdepuzzle.h>
-#include <xqdeenvironment.h>
-//#include <xqimageautozoom.h>
-#include <xqtext.h>
 //#include <xqwfirsthand_left.h>
-#include <xqwfirsthand_bottom.h>
+#include "xqwfirsthand_bottom.h"
 //#include <xqwfirsthand_right.h>
 //#include <xqwfirsthand_top.h>
 
-#include <xqderuler.h>
 
+
+//#include <xqimageautozoom.h>
+//#include <xqimage.h>
+//#include <xqdepuzzle.h>
 //#include <X11/Xlib.h>
 //#include <X11/Xutil.h>
 //#include <X11/Xatom.h>
@@ -25,7 +27,6 @@
 #define qt_xdisplay() QX11Info::display ()
 #define qt_xrootwin() QX11Info::appRootWindow()
 
-#include <import_netwm.h>
 
 void XQDEBase::xReset()
 {

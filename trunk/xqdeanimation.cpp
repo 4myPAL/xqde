@@ -9,13 +9,15 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include "xqdeanimation.h"
-#include "xqdeicon.h"
+
 #include <QImage>
 #include <QPixmap>
 #include <QPainter>
-#include <xqdeaction.h>
-#include <xqdeenvironment.h>
+
+#include "xqdeanimation.h"
+#include "xqdeicon.h"
+#include "xqdeaction.h"
+#include "xqdeenvironment.h"
 
 QImage *XQDE_ImageSetIntensity(QImage &lavoro,double i);
 

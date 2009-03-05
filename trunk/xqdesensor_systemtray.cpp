@@ -19,10 +19,10 @@
 #include <QX11EmbedWidget>
 #include <QX11EmbedContainer>
 #include <QDesktopWidget>
-
 #include <QApplication>
+
 #include "xqdesensor_systemtray.h"
-#include <import_netwm.h>
+#include "import_netwm.h"
 
 
 #include <xqdesensor_taskmanager.h>

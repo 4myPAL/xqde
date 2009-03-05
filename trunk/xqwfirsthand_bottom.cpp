@@ -11,26 +11,27 @@
 //
 #include <QMimeData>
 #include <QMetaType>
-#include "xqwfirsthand_bottom.h"
-#include <xqdeenvironment.h>
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QtDebug>
 #include <QMatrix>
-#include <xqdeicon.h>
-#include <xqdebasket.h>
 #include <QObject>
 #include <QMouseEvent>
 #include <QMutex>
-#include <xqde.h>
 #include <QPainter>
 #include <QRegion>
 #include <QTimer>
-#include <xqtext.h>
-#include <xqdeanimation.h>
-#include <xqdeaction.h>
 
-#include <X11/Xlib.h>
+#include "xqwfirsthand_bottom.h"
+#include "xqdeenvironment.h"
+#include "xqdeicon.h"
+#include "xqdebasket.h"
+#include "xqtext.h"
+#include "xqde.h"
+#include "xqdeanimation.h"
+#include "xqdeaction.h"
+
+//#include <X11/Xlib.h>
 
 
 XQWFirstHand_bottom::~XQWFirstHand_bottom()

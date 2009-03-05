@@ -9,8 +9,10 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include "xqdeconfiguratorxml.h"
+
 #include <QListWidget>
+
+#include "xqdeconfiguratorxml.h"
 
 
 XQDEConfiguratorXML::XQDEConfiguratorXML() : QDialog()

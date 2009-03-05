@@ -9,6 +9,7 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
+
 #include "xqdedevice.h"
 
 XQDEDevice::XQDEDevice(XQDEClass *parent)

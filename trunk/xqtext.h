@@ -12,10 +12,9 @@
 #ifndef XQTEXT_H
 #define XQTEXT_H
 
-#include <xqimage.h>
-#include <xqdeenvironment.h>
-
-
+//#include <xqimage.h>
+#include "xqwidget.h"
+#include "xqdeenvironment.h"
 
 
 /**

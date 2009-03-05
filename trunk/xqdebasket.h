@@ -12,7 +12,9 @@
 #ifndef XQDEBASKET_H
 #define XQDEBASKET_H
 
-#include <xqdeclass.h>
+#include "xqdeclass.h"
+#include "xqdeicon.h"
+
 /*
 #include <QWidget>
 #include <QList>
@@ -21,7 +23,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 */
-#include <xqdeicon.h>
+
 
 class XQDEPlugin;
 

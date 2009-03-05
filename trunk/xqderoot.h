@@ -12,7 +12,7 @@
 #ifndef XQDEROOT_H
 #define XQDEROOT_H
 
-#include <xqdeclass.h>
+#include "xqdeclass.h"
 
 /**
 	@author Stefano Zingarini <stefano@xiaprojects.com>

@@ -9,13 +9,14 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include "xqwidget.h"
-#include "xqde.h"
 
 #include <QPaintEvent>
 //#include <stdlib.h>
 #include <QApplication>
 #include <QPainter>
+
+#include "xqwidget.h"
+#include "xqde.h"
 
 
 XQWidget::XQWidget(QObject *,QWidget *parent) : QWidget(parent)

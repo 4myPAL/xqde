@@ -36,7 +36,8 @@ HEADERS += libxqdebase.h \
     xqdeproxy.h \
     xqdeplugin_webhelper.h \
     xqdeio.h \
-    xqdeinterface.h
+    xqdeinterface.h \
+    xqimage.h
 SOURCES += libxqdebase.cpp \
     import_netwm.cpp \
     main.cpp \
@@ -67,7 +68,8 @@ SOURCES += libxqdebase.cpp \
     xqdeplugin_analogclock.cpp \
     xqdeproxy.cpp \
     xqdeplugin_webhelper.cpp \
-    xqdeio.cpp
+    xqdeio.cpp \
+    xqimage.cpp
 TRANSLATIONS += trans_Italian.ts
 TEMPLATE = app
 LIBS += -lXcomposite

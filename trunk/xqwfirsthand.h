@@ -12,9 +12,10 @@
 #ifndef XQWFIRSTHAND_H
 #define XQWFIRSTHAND_H
 
-#include <xqimage.h>
-#include <xqdeicon.h>
-#include <qicon.h>
+//#include <xqimage.h>
+#include "xqwidget.h"
+#include "xqdeicon.h"
+//#include <qicon.h>
 
 
 class QMutex;
@@ -68,10 +69,10 @@ protected:
 	long SleepFPS;
 	int xDesignVirtualEscapeMatrix;
 
-int lastButtonStatus;
-int hasDragged;
-int isDragging;
-int lastIcon;
+        int lastButtonStatus;
+        int hasDragged;
+        int isDragging;
+        int lastIcon;
 
 
 /********** Porting from KXDocker OSX Panther engine single pass without CPU *****/

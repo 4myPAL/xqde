@@ -11,29 +11,22 @@
 //
 #include <QDataStream>
 #include <QDir>
+#include <QStringList>
+#include <QFile>
+#include <QtXml/QDomDocument>
 
 // need to be moved to proxy
-#include <xqdeconfigurator.h>
-
-
+#include "xqdeconfigurator.h"
 #include "xqdemain.h"
+#include "libxqdebase.h"
+#include "xqderoot.h"
+#include "xqdeenvironment.h"
+#include "xqdewindowmanagerinterface.h"
+#include "xqdesensor_systemtray.h"
+#include "xqdesensor_taskmanager.h"
+#include "xqdebasket.h"
+#include "xqdeproxy.h"
 
-#include <QFile>
-
-#include <QtXml/QDomDocument>
-#include <libxqdebase.h>
-
-
-#include <xqderoot.h>
-#include <xqdeenvironment.h>
-#include <xqdewindowmanagerinterface.h>
-#include <xqdesensor_systemtray.h>
-
-#include <xqdesensor_taskmanager.h>
-#include <xqdebasket.h>
-
-#include <xqdeproxy.h>
-#include <QStringList>
 
 
 

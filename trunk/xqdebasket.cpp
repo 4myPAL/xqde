@@ -9,17 +9,19 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
+
 #include <QDir>
-#include "xqdebasket.h"
-#include <xqde.h>
 #include <QFile>
 #include <QDomElement>
 #include <QByteArray>
 #include <QDateTime>
-#include <xqdeenvironment.h>
 #include <QMap>
-#include <xqdeaction.h>
-#include <xqdeplugin.h>
+
+#include "xqdeenvironment.h"
+#include "xqdebasket.h"
+#include "xqde.h"
+#include "xqdeaction.h"
+#include "xqdeplugin.h"
 
 //#include <import_netwm.h>
 

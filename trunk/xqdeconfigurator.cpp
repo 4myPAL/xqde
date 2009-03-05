@@ -9,10 +9,7 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include "xqdeconfigurator.h"
 
-#include <xqdeenvironment.h>
-#include <xqwfirsthand.h>
 #include <QFontDialog>
 #include <QColorDialog>
 #include <QListWidget>
@@ -21,9 +18,13 @@
 #include <QDrag>
 #include <QMimeData>
 #include <QDesktopWidget>
-#include <xqdeproxy.h>
-#include <xqdebasket.h>
-#include <xqderoot.h>
+
+#include "xqdeproxy.h"
+#include "xqdebasket.h"
+#include "xqderoot.h"
+#include "xqdeconfigurator.h"
+#include "xqdeenvironment.h"
+#include "xqwfirsthand.h"
 
 QWidget *GlobalConfigurator;
 

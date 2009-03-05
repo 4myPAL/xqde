@@ -9,12 +9,14 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include "xqdeplugin_analogclock.h"
+
 #include <QTimer>
 #include <QDateTime>
 #include <QPainter>
 #include <math.h>
-#include <xqdeenvironment.h>
+
+#include "xqdeplugin_analogclock.h"
+#include "xqdeenvironment.h"
 
 XQDEPlugin_AnalogClock::XQDEPlugin_AnalogClock(QObject *p)
  : XQDEPlugin(p)

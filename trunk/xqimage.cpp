@@ -9,9 +9,9 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include "xqimage.h"
-
 #include <QPainter>
+
+#include "xqimage.h"
 
 XQImage::XQImage(QObject *lRoot, QWidget *parent):XQWidget(lRoot,parent)
 {

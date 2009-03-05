@@ -10,7 +10,7 @@
 //
 //
 #include "xqdesensor_zoomengine.h"
-#include <xqdeenvironment.h>
+#include "xqdeenvironment.h"
 
 XQDESensor_ZoomEngine::XQDESensor_ZoomEngine(XQDEClass *parent)
  : XQDEDevice(parent)

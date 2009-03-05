@@ -7,8 +7,8 @@
 #include <QApplication>
 #include <QList>
 
-#include <xqdeclass.h>
-#include <xqwidget.h>
+#include "xqdeclass.h"
+#include "xqwidget.h"
 
 
 class XQDEBase : public XQWidget 

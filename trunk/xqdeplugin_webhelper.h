@@ -12,7 +12,7 @@
 #ifndef XQDEWEBHELPER_H
 #define XQDEWEBHELPER_H
 
-#include <xqdeclass.h>
+#include "xqdeclass.h"
 
 
 /**

@@ -9,8 +9,8 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include "xqdeplugin.h"
 
+#include "xqdeplugin.h"
 
 extern void GenericPluginNeedPolledEnable();
 

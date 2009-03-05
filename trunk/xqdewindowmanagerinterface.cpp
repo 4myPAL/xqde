@@ -9,8 +9,9 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include "xqdewindowmanagerinterface.h"
 #include <QX11Info>
+
+#include "xqdewindowmanagerinterface.h"
 
 #define qt_xdisplay() QX11Info::display ()
 #define qt_xrootwin() QX11Info::appRootWindow()

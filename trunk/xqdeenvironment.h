@@ -12,7 +12,7 @@
 #ifndef XQDEENVIRONMENT_H
 #define XQDEENVIRONMENT_H
 
-#include <xqdeclass.h>			// ok
+#include "xqdeclass.h"			// ok
 //#include <QMap>
 //#include <QString>
 //#include <QStringList>

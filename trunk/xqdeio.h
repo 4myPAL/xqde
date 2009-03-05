@@ -12,8 +12,9 @@
 #ifndef XQDEIO_H
 #define XQDEIO_H
 
-#include <xqdeclass.h>
 #include <QStringList>
+
+#include "xqdeclass.h"
 
 /**
 	@author Stefano Zingarini <stefano@xiaprojects.com>

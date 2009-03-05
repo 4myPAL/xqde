@@ -12,8 +12,8 @@
 #ifndef XQDESENSOR_TASKMANAGER_H
 #define XQDESENSOR_TASKMANAGER_H
 
-#include <xqdeclass.h>
-#include <import_netwm.h>
+#include "xqdeclass.h"
+#include "import_netwm.h"
 
 
 class QTimer;

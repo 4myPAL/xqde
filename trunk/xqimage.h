@@ -12,8 +12,9 @@
 #ifndef XQIMAGE_H
 #define XQIMAGE_H
 
-#include <xqwidget.h>
 #include <QImage>
+
+#include "xqwidget.h"
 
 
 const int XQImage_Normal=0;

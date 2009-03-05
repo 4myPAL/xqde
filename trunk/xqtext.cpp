@@ -9,11 +9,13 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include "xqtext.h"
 
 #include <QPixmap>
 #include <QImage>
 #include <QPainter>
+
+#include "xqtext.h"
+
 
 XQText::XQText(QObject *r, QWidget *p):XQWidget(r,p)
 {

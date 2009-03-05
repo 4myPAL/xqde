@@ -9,8 +9,11 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include "xqdeslotsensor.h"
+
 #include <QDomElement>
+
+#include "xqdeslotsensor.h"
+
 QDomElement &XQDESlotSensor::writeXMLElement(class QDomElement &pXML)
 {
 	pXML.setAttribute("value",Slot);

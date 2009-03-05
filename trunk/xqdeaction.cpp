@@ -9,11 +9,13 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include "xqdeaction.h"
+
 #include <QProcess>
-#include <xqdebasket.h>
 #include <QTimer>
-#include <xqdeanimation.h>
+
+#include "xqdebasket.h"
+#include "xqdeaction.h"
+#include "xqdeanimation.h"
 
 void XQDE_IconAddedNewAnimation();
 

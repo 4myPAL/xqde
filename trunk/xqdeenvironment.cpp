@@ -9,7 +9,7 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include "xqdeenvironment.h"
+
 #include <QImage>
 #include <QPainter>
 #include <QFile>
@@ -18,6 +18,9 @@
 #include <QStringList>
 #include <QDomElement>
 #include <QObject>
+
+#include "xqdeenvironment.h"
+
 /*
 XQDEEnvironmentUserProfile 	XQDEEnvironment::UserProfile;
 XQDEEnvironmentTheme 		XQDEEnvironment::Theme;
@@ -45,7 +48,7 @@ QImage *XQDE_ImageSetIntensity(QImage &lavoro,double i)
 		for(uint y=0;y<width;y++)
 		{
 			//0xAARRGGBB
-			riga[y]=riga[y]&0x00FFFFFF+(((unsigned int)((double)i*(double)(riga[y]>>24)))<<24);
+                        riga[y]=(riga[y]&0x00FFFFFF)+(((unsigned int)((double)i*(double)(riga[y]>>24)))<<24);
                         /*
 			uint alfa=qAlpha(*p);
 			alfa=uint(alfa*i);
@@ -113,7 +116,7 @@ QImage *XQDE_ImageReflectBottom(QPixmap &xImgSource,QImage &newImage)
 			for(uint y=0;y<rWidth;y++)
 			{
 				//0xAARRGGBB
-				riga[y]=riga[y]&0x00FFFFFF+(((unsigned int)((double)(i-ki*hri)*(double)(riga[y]>>24)))<<24);
+                                riga[y]=(riga[y]&0x00FFFFFF)+(((unsigned int)((double)(i-ki*hri)*(double)(riga[y]>>24)))<<24);
 			}		
 	}
 	return &newImage;

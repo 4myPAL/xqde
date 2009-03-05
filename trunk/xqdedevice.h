@@ -12,7 +12,7 @@
 #ifndef XQDEDEVICE_H
 #define XQDEDEVICE_H
 
-#include <xqdeio.h>
+#include "xqdeio.h"
 
 class XQDEDeviceTriData
 {

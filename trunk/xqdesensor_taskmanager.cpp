@@ -9,28 +9,30 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include <xqde.h>
+
 #include <QMimeData>
 #include <QMetaType>
 #include <QtDebug>
-#include "xqdesensor_taskmanager.h"
-
-#include <xqdebasket.h>
-#include "netwm_def.h"
-#include <xqdeenvironment.h>
-
 #include <QProcess>
 #include <QPixmap>
 #include <QTimer>
 #include <QMenu>
 #include <QList>
 
+#include "xqde.h"
+#include "xqdesensor_taskmanager.h"
+#include "xqdebasket.h"
+#include "netwm_def.h"
+#include "xqdeicon.h"
+#include "xqdeenvironment.h"
+
+
 #include <X11/Xlib.h>
 #include <X11/extensions/Xcomposite.h>
 #include <X11/extensions/Xfixes.h>
 #include <X11/extensions/Xrender.h>
 
-#include <xqdeicon.h>
+
 
 const int TSKPOLLINGRATE=5000;
 const int WINPOLLINGRATE=100;

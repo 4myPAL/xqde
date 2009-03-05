@@ -42,7 +42,7 @@ class XQDEClass: public QObject
 	public:
 	XQDEClass(QObject *);
 	~XQDEClass();
-// Identification Members
+        // Identification Members
 	QList<XQDEConfigurationPair *> ConfigurationData;
 	QString ObjectName;
 	/*

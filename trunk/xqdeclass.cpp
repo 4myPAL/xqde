@@ -11,13 +11,13 @@
 //
 
 #include <QDir>
-#include "xqdeclass.h"
 #include <QStringList>
 #include <QFile>
 #include <QDomElement>
 #include <QByteArray>
 #include <QDateTime>
 
+#include "xqdeclass.h"
 
 
 QObject *XQDEClass::globalXQDERoot;

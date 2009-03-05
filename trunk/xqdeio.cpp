@@ -9,6 +9,7 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
+
 #include "xqdeio.h"
 
 XQDEIO::XQDEIO(XQDEClass *parent)

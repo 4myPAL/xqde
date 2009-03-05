@@ -14,10 +14,7 @@
 
 #include <QApplication>
 
-
 #define SERVICE_NAME_BASE            "com.xiaprojects.XQDE."
-
-
 
 /**
 	@author Stefano Zingarini <stefano@xiaprojects.com>

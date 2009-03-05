@@ -13,9 +13,8 @@
 #define XQDEANIMATION_H
 
 class XQDEIcon;
-/**
-	@author Stefano Zingarini <stefano@xiaprojects.com>
-*/
+
+
 class XQDEAnimation{
 public:
     XQDEAnimation(int type=0, XQDEIcon *icon=0,int endEffect=0, class XQDEAction *test=0,class XQDEAction *endAction=0);//,int ar=1);
