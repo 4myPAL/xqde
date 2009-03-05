@@ -92,13 +92,13 @@ void XQDEMain::xReset()
 	// TaskManager
         TaskManager=new XQDESensor_TaskManager(root);
 //	//
-/*
-	XQDESensor_SystemTray *SystemTray=new XQDESensor_SystemTray(root);
-	SystemTray->setRect(200,200,800,500);
-	SystemTray->xReset();
-	SystemTray->xRepaint();
-	SystemTray->show();
-*/
+///*
+//	XQDESensor_SystemTray *SystemTray=new XQDESensor_SystemTray(root);
+//	SystemTray->setRect(200,200,800,500);
+//	SystemTray->xReset();
+//	SystemTray->xRepaint();
+//	SystemTray->show();
+//*/
 	// Desktop Widget
 	XQDEBase *xqde=new XQDEBase(root);
 //	if(!SystemTray)qWarning("Heavy error reported");

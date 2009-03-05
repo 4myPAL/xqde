@@ -70,8 +70,8 @@ SOURCES += libxqdebase.cpp \
     xqdeplugin_webhelper.cpp \
     xqdeio.cpp \
     xqimage.cpp
-TRANSLATIONS += trans_Italian.ts
 TEMPLATE = app
 LIBS += -lXcomposite
 QT += network \
     xml
+RESOURCES += resources/libxqdebase.qrc
