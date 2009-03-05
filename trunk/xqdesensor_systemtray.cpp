@@ -42,7 +42,7 @@ XQDESensor_SystemTray::XQDESensor_SystemTray(QObject *parent)
 	vContainer=new QVBoxLayout(this);
 	
 	vContainer->addWidget(new QPushButton("ciao"));
-setLayout(vContainer);
+        setLayout(vContainer);
 }
 
 
