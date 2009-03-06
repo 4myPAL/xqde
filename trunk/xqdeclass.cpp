@@ -26,6 +26,49 @@ QObject *XQDEClass::globalXQDEEvents;
 QObject *XQDEClass::globalXQDEEngine;
 QList<QObject *> XQDEClass::globalXQDEPlugins;
 
+
+XQDEClass::XQDEClass(QObject *lRoot) :QObject()
+{
+        // setup my virtual Root-father wich I will use as Window parent or other issues
+        #ifdef ENABLEDEBUGMSG
+        qWarning("XQDEClass::XQDEClass(QObject *lRoot) :QObject()");
+#endif
+        ObjectRoot=lRoot;
+        ObjectName=QString("com.xiaprojects.XQDEClass.") + QString::number((long)this);
+        // Reset my ID
+/*
+        MyId.name="XQDEClass";
+        MyId.type="none";
+        MyId.status=0;
+        MyId.path="";
+*/
+        // Register this new plugin on plugin list
+        if(ObjectRoot!=NULL)
+        {
+        #ifdef ENABLEDEBUGMSG
+                qWarning("XQDEClass::XQDEClass(QObject *lRoot) :QObject() registering...");
+                #endif
+                bool lIsConnected=connect(this, SIGNAL(sgPluginRegister(QObject *)),ObjectRoot,SLOT(PluginRegister(QObject *)));
+                if(lIsConnected){
+                        sgPluginRegister(this);
+                        disconnect(SIGNAL(sgPluginRegister(QObject *)));
+                }
+        }
+}
+
+XQDEClass::~XQDEClass()
+{
+        if(ObjectRoot!=NULL)
+        {
+                bool lIsConnected=connect(this, SIGNAL(sgPluginUnRegister(QObject *)),ObjectRoot,SLOT(PluginUnRegister(QObject *)));
+                if(lIsConnected){
+                        sgPluginUnRegister(this);
+                        disconnect(SIGNAL(sgPluginUnRegister(QObject *)));
+                }
+        }
+}
+
+
 void XQDEClass::FreezeSave(const QString &DataPath)
 {
 	#ifdef ENABLEDEBUGMSG
@@ -262,47 +305,6 @@ void XQDEClass::WriteNamedValue(const QString &k,const QString &v)
 	
 	// Ensure changes has being wrote
 	FreezeSave(DataPath);
-}
-
-
-XQDEClass::XQDEClass(QObject *lRoot) :QObject()
-{
-	// setup my virtual Root-father wich I will use as Window parent or other issues
-	#ifdef ENABLEDEBUGMSG
-	qWarning("XQDEClass::XQDEClass(QObject *lRoot) :QObject()");	
-#endif
-	ObjectRoot=lRoot;
-	ObjectName=QString("com.xiaprojects.XQDEClass.") + QString::number((long)this);
-	// Reset my ID
-/*
-	MyId.name="XQDEClass";
-	MyId.type="none";
-	MyId.status=0;
-	MyId.path="";
-*/
-	// Register this new plugin on plugin list
-	if(ObjectRoot!=NULL)
-	{
-	#ifdef ENABLEDEBUGMSG
-		qWarning("XQDEClass::XQDEClass(QObject *lRoot) :QObject() registering...");
-		#endif
-		bool lIsConnected=connect(this, SIGNAL(sgPluginRegister(QObject *)),ObjectRoot,SLOT(PluginRegister(QObject *)));
-		if(lIsConnected){
-			sgPluginRegister(this);
-			disconnect(SIGNAL(sgPluginRegister(QObject *)));
-		}
-	}
-}
-XQDEClass::~XQDEClass()
-{
-	if(ObjectRoot!=NULL)
-	{
-		bool lIsConnected=connect(this, SIGNAL(sgPluginUnRegister(QObject *)),ObjectRoot,SLOT(PluginUnRegister(QObject *)));
-		if(lIsConnected){
-			sgPluginUnRegister(this);
-			disconnect(SIGNAL(sgPluginUnRegister(QObject *)));
-		}
-	}
 }
 
 void XQDEClass::parseString(const QString &, int, void *)

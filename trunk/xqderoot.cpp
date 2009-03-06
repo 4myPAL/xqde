@@ -17,10 +17,12 @@ XQDERoot::XQDERoot():XQDEClass(NULL)
 {
 	globalXQDERoot=this;
 }
+
 XQDERoot::~XQDERoot()
 {
 	globalXQDERoot=NULL;
 }
+
 void XQDERoot::PluginRegister(QObject *item)
 {
 	if(globalXQDEPlugins.indexOf(item)>=0)return;

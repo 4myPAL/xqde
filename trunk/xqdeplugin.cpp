@@ -26,6 +26,14 @@ XQDEPlugin::XQDEPlugin(QObject *parent)
 	AttachedTo=0;
 }
 
+XQDEPlugin::~XQDEPlugin()
+{
+                #ifdef ENABLEDEBUGMSG
+
+                qWarning("XQDEPlugin::~XQDEPlugin()");
+        #endif
+}
+
 void XQDEPlugin::attach(QObject *newI)
 {
 		#ifdef ENABLEDEBUGMSG
@@ -57,14 +65,6 @@ void XQDEPlugin::attach(QObject *newI)
 	// xReset() will be called by other objects after this "attach"
 }
 
-
-XQDEPlugin::~XQDEPlugin()
-{
-		#ifdef ENABLEDEBUGMSG
-
-		qWarning("XQDEPlugin::~XQDEPlugin()");
-	#endif
-}
 
 
 QObject * XQDEPlugin::Respawn(QObject *p)

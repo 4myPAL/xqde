@@ -78,7 +78,7 @@ XQDEIcon::XQDEIcon(QString logicName,QObject *parent, void *cData,QImage *defaul
 	localLogicName=logicName;
 	if(cData!=0)ClientData->append(cData);
 	localThumbnail=QImage(1,1,QImage::Format_ARGB32);
-	localThumbnail.fill(0x00000000);
+        localThumbnail.fill(Qt::transparent);
 	if(defaultImg)localIconImageWM=defaultImg->copy();
 	if(strTitle!="")localTitle=strTitle;
 	else localTitle=logicName;
@@ -109,6 +109,14 @@ XQDEIcon::~XQDEIcon()
 		disconnect(SIGNAL(sguserAction(int,int,int,void *,XQDEIcon *)));
 		disconnect(SIGNAL(fillPopup(QMenu *,XQDEIcon *)));
 	}
+
+//        if(animations) delete animations;
+//        if(slotsSensor) delete slotsSensor;
+//        if(actions) delete actions;
+//        if(overText) delete overText;
+//        if(ClientData) delete ClientData;
+//        if(PIDData) delete PIDData;
+//        if(ContextPopupMenu) delete ContextPopupMenu;
 }
 
 void XQDEIcon::xSetParent( QObject *newParent)

@@ -33,6 +33,7 @@ XQWidget::XQWidget(QObject *,QWidget *parent, QString HasNamedIcon)
 
 XQWidget::~XQWidget()
 {
+    if(widgetpaint) delete widgetpaint;
 }
 
 

@@ -19,7 +19,6 @@
 
 XQText::XQText(QObject *r, QWidget *p):XQWidget(r,p)
 {
-
 }
 
 XQText::~XQText()

@@ -398,6 +398,12 @@ full_properties
 	m_windowPixmap=0;
 
 }
+
+XQDESensor_TaskManager::~XQDESensor_TaskManager()
+{
+}
+
+
 void XQDESensor_TaskManager::setGeometry( void *cw,int x,int y,int z)
 {
 	NETRect r;
@@ -845,12 +851,12 @@ void XQDESensor_TaskManager::xReset()
 	connect(timer_slotPollingPID,SIGNAL(timeout()),SLOT(slotPollingPID()));
 	timer_slotAddClient=new QTimer(this);
 	connect(timer_slotAddClient,SIGNAL(timeout()),SLOT(slotAddClient()));
-timer_slotupdateStackingOrder=new QTimer(this);
-connect(timer_slotupdateStackingOrder,SIGNAL(timeout()),SLOT(slotupdateStackingOrder()));
+        timer_slotupdateStackingOrder=new QTimer(this);
+        connect(timer_slotupdateStackingOrder,SIGNAL(timeout()),SLOT(slotupdateStackingOrder()));
 	activate();
 
-timer_slotupdateThumbnail=new QTimer(this);
-connect(timer_slotupdateThumbnail,SIGNAL(timeout()),SLOT(slotupdateThumbnail()));
+        timer_slotupdateThumbnail=new QTimer(this);
+        connect(timer_slotupdateThumbnail,SIGNAL(timeout()),SLOT(slotupdateThumbnail()));
 	activate();
 
 }
@@ -1218,11 +1224,4 @@ bool XQDESensor_TaskManager::x11EventFilter( XEvent *ev )
     }
 */
     return false;
-}
-
-
-
-
-XQDESensor_TaskManager::~XQDESensor_TaskManager()
-{
 }

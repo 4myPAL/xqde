@@ -48,6 +48,7 @@ XQDESensor_SystemTray::XQDESensor_SystemTray(QObject *parent)
 
 XQDESensor_SystemTray::~XQDESensor_SystemTray()
 {
+    if(vContainer) delete vContainer;
 }
 
 

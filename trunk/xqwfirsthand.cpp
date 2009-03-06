@@ -109,7 +109,10 @@ XQWFirstHand::XQWFirstHand(QObject *lRoot, QWidget *parent)
 
 XQWFirstHand::~XQWFirstHand()
 {
-
+    if(maskRaised) delete maskRaised;
+    if(maskNormal) delete maskNormal;
+    if(maskAutoRaise) delete maskAutoRaise;
+    if(cacheBusy) delete cacheBusy;
 }
 
 void XQDE_IconAddedNewAnimation()

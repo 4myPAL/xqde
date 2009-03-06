@@ -35,6 +35,7 @@ XQDEPlugin_AnalogClock::XQDEPlugin_AnalogClock(QObject *p)
 
 XQDEPlugin_AnalogClock::~XQDEPlugin_AnalogClock()
 {
+        if(PluginPollingRate) delete PluginPollingRate;
 	#ifdef ENABLEDEBUGMSG
 	qWarning("XQDEPlugin_AnalogClock::~XQDEPlugin_AnalogClock()");
 	#endif

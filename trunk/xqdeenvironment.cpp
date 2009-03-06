@@ -20,6 +20,7 @@
 #include <QObject>
 
 #include "xqdeenvironment.h"
+#include "xqdeconfiguratorxml.h"
 
 /*
 XQDEEnvironmentUserProfile 	XQDEEnvironment::UserProfile;
@@ -242,7 +243,9 @@ XQDEEnvironment::XQDEEnvironment(XQDEClass *)
 	GenericPluginNeedPolled=0;
 }
 
-#include <xqdeconfiguratorxml.h>
+XQDEEnvironment::~XQDEEnvironment()
+{
+}
 
 XQDEEnvironmentUserProfile::XQDEEnvironmentUserProfile()
 {
@@ -260,10 +263,6 @@ void XQDEEnvironmentUserProfile::configureComponent(QObject *remoteObj)
 }
 
 
-XQDEEnvironment::~XQDEEnvironment()
-{
-}
-
 extern QString DataPath;
 extern QString EXEPath;
 
@@ -275,7 +274,6 @@ XQDEEnvironmentTheme::XQDEEnvironmentTheme():QObject(NULL)
 
 void XQDEEnvironmentTheme::xReset()
 {
-    qWarning("fff");
 	Theme="default";
 	pathImages=getPathImagesByTheme(Theme);
 	IconsPaths->clear();

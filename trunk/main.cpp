@@ -61,14 +61,14 @@ int main(int argc, char *argv[])
 	qWarning("You can mail Stefano to xqde@xiaprojects.com");
 	qWarning("Updates can be found on http://xqde.xiaprojects.com");
 
-	if(testARGB()==true){
+//	if(testARGB()==true){
 		qWarning("XQDE Will use Composite Extensions!");
 		app = new XQDEMain(dpy,argc,argv, Qt::HANDLE( visual ), Qt::HANDLE( colormap ));
-	}
-	else{
-		qWarning("Error: testARGB() cannot find Composite Extensions");
-		app = new XQDEMain(dpy,argc,argv);
-	}
+//	}
+//	else{
+//		qWarning("Error: testARGB() cannot find Composite Extensions");
+//                app = new XQDEMain(dpy,argc,argv);
+//	}
 	QCoreApplication::setApplicationName("xqde");
 	//app->setName("xqde");
 	QCoreApplication::setOrganizationDomain ("www.xiaprojects.com");

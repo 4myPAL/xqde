@@ -30,6 +30,11 @@ connect( delsl, SIGNAL(clicked()), this, SLOT(delClicked()) );
 connect( bSaveAsTemplate, SIGNAL(clicked()), this, SLOT(SaveAsTemplate()) );
 
 }
+
+XQDEUIIconWindow::~XQDEUIIconWindow()
+{
+}
+
 void XQDEUIIconWindow::SaveAsTemplate()
 {
 }

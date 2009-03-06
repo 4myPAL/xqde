@@ -20,6 +20,7 @@ class XQDEUIIconWindow: public QDialog, Ui::XQDEUIIcon
 Q_OBJECT
 public:
     XQDEUIIconWindow();
+    ~XQDEUIIconWindow();
 void setObject(class XQDEIcon *me);
 void accept();
 	

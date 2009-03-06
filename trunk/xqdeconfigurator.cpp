@@ -56,6 +56,11 @@ XQDEConfigurator::XQDEConfigurator(XQDERoot *pr) : QDialog()
 	connect(list_plugin_configure, SIGNAL(clicked()),SLOT(list_plugin_configureClicked()));
 	
 }
+
+XQDEConfigurator::~XQDEConfigurator()
+{
+}
+
 void XQDEConfigurator::list_plugin_configureClicked()
 {
 	qWarning("void XQDEConfigurator::list_plugin_configureClicked()");
@@ -217,9 +222,6 @@ void XQDEConfigurator::dockposition_activated( const QString &newPos)
 	dockposition->setCurrentIndex(DesktopEnvironment->GUI.dockAlign);
 }
 
-XQDEConfigurator::~XQDEConfigurator()
-{
-}
 
 void XQDEConfigurator::dockPositionX_valueChanged(int nv)
 {

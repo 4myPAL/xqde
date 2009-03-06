@@ -355,6 +355,7 @@ void XQDEBasket::FreezeRestoreLoadFromandStoreTo(QDir *qd,QList<XQDEIcon *> *con
 
 	qWarning("void XQDEBasket::FreezeRestoreLoadFromandStoreTo() end");
 }
+
 void XQDEBasket::FreezeRestore(const QString &DataPath)
 {
 	// this function store all icons into separate XMLs
@@ -414,7 +415,9 @@ XQDEIcon *XQDEBasket::iconImport(const QString &fileName)
 	doc.setContent(&xmlFile);
 	QDomNodeList nl=doc.elementsByTagName("object");
 	if(nl.count()<1)return 0;
-XQDEIcon *addedIcon=NULL;
+
+        XQDEIcon *addedIcon=NULL;
+
 	for(int i=0;i<nl.count();i++)
 	{
 		QString logicName="";
@@ -443,11 +446,9 @@ XQDEIcon *addedIcon=NULL;
 		addedIcon=new XQDEIcon(logicName,0,0,&defaultimg,title,defaulticon);
 		addedIcon->storeOnExit=1;// this will avoid lost of icon after
 
-addedIcon->storeOnExit=nl.at(i).toElement().attribute("storeOnExit",0).toInt();
-addedIcon->enablePreview=nl.at(i).toElement().attribute("enablePreview",0).toInt();
-addedIcon->groupWindows=nl.at(i).toElement().attribute("groupWindows",0).toInt();
-
-
+                addedIcon->storeOnExit=nl.at(i).toElement().attribute("storeOnExit",0).toInt();
+                addedIcon->enablePreview=nl.at(i).toElement().attribute("enablePreview",0).toInt();
+                addedIcon->groupWindows=nl.at(i).toElement().attribute("groupWindows",0).toInt();
 
 		QDomNodeList nla=nl.at(i).toElement().elementsByTagName("action");
 		for(int a=0;a<nla.count();a++)
@@ -469,7 +470,7 @@ addedIcon->groupWindows=nl.at(i).toElement().attribute("groupWindows",0).toInt()
 		}
 	}
 
-    xmlFile.close();
+        xmlFile.close();
 	// ***
 	qWarning("End reading");
 	return addedIcon;

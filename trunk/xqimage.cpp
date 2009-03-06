@@ -35,6 +35,7 @@ XQImage::XQImage(QObject *lRoot, QWidget *parent):XQWidget(lRoot,parent)
 XQImage::~XQImage()
 {
 }
+
 void XQImage::setPos(int lx,int ly)
 {
         pos.setX(lx);
