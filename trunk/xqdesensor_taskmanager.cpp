@@ -203,6 +203,7 @@ QPixmap thumbnail(Window m_frameId, int maxDimension)
 
     // Get shaped windows handled correctly.
     // !! Crash if change desktop!!!! ToDo!
+    // on kwin (kde4) is not working
     XserverRegion region = XFixesCreateRegionFromWindow(dpy, m_frameId,
                                                         WindowRegionBounding);
     XFixesSetPictureClipRegion(dpy, picture, 0, 0, region);
@@ -439,7 +440,7 @@ void XQDESensor_TaskManager::updateThisThumbnail(Window lastActiveWindow)
 
         //ricava immagine screen..
         //Bug: disabilitata la funzione "updateWindowPixmap", con kwin non trova immagine finestra!
-//        updateWindowPixmap(lastActiveWindow);
+//      updateWindowPixmap(lastActiveWindow);
 	QImage pi=thumbnail(lastActiveWindow,DesktopEnvironment->GUI.sizeIconsMax).toImage();
 
 	XQDEIcon *ic=Basket->getViaData((void *)lastActiveWindow,this);
