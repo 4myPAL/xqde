@@ -41,8 +41,7 @@ void XQWidget::XQWidgetContructor(QObject *,QWidget *parent, QString HasNamedIco
 {
 
         widgetpaint = new QPainter();
-        int temp = width();
-        int temp2 = height();
+
         paintBuffer=QImage(1,1,QImage::Format_ARGB32);
         paintBuffer.fill(Qt::transparent);
 

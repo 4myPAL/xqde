@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'XQDEUIConfigurator.ui'
 **
-** Created: Sun Mar 1 12:16:40 2009
+** Created: Sat Mar 7 20:40:45 2009
 **      by: Qt User Interface Compiler version 4.4.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!

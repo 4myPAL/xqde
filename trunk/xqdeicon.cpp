@@ -381,7 +381,7 @@ void XQDEIcon::xReset()
         }
 
 	#ifdef ENABLEDEBUGMSG
-qWarning("void XQDEIcon::xReset() localIconImage.width()=%d to %ld", localIconImage.width(),DesktopEnvironment->GUI.sizeIconsMax);
+        qWarning("void XQDEIcon::xReset() localIconImage.width()=%d to %ld", localIconImage.width(),DesktopEnvironment->GUI.sizeIconsMax);
 	#endif
 	qWarning("void XQDEIcon::xReset() localIconImage.width()=%d to %ld", localIconImage.width(),DesktopEnvironment->GUI.sizeIconsMax);
         if(localIconImage.width()!=DesktopEnvironment->GUI.sizeIconsMax)

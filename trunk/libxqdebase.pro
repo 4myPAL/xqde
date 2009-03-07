@@ -6,7 +6,6 @@ FORMS += XQDEUIIcon.ui \
     XQDEUIConfigurator.ui \
     XQDEUIConfiguratorXML.ui
 HEADERS += libxqdebase.h \
-    import_netwm.h \
     xqdeclass.h \
     xqdeenvironment.h \
     xqdemain.h \
@@ -37,9 +36,9 @@ HEADERS += libxqdebase.h \
     xqdeplugin_webhelper.h \
     xqdeio.h \
     xqdeinterface.h \
-    xqimage.h
+    xqimage.h \
+    import_netwm.h
 SOURCES += libxqdebase.cpp \
-    import_netwm.cpp \
     main.cpp \
     xqdeclass.cpp \
     xqdeenvironment.cpp \
@@ -69,7 +68,8 @@ SOURCES += libxqdebase.cpp \
     xqdeproxy.cpp \
     xqdeplugin_webhelper.cpp \
     xqdeio.cpp \
-    xqimage.cpp
+    xqimage.cpp \
+    import_netwm.cpp
 TEMPLATE = app
 LIBS += -lXcomposite
 QT += network \

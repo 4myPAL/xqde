@@ -13,7 +13,7 @@
 
 #ifndef qt_xdisplay
 	#include <QX11Info>
-	#define qt_xdisplay() QX11Info::display ()
+        #define qt_xdisplay() QX11Info::display()
 	#define qt_xrootwin() QX11Info::appRootWindow()
 	#define qt_xscreen() QX11Info::appScreen()
 	#define qt_x_time  QX11Info::appTime()

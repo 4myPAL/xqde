@@ -72,7 +72,7 @@ void XQDEAction::doit()
 	}
 	if(ActionType=="removeicon")
 	{
-		qWarning("XQDEAction::doit() removeicon:%ld (%d)",(long)Pointer,Basket->items.size());
+                qWarning("XQDEAction::doit() removeicon:%ld (%d)",(long)Pointer,Basket->items.size());
 		ActionCounter++;
 		/*
 		for(int i=0;i<Basket->items.size();i++)

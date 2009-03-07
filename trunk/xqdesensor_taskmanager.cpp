@@ -19,6 +19,10 @@
 #include <QMenu>
 #include <QList>
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
 #include "xqde.h"
 #include "xqdesensor_taskmanager.h"
 #include "xqdebasket.h"
@@ -36,7 +40,6 @@
 
 const int TSKPOLLINGRATE=5000;
 const int WINPOLLINGRATE=100;
-
 
 XQDESensor_TaskManager *TaskManager;
 Pixmap m_windowPixmap;
@@ -175,10 +178,16 @@ NET::AllTypesMask
 
 QPixmap thumbnail(Window m_frameId, int maxDimension)
 {
+
+
+//    Composite Help: http://ktown.kde.org/~fredrik/composite_howto.html
+
     if (!m_windowPixmap)
     {
         return QPixmap();
     }
+
+    qWarning("Create thumbnail...");
 
     Display *dpy = qt_xdisplay();
 
@@ -193,10 +202,12 @@ QPixmap thumbnail(Window m_frameId, int maxDimension)
                                            CPSubwindowMode, &picAttr);
 
     // Get shaped windows handled correctly.
+    // !! Crash if change desktop!!!! ToDo!
     XserverRegion region = XFixesCreateRegionFromWindow(dpy, m_frameId,
                                                         WindowRegionBounding);
     XFixesSetPictureClipRegion(dpy, picture, 0, 0, region);
     XFixesDestroyRegion(dpy, region);
+
 
     double factor;
     if (winAttr.width > winAttr.height)
@@ -212,7 +223,7 @@ QPixmap thumbnail(Window m_frameId, int maxDimension)
 
     QPixmap thumbnail(thumbnailWidth, thumbnailHeight);
 
-    thumbnail.fill(QColor(0,0,0,0));
+    thumbnail.fill(Qt::transparent);
 
 #if 0 // QImage::smoothScale() scaling
     QPixmap full(winAttr.width, winAttr.height);
@@ -376,9 +387,10 @@ void updateWindowPixmap(Window m_frameId)
 */
     if (m_windowPixmap)
     {
+        qWarning("XFreePixmap");
         XFreePixmap(qt_xdisplay(), m_windowPixmap);
     }
-
+    qWarning("XCompositeNameWindowPixmap");
     m_windowPixmap = XCompositeNameWindowPixmap(qt_xdisplay(), m_frameId);
 }
 
@@ -425,7 +437,9 @@ void XQDESensor_TaskManager::updateThisThumbnail(Window lastActiveWindow)
 {
 	timer_slotupdateThumbnail->stop();
 
-        //updateWindowPixmap(lastActiveWindow); //ERROR QUI!! crash app. ToDo
+        //ricava immagine screen..
+        //Bug: disabilitata la funzione "updateWindowPixmap", con kwin non trova immagine finestra!
+//        updateWindowPixmap(lastActiveWindow);
 	QImage pi=thumbnail(lastActiveWindow,DesktopEnvironment->GUI.sizeIconsMax).toImage();
 
 	XQDEIcon *ic=Basket->getViaData((void *)lastActiveWindow,this);
@@ -474,9 +488,6 @@ void XQDESensor_TaskManager::updateThisThumbnail(Window lastActiveWindow)
 
 }
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
 int PIDisRunning(long p)
 {
 	struct stat buf;
@@ -616,7 +627,7 @@ void XQDESensor_TaskManager::postAddClient(Window window)
 	NETIcon taskIcon=info.icon(DesktopEnvironment->GUI.sizeIconsMax,DesktopEnvironment->GUI.sizeIconsMax);
 	QImage taskQIcon;
 	taskQIcon=QImage(1,1,QImage::Format_ARGB32);
-	taskQIcon.fill(0x00000000);
+	taskQIcon.fill(Qt::transparent);
 	//qWarning("about P5_%d_",(int)window);
 	if(taskIcon.data!=0)
 	{
@@ -673,6 +684,7 @@ void XQDESensor_TaskManager::postAddClient(Window window)
 	}
 	// now we test if there is the first window of a "static" icon
 		// check for existing basket:
+        //Feature: add the possibility to skip the task grouping
 		for(int i=0;i<Basket->items.size();i++)
 		{
 			XQDEIcon *icon=Basket->items.at(i);
@@ -855,6 +867,7 @@ void XQDESensor_TaskManager::xReset()
         connect(timer_slotupdateStackingOrder,SIGNAL(timeout()),SLOT(slotupdateStackingOrder()));
 	activate();
 
+        //Todo: don't use the timer but Tracking changes with "damage" X11 function
         timer_slotupdateThumbnail=new QTimer(this);
         connect(timer_slotupdateThumbnail,SIGNAL(timeout()),SLOT(slotupdateThumbnail()));
 	activate();
