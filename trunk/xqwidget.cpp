@@ -41,8 +41,9 @@ void XQWidget::XQWidgetContructor(QObject *,QWidget *parent, QString HasNamedIco
 {
 
         widgetpaint = new QPainter();
-
-	paintBuffer=QImage(width(),height(),QImage::Format_ARGB32);
+        int temp = width();
+        int temp2 = height();
+        paintBuffer=QImage(1,1,QImage::Format_ARGB32);
         paintBuffer.fill(Qt::transparent);
 
         //ToDo: disable shadows when using kwin (es. KWin::setShadowSize())
