@@ -30,7 +30,7 @@
 	#define XQDE_USER_ACTION_DROPSX		8
 	#define COMPOSITEMANAGER
 	#define RESIZEVIAXRENDER
-	//#define ENABLEDEBUGMSG
+        #define ENABLEDEBUGMSG
 	const int PILLOWMAXHEIGHT=256;
 	const int PILLOWMAXWIDTH=256;
 	const int xMakeUp_ArrowSize=8;

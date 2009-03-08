@@ -214,15 +214,15 @@ void XQWFirstHand_bottom::xReset()
 void XQWFirstHand_bottom::purgeCacheFixMouse(int ,int &cursor_x,int &cursor_y, int &)
 {
 	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQWFirstHand_bottom::purgeCacheFixMouse(,,%d,)",ay);
-		#endif
+        qWarning("void XQWFirstHand_bottom::purgeCacheFixMouse(,,%d,)",cursor_y);
+        #endif
 	// bug 20071116
         //manitiene lo zoom quando mouse si sposta verticalmente
        if(cursor_y >= 0)
         {
               cursor_y = xDesignVirtualEscapeMatrix;
         #ifdef ENABLEDEBUGMSG
-                qWarning("void XQWFirstHand_bottom::purgeCacheFixMouse(,,%d,) b",ay);
+                qWarning("void XQWFirstHand_bottom::purgeCacheFixMouse(,,%d,) b",cursor_y);
                 #endif
 
         }
@@ -236,7 +236,7 @@ void XQWFirstHand_bottom::purgeCacheFixBorder(int iconNum,int &cursor_x,int &cur
         //Removed (21.02.09)
         //int kky=(0);
 	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQWFirstHand_bottom::purgeCacheFixBorder(%d,%d,%d,%d) ay<=%d %d %d",iconNum,ax,ay, recallme , kky,xDesignVirtualEscapeMatrix,xMakeUp_sizeMatrix);
+        qWarning("void XQWFirstHand_bottom::purgeCacheFixBorder(%d,%d,%d,%d) ay<=%d %d",iconNum,cursor_x,cursor_y, recallme ,xDesignVirtualEscapeMatrix,xMakeUp_sizeMatrix);
 		#endif
 
         /*if(cursor_y<=kky)*/ // TODO: test
