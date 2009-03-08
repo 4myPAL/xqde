@@ -44,7 +44,7 @@ XQWFirstHand::XQWFirstHand(QObject *lRoot, QWidget *parent)
  : XQWidget(lRoot, parent)
 {
         xInterpolationValue=1;
-	xMakeUp_Separation=2;
+        xMakeUp_Separation=-5;
 	//xMakeUp_ArrowSize=8;
 	//xMakeUp_Raise=0;
 	xMakeUp_sizeMatrix=0;
@@ -952,8 +952,7 @@ void XQWFirstHand::xMakeUp()
             #endif
     }
     // dynamic horizontal displacement
-    xMakeUp_DMatrix=
-    new int*[xMakeUp_sizeMatrix*2];
+    xMakeUp_DMatrix= new int*[xMakeUp_sizeMatrix*2];
     int contaIcone=(xMakeUp_sizeMatrix*2)/(DesktopEnvironment->GUI.handIconsMax+xMakeUp_Separation);
 
     double dMax=(double(DesktopEnvironment->GUI.sizeIconsMax)-double(ratio*0))/2;

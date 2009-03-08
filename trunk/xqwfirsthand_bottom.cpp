@@ -392,14 +392,14 @@ DiffIcon=DiffIconY+DiffIconX;
             icon->imageCachedRect.y = icon->iconGeometry.y - xMakeUp_YMatrix[DiffIcon];
             icon->imageCachedRect.x = icon->iconGeometry.x - xMakeUp_XMatrix[DiffIcon] + AreMovingToLeft;
             icon->imageCachedRect.z = xMakeUp_ZMatrix[DiffIcon];
-            //qWarning("%d %d %d",DiffIcon,xMakeUp_ZMatrix[DiffIcon],icon->imageCachedRect.z);
+//            qWarning("%d %d %d",DiffIcon,xMakeUp_ZMatrix[DiffIcon],icon->imageCachedRect.z);
             if(quality==0)
             {
                     icon->xSetZoom(icon->imageCachedRect.z);
             }
             else
             {
-                    icon->imageHotSpot.z=0;
+//                    icon->imageHotSpot.z=0;
                     icon->xSetSmoothZoom(icon->imageCachedRect.z);
             }
 
@@ -445,7 +445,7 @@ XQDEIconRect XQWFirstHand_bottom::iconCoordsByIndex(int c)
 	XQDEIconRect r;
 	r.y=xMakeUp_Center.y;
 	r.x=DesktopEnvironment->GUI.handIconsMax+c*DesktopEnvironment->GUI.handIconsMax+xMakeUp_Center.x;
-	r.z=DesktopEnvironment->GUI.handIconsMax;
+        r.z=DesktopEnvironment->GUI.handIconsMax;
 	return r;
 }
 
@@ -556,7 +556,7 @@ void XQWFirstHand_bottom::xMakeCentered()
 	for(int i=0;i<activeIconsCounter;i++)
 	{
 		XQDEIconRect r=iconCoordsByIndex(i);
-		Basket->items.at(i)->setIconGeometry(r.x,r.y,r.z);
+		Basket->items.at(i)->setIconGeometry(r.x,r.y,r.z+10);
 		//Basket->items.at(i)->xRepaintSmall();
 	}
 

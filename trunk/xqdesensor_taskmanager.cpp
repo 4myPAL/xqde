@@ -424,8 +424,8 @@ void XQDESensor_TaskManager::setGeometry( void *cw,int x,int y,int z)
 	r.pos.y=y;
 	r.size.width=z;
 	r.size.height=z;
-Window window=(Window)cw;
-NETWinInfo info(qt_xdisplay(), window, qt_xrootwin(),win_properties,sizeof(win_properties)/sizeof(unsigned long));
+        Window window=(Window)cw;
+        NETWinInfo info(qt_xdisplay(), window, qt_xrootwin(),win_properties,sizeof(win_properties)/sizeof(unsigned long));
 	info.setIconGeometry(r);
 }
 

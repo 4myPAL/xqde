@@ -650,29 +650,31 @@ void XQDEIcon::xSetImage(QPixmap &i)
 
 
 #ifndef RESIZEVIAXRENDER
-	QImage *XQDEIcon::image()
+QImage *XQDEIcon::image()
 #else
-	QPixmap *XQDEIcon::image()
+QPixmap *XQDEIcon::image()
 #endif
-
-	{
+{
 		return &localImageWidthEffects;
-	}
-	QList <void *> *XQDEIcon::pidsData()
+}
+
+QList <void *> *XQDEIcon::pidsData()
 	{
 		return PIDData;
 	}
 	
-	QList <void *> *XQDEIcon::clientsData()
+QList <void *> *XQDEIcon::clientsData()
 	{
 		return ClientData;
 	}
-	void *XQDEIcon::clientData()
+
+void *XQDEIcon::clientData()
 	{
 		if(ClientData->size()>0)return ClientData->at(0);
 		return 0;
 	}
-	void XQDEIcon::setIconGeometry(int x,int y,int z)
+
+void XQDEIcon::setIconGeometry(int x,int y,int z)
 	{
 		iconGeometry.x=x;
 		iconGeometry.y=y;
@@ -685,8 +687,8 @@ void XQDEIcon::xSetImage(QPixmap &i)
 		imageHotSpot.z=0;
 
 		imageCachedArrowRect=imageHotSpot;
-	#ifdef ENABLEDEBUGMSG
-qWarning("void XQDEIcon::setIconGeometry(%d,%d,%d) to (%d,%d,%d)",x,y,z,x+MainWindow->x(),y+MainWindow->y(),z);
+                #ifdef ENABLEDEBUGMSG
+                qWarning("void XQDEIcon::setIconGeometry(%d,%d,%d) to (%d,%d,%d)",x,y,z,x+MainWindow->x(),y+MainWindow->y(),z);
 		#endif
 
 		emit setGeometry(clientData(),x+MainWindow->x(),y+MainWindow->y(),z);

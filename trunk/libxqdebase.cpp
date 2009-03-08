@@ -60,7 +60,7 @@ void XQDEBase::xReset()
 	XQPillow *mPillow=new XQPillow(firstHand,2);
 	mPillow->xReset();
 	mPillow->xRepaint();
-	qWarning("XQDEBase::xReset() end");	
+        qWarning("XQDEBase::xReset() end");
 }
 
 

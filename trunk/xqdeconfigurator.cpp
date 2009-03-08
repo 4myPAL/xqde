@@ -238,28 +238,28 @@ void XQDEConfigurator::dockPositionY_valueChanged(int nv)
 
 void XQDEConfigurator::normalsize_valueChanged(int nv)
 {
-if(nv>DesktopEnvironment->GUI.sizeIconsMax)
-{
-	normalsize->setValue(DesktopEnvironment->GUI.sizeIconsMax-8);
-	return;
-}
+        if(nv>DesktopEnvironment->GUI.sizeIconsMax)
+        {
+                normalsize->setValue(DesktopEnvironment->GUI.sizeIconsMax-8);
+                return;
+        }
 
-DesktopEnvironment->GUI.sizeIconsNormal=nv;
-DesktopEnvironment->GUI.handIconsMax=0; //this will help to recalculate
-((XQWFirstHand *)MainWindow)->xConfigurationChanged();
+        DesktopEnvironment->GUI.sizeIconsNormal=nv;
+        DesktopEnvironment->GUI.handIconsMax=0; //this will help to recalculate
+        ((XQWFirstHand *)MainWindow)->xConfigurationChanged();
 }
 
 void XQDEConfigurator::bigsize_valueChanged(int nv)
 {
-if(nv<DesktopEnvironment->GUI.sizeIconsNormal)
-{
-	bigsize->setValue(DesktopEnvironment->GUI.sizeIconsNormal+8);
-	return;
-}
-DesktopEnvironment->GUI.sizeIconsMax=nv;
-DesktopEnvironment->GUI.handIconsMax=0; //this will help to recalculate
+        if(nv<DesktopEnvironment->GUI.sizeIconsNormal)
+        {
+                bigsize->setValue(DesktopEnvironment->GUI.sizeIconsNormal+8);
+                return;
+        }
+        DesktopEnvironment->GUI.sizeIconsMax=nv;
+        DesktopEnvironment->GUI.handIconsMax=0; //this will help to recalculate
 
-((XQWFirstHand *)MainWindow)->xConfigurationChanged();
+        ((XQWFirstHand *)MainWindow)->xConfigurationChanged();
 }
 
 void XQDEConfigurator::accept()
