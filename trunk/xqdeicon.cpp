@@ -330,7 +330,7 @@ void XQDEIcon::xRepaint()
                 #endif
 		QImage pip;
 		XQDE_ImageReflectBottom(localImageWidthEffectsReflection,pip);
-		localImageWidthEffectsReflection=localImageWidthEffectsReflection.fromImage(pip);
+                localImageWidthEffectsReflection=localImageWidthEffectsReflection.fromImage(pip);
 		
 	}
 	
@@ -460,7 +460,8 @@ void XQDEIcon::redoEffects()
 	qWarning("void XQDEIcon::redoEffects() %d %d",localImageWidthEffects.width(), localImage.width());
 	#endif
 	localImageWidthEffects=localImage.copy();
-	//xRepaintSmall();
+        //xRepaintSmall();
+
 	imageCachedMiniDirty=1;
 	imageHotSpot.z=0;
 }
@@ -493,9 +494,68 @@ void XQDEIcon::xUpdateBroadcast()
 
 void XQDEIcon::xSetZoom(int newZoom)
 {
+    //the CPU load with smooth effect is less than without :D (08.03.09)
+    //this improuve image rendering a lot!
+    xSetSmoothZoom(newZoom);
+
+//        if(newZoom==imageHotSpot.z)return;
+//        #ifdef ENABLEDEBUGMSG
+//                qWarning("void XQDEIcon::xSetZoom(%d) %d %d begin", newZoom,localImageWidthEffects.width(),imageCached.width());
+//        #endif
+//        imageCachedDirty=1;
+//        if(newZoom==DesktopEnvironment->GUI.handIconsMax && imageCachedMiniDirty==0)
+//        {
+//                imageCached=imageCachedMini;
+//        }
+//        else
+//        {
+//                if(newZoom==DesktopEnvironment->GUI.sizeIconsMax)
+//                {
+//                        imageCached=localImageWidthEffects;
+//                }
+//                else
+//                {
+//                #ifndef RESIZEVIAXRENDER
+//                    imageCached=localImageWidthEffects.scaled(newZoom,newZoom, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+//                #else
+//                XRenderResizeImage(localImageWidthEffects,imageCached,newZoom);
+//                #endif
+//                }
+//        }
+//        #ifdef ENABLEDEBUGMSG
+//        qWarning("void XQDEIcon::xSetZoom(%d) %d %d end", newZoom,localImageWidthEffects.width(),imageCached.width());
+//        #endif
+//        imageHotSpot.z=newZoom;
+//
+//	if(isReflectionEnabled>0)
+//	{
+//            #ifdef ENABLEDEBUGMSG
+//                qWarning("void XQDEIcon::xSetZoom(...) reflection");
+//            #endif
+//            #ifndef RESIZEVIAXRENDER
+//                imageCachedReflection=localImageWidthEffectsReflection.scaled(newZoom,isReflectionEnabled, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+//            #else
+//            XRenderResizeImage(localImageWidthEffectsReflection,imageCachedReflection,newZoom,isReflectionEnabled);
+//            #endif
+//
+//	}
+        /*
+        QImage pip;
+        XQDE_ImageReflectBottom(imageCached,pip, 8);
+        imageCached=QPixmap(pip.width(),pip.height());
+        imageCached.fill(Qt::transparent);
+        widgetpaint->begin(&imageCached);
+        widgetpaint->drawImage(0,0,pip);
+        widgetpaint->end();
+        */
+}
+
+void XQDEIcon::xSetSmoothZoom(int newZoom)
+{
+        //qWarning("void XQDEIcon::xSetSmoothZoom(int newZoom)");
         if(newZoom==imageHotSpot.z)return;
-        #ifdef ENABLEDEBUGMSG
-                qWarning("void XQDEIcon::xSetZoom(%d) %d %d begin", newZoom,localImageWidthEffects.width(),imageCached.width());
+         #ifdef ENABLEDEBUGMSG
+                qWarning("void XQDEIcon::xSetSmoothZoom(%d) %d %d begin", newZoom,localImageWidthEffects.width(),imageCached.width());
         #endif
         imageCachedDirty=1;
         if(newZoom==DesktopEnvironment->GUI.handIconsMax && imageCachedMiniDirty==0)
@@ -511,82 +571,37 @@ void XQDEIcon::xSetZoom(int newZoom)
                 else
                 {
                 #ifndef RESIZEVIAXRENDER
-                    imageCached=localImageWidthEffects.scaled(newZoom,newZoom, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+                imageCached=localImageWidthEffects.scaled(newZoom,newZoom, Qt::KeepAspectRatio, Qt::SmoothTransformation );
                 #else
-                XRenderResizeImage(localImageWidthEffects,imageCached,newZoom);
+                XRenderResizeImageGood(localImageWidthEffects,imageCached,newZoom);
                 #endif
                 }
         }
         #ifdef ENABLEDEBUGMSG
-            qWarning("void XQDEIcon::xSetZoom(%d) %d %d end", newZoom,localImageWidthEffects.width(),imageCached.width());
+        qWarning("void XQDEIcon::xSetZoom(%d) %d %d end", newZoom,localImageWidthEffects.width(),imageCached.width());
         #endif
         imageHotSpot.z=newZoom;
-
-	if(isReflectionEnabled>0)
-	{
+        if(isReflectionEnabled>0)
+        {
             #ifdef ENABLEDEBUGMSG
                 qWarning("void XQDEIcon::xSetZoom(...) reflection");
             #endif
             #ifndef RESIZEVIAXRENDER
-                imageCachedReflection=localImageWidthEffectsReflection.scaled(newZoom,isReflectionEnabled, Qt::KeepAspectRatio, Qt::SmoothTransformation );
-            #else
+            imageCachedReflection=localImageWidthEffectsReflection.scaled(newZoom,isReflectionEnabled, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+             #else
             XRenderResizeImage(localImageWidthEffectsReflection,imageCachedReflection,newZoom,isReflectionEnabled);
             #endif
-		
-	}
-		/*
-		QImage pip;
-		XQDE_ImageReflectBottom(imageCached,pip, 8);
-		imageCached=QPixmap(pip.width(),pip.height());
-		imageCached.fill(Qt::transparent);
-                widgetpaint->begin(&imageCached);
-                widgetpaint->drawImage(0,0,pip);
-                widgetpaint->end();
-		*/		
-}
-void XQDEIcon::xSetSmoothZoom(int newZoom)
-{
-		//qWarning("void XQDEIcon::xSetSmoothZoom(int newZoom)");
-		if(newZoom==imageHotSpot.z)return;
-		imageCachedDirty=1;
-		if(newZoom==DesktopEnvironment->GUI.handIconsMax && imageCachedMiniDirty==0)
-		{
-			imageCached=imageCachedMini;
-		}
-		else
-		{
-			if(newZoom==DesktopEnvironment->GUI.sizeIconsMax)
-			{
-				imageCached=localImageWidthEffects;
-			}
-			else
-			{
-#ifndef RESIZEVIAXRENDER
-			imageCached=localImageWidthEffects.scaled(newZoom,newZoom, Qt::KeepAspectRatio, Qt::SmoothTransformation );
-#else
-			XRenderResizeImageGood(localImageWidthEffects,imageCached,newZoom);
-#endif
-			}
-		}
-		imageHotSpot.z=newZoom;
-	if(isReflectionEnabled>0)
-	{
-#ifndef RESIZEVIAXRENDER
-			imageCachedReflection=localImageWidthEffectsReflection.scaled(newZoom,isReflectionEnabled, Qt::KeepAspectRatio, Qt::SmoothTransformation );
-#else
-			XRenderResizeImage(localImageWidthEffectsReflection,imageCachedReflection,newZoom,isReflectionEnabled);
-#endif
-		
-	}
-		/*
-		QImage pip;
-		XQDE_ImageReflectBottom(imageCached,pip, 8);
-		imageCached=QPixmap(pip.width(),pip.height());
-		imageCached.fill(Qt::transparent);
-                widgetpaint->begin(&imageCached);
-                widgetpaint->drawImage(0,0,pip);
-                widgetpaint->end();
-		*/		
+
+        }
+        /*
+        QImage pip;
+        XQDE_ImageReflectBottom(imageCached,pip, 8);
+        imageCached=QPixmap(pip.width(),pip.height());
+        imageCached.fill(Qt::transparent);
+        widgetpaint->begin(&imageCached);
+        widgetpaint->drawImage(0,0,pip);
+        widgetpaint->end();
+        */
 }
 
 void XQDEIcon::setLogic(const QString &nl)
