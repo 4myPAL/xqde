@@ -223,7 +223,7 @@ void XQWFirstHand_bottom::purgeCacheFixMouse(int ,int &cursor_x,int &cursor_y, i
               cursor_y = xDesignVirtualEscapeMatrix;
         #ifdef ENABLEDEBUGMSG
                 qWarning("void XQWFirstHand_bottom::purgeCacheFixMouse(,,%d,) b",cursor_y);
-                #endif
+        #endif
 
         }
 
@@ -556,7 +556,7 @@ void XQWFirstHand_bottom::xMakeCentered()
 	for(int i=0;i<activeIconsCounter;i++)
 	{
 		XQDEIconRect r=iconCoordsByIndex(i);
-		Basket->items.at(i)->setIconGeometry(r.x,r.y,r.z+10);
+                Basket->items.at(i)->setIconGeometry(r.x,r.y,r.z);
 		//Basket->items.at(i)->xRepaintSmall();
 	}
 
