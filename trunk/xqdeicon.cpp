@@ -291,7 +291,9 @@ void XQDEIcon::xRepaint()
 			localThumbnail=localThumbnail.scaled(DesktopEnvironment->GUI.sizeIconsMax,DesktopEnvironment->GUI.sizeIconsMax,Qt::KeepAspectRatio,Qt::SmoothTransformation);
 		}
                 widgetpaint->begin(&localImage);
+                //Show thumbnail window
                 widgetpaint->drawImage(0,0,localThumbnail);
+                //Show small icon
                 widgetpaint->drawImage(DesktopEnvironment->GUI.sizeIconsMax/2,DesktopEnvironment->GUI.sizeIconsMax/2,localIconImage_DrawBuffer);
                 widgetpaint->end();
 	}
@@ -339,7 +341,7 @@ void XQDEIcon::xRepaint()
 	#endif
 }
 
-//Added(24.09.09)
+//Added(24.02.09)
 extern QString DataPath;
 #include <QDir>
 
@@ -392,9 +394,10 @@ void XQDEIcon::xReset()
                 localIconImage=localIconImage.scaled(DesktopEnvironment->GUI.sizeIconsMax,DesktopEnvironment->GUI.sizeIconsMax,Qt::KeepAspectRatio,Qt::SmoothTransformation);
         }
 
+        //Create a small icon, used on thumbnail show
         localIconImage_DrawBuffer=localIconImage.scaled(DesktopEnvironment->GUI.sizeIconsMax/2,DesktopEnvironment->GUI.sizeIconsMax/2,Qt::KeepAspectRatio,Qt::SmoothTransformation);
 	// Reload Arrow image
-	if(imageArrow=="")imageArrow=DesktopEnvironment->Theme.Arrow;
+        if(imageArrow=="") imageArrow=DesktopEnvironment->Theme.Arrow;
 	if(!imageArrowImage.load(DesktopEnvironment->Theme.pathImages+imageArrow))
 	{
 		imageArrowImage=QImage(1,1,QImage::Format_ARGB32);
@@ -402,7 +405,7 @@ void XQDEIcon::xReset()
 	}
         #ifndef RESIZEVIAXRENDER
         #else
-                imageCachedArrowPixmap=QPixmap::fromImage(imageArrowImage);
+        imageCachedArrowPixmap=QPixmap::fromImage(imageArrowImage);
         #endif
 
         #ifndef RESIZEVIAXRENDER

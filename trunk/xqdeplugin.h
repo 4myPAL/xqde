@@ -24,22 +24,22 @@ class XQDEPlugin : public QObject
 {
 Q_OBJECT
 public:
-XQDEPlugin(QObject *parent = 0);
-~XQDEPlugin();
-virtual QObject * Respawn(QObject *p);
-//int isDirty;
-//int isLocked;
-//int isDirtyText;
-QPixmap SharedBuffer;
+        XQDEPlugin(QObject *parent = 0);
+        ~XQDEPlugin();
+        virtual QObject * Respawn(QObject *p);
+        //int isDirty;
+        //int isLocked;
+        //int isDirtyText;
+        QPixmap SharedBuffer;
 public slots:
-virtual void attach(QObject *newI);
-virtual void Configure();
-virtual void restore(QDomNode *);
-virtual void store(QDomNode *);
-virtual void ConfigurationChanged(void *,int);
+        virtual void attach(QObject *newI);
+        virtual void Configure();
+        virtual void restore(QDomNode *);
+        virtual void store(QDomNode *);
+        virtual void ConfigurationChanged(void *,int);
 
 protected:
-QObject *AttachedTo;
+        QObject *AttachedTo;
 
 signals:
 	void xSetIconWM(QImage &);
