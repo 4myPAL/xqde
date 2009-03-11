@@ -351,7 +351,7 @@ void XQWFirstHand::purgeCacheMovements()
 void XQWFirstHand::repaintDock()
 {
 	xRepaint();
-	repaint();
+        repaint();
 }
 
 void XQWFirstHand::mouseMoveEventSW(int x,int y,int force,int quality)
@@ -689,9 +689,9 @@ void XQWFirstHand::xRepaint()
         widgetpaint->begin(&paintBuffer);
 	if(activeIconsCounter>0){
 		//
-            //draw corners basket
+                //draw corners basket
 		widgetpaint->drawImage(topCornerCoords[0][0],topCornerCoords[0][1],topCornerCached[0]);
-		//
+                //draw center background
 		widgetpaint->drawImage(
                         topBackgroundCoords[0],
                         topBackgroundCoords[1],
@@ -701,61 +701,69 @@ void XQWFirstHand::xRepaint()
 			);
 
 
-		for(int i=0;i<activeIconsCounter;i++)
-		{
-                    XQDEIcon *icon=Basket->items.at(i);
-                    if(icon->detachedRect.z) continue;
+//                for(int i=0;i<activeIconsCounter;i++)
+//                {
+//                    XQDEIcon *icon=Basket->items.at(i);
+//                    if(icon->detachedRect.z) continue;
+//
+//                    // reflection
+//                    switch(DesktopEnvironment->GUI.dockAlign)
+//                    {
+//                            case 0:// 0 bottom
+//                                    #ifndef RESIZEVIAXRENDER
+//                                    widgetpaint->drawImage(icon->imageCachedRect.x,icon->imageCachedRect.y+icon->imageCachedRect.z-2,icon->imageCachedReflection);
+//                                    widgetpaint->drawImage(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
+//                                    #else
+//                                    widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y+icon->imageCachedRect.z-2,icon->imageCachedReflection);
+//                                    widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
+//                                    #endif
+//                                    break;
+//                            case 1:// 1 top
+//                                    #ifndef RESIZEVIAXRENDER
+//                                    widgetpaint->drawImage(icon->imageCachedRect.x,icon->imageCachedRect.y+icon->imageCachedRect.z-2,icon->imageCachedReflection);
+//                                    widgetpaint->drawImage(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
+//                                    #else
+//                                    widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y+icon->imageCachedRect.z-2,icon->imageCachedReflection);
+//                                    widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
+//                                    #endif
+//                                    break;
+//                            case 2:// 2 left
+//                            break;
+//                            case 3:// 3 right
+//                            break;
+//                    }
+//                    // icon
+//                    #ifndef RESIZEVIAXRENDER
+//                    widgetpaint->drawImage(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
+//                    #else
+//                    widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
+//                    #endif
+//                    // arrow
+//                    if(icon->isRunning())
+//                    {
+////                            icon->imageCachedArrow.fill(Qt::red);
+//
+//                            #ifndef RESIZEVIAXRENDER
+//                            widgetpaint->drawImage(icon->imageCachedArrowRect.x,icon->imageCachedArrowRect.y,icon->imageCachedArrow);
+//                            #else
+//                            widgetpaint->drawPixmap(icon->imageCachedArrowRect.x,icon->imageCachedArrowRect.y,icon->imageCachedArrow);
+//                            #endif
+//                            //qWarning("%dx%d [%dx%d]",icon->imageCachedArrowRect.x,icon->imageCachedArrowRect.y,icon->imageCachedArrow.width(),icon->imageCachedArrow.height());
+//                    }
+//                }
 
-                    // reflection
-                    switch(DesktopEnvironment->GUI.dockAlign)
-                    {
-                            case 0:// 0 bottom
-                                    #ifndef RESIZEVIAXRENDER
-                                    widgetpaint->drawImage(icon->imageCachedRect.x,icon->imageCachedRect.y+icon->imageCachedRect.z-2,icon->imageCachedReflection);
-                                    widgetpaint->drawImage(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
-                                    #else
-                                    widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y+icon->imageCachedRect.z-2,icon->imageCachedReflection);
-                                    widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
-                                    #endif
-                                    break;
-                            case 1:// 1 top
-                                    #ifndef RESIZEVIAXRENDER
-                                    widgetpaint->drawImage(icon->imageCachedRect.x,icon->imageCachedRect.y+icon->imageCachedRect.z-2,icon->imageCachedReflection);
-                                    widgetpaint->drawImage(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
-                                    #else
-                                    widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y+icon->imageCachedRect.z-2,icon->imageCachedReflection);
-                                    widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
-                                    #endif
-                                    break;
-                            case 2:// 2 left
-                            break;
-                            case 3:// 3 right
-                            break;
-                    }
-                    // icon
-                    #ifndef RESIZEVIAXRENDER
-                    widgetpaint->drawImage(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
-                    #else
-                    widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
-                    #endif
-                    // arrow
-                    if(icon->isRunning())
-                    {
-//                            icon->imageCachedArrow.fill(Qt::red);
-
-                            #ifndef RESIZEVIAXRENDER
-                            widgetpaint->drawImage(icon->imageCachedArrowRect.x,icon->imageCachedArrowRect.y,icon->imageCachedArrow);
-                            #else
-                            widgetpaint->drawPixmap(icon->imageCachedArrowRect.x,icon->imageCachedArrowRect.y,icon->imageCachedArrow);
-                            #endif
-                            //qWarning("%dx%d [%dx%d]",icon->imageCachedArrowRect.x,icon->imageCachedArrowRect.y,icon->imageCachedArrow.width(),icon->imageCachedArrow.height());
-                    }
-                }
-		//
-		//
+                //draw final background
                 widgetpaint->drawImage(topCornerCoords[1][0],topCornerCoords[1][1],topCornerCached[1]);
 	}
+
         widgetpaint->end();
+
+
+//        Test for refresh icon using icon xRepaint class trought xUpdateBroadcast (11.09.2009)
+        for(int i=0;i<activeIconsCounter;i++)
+                {
+                    xRepaintSingleIndex(i);
+                }
 }
 
 
@@ -787,20 +795,24 @@ void XQWFirstHand::xRepaintSingle(XQDEIcon *icon)
 		int sz=icon->imageCachedRect.z;
 		//QImage paint2Buffer=QImage(sz,sz,QImage::Format_ARGB32);
 		// this will erase only the interesting area
-		XQDE_ImageEraseRect(paintBuffer,sx,sy,sz);
+                //ToDo erase the reflection!!!
+                XQDE_ImageEraseRect(paintBuffer,sx,sy,sz);
 		//memset(paint2Buffer.bits(),0xFFFFFFFF,sizeof(uint)*sz*sz);
 
                 widgetpaint->begin(&paintBuffer);
-                xRepaintSingleBackground(widgetpaint,sx,sy,sz);
+//              widgetpaint->fillRect(sx,sy,sz,sz,Qt::transparent);
+
                 //Repaint background
-                widgetpaint->drawImage(
-			xMakeUp_ArrowCoords.x,
-			xMakeUp_ArrowCoords.y,
-			topBackgroundCached[0],xMakeUp_ArrowCoords.x,xMakeUp_ArrowCoords.y,
-			sz,
-			sz
-		);
-		
+                xRepaintSingleBackground(widgetpaint,sx,sy,sz);                
+
+//                widgetpaint->drawImage(
+//                        xMakeUp_ArrowCoords.x,
+//                        xMakeUp_ArrowCoords.y,
+//                        topBackgroundCached[0],xMakeUp_ArrowCoords.x,xMakeUp_ArrowCoords.y,
+//                        sz,
+//                        sz
+//                );
+
 		// TODO!!! bug of emblems on icons!! the outher draw will not be clerated... 
 
 		// TODO: reflection may or not may be update on hispeed repaint?		
@@ -811,10 +823,10 @@ void XQWFirstHand::xRepaintSingle(XQDEIcon *icon)
                 #else
                 //ToDo check correct reflection (25.02.09)
                 widgetpaint->drawPixmap(sx,sy+sz-2,icon->imageCachedReflection);
+                //Paint icon
                 widgetpaint->drawPixmap(sx,sy,icon->imageCached);
                 #endif
-		
-		
+
 		
                 //Repaint arrow if is running
 		if(icon->isRunning())
@@ -980,11 +992,7 @@ void XQWFirstHand::xMakeUp()
             pinco=pinco+(DesktopEnvironment->GUI.sizeIconsMax-DesktopEnvironment->GUI.handIconsMax)*
             (double(DesktopEnvironment->GUI.sizeIconsMax)-double(ratio*double(mouseinx+mouseiny)/2))/DesktopEnvironment->GUI.sizeIconsMax;
 
-            double pincoRatio=
-                    double(mouseinx)
-                    /
-                    double(xMakeUp_sizeMatrix*2)
-                    ;
+            double pincoRatio = double(mouseinx) / double(xMakeUp_sizeMatrix*2);
             pinco=pinco*pincoRatio;
 
             vett[mouseiny]=int(pinco);
@@ -997,9 +1005,7 @@ void XQWFirstHand::xMakeUp()
 
     for (int mouseinx=0;mouseinx<xMakeUp_sizeMatrix*2;mouseinx++)
     {
-        xMakeUp_KMatrix[mouseinx]=int(
-                ratiok*
-                double(xMakeUp_sizeMatrix*2-mouseinx));
+        xMakeUp_KMatrix[mouseinx]=int(ratiok * double(xMakeUp_sizeMatrix*2-mouseinx));
     }
 
     #ifdef ENABLEDEBUGMSG
@@ -1009,6 +1015,7 @@ void XQWFirstHand::xMakeUp()
 
 
 extern void MakeWindowOnTopPillow(void *);
+
 XQPillow::XQPillow(QWidget *p, int align)
  : XQWidget(0,0)
 {
