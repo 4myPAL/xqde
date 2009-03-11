@@ -57,7 +57,7 @@ public:
 	int imageCachedMiniDirty;
 	int imageCachedDirty;
 	int isReflectionEnabled;
-	XQDEIconRect detachedRect;
+        XQDEIconRect detachedRect;
 
 	QStringList slotsSensorList();
 	QString logic();

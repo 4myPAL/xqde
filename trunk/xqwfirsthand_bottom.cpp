@@ -54,10 +54,12 @@ void XQWFirstHand_bottom::xRepaintSingleBackground(QPainter *pp1_p,int sx,int sy
 {
 	pp1_p->drawImage(
 		sx,
-		topBackgroundCoords[1],
-		topBackgroundCached[0],0,0,
+                topBackgroundCoords[1],
+                topBackgroundCached[0],
+                0,
+                0,
 		sz,
-		sz+xMakeUp_ArrowSize
+                sz+xMakeUp_ArrowSize
 		);
 }
 

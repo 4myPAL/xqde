@@ -702,7 +702,7 @@ void XQWFirstHand::xRepaint()
 			);
 
 
-//                for(int i=0;i<activeIconsCounter;i++)
+//               /* for(int i=0;i<activeIconsCounter;i++)
 //                {
 //                    XQDEIcon *icon=Basket->items.at(i);
 //                    if(icon->detachedRect.z) continue;
@@ -751,7 +751,7 @@ void XQWFirstHand::xRepaint()
 //                            #endif
 //                            //qWarning("%dx%d [%dx%d]",icon->imageCachedArrowRect.x,icon->imageCachedArrowRect.y,icon->imageCachedArrow.width(),icon->imageCachedArrow.height());
 //                    }
-//                }
+//                }*/
 
                 //draw final background
                 widgetpaint->drawImage(topCornerCoords[1][0],topCornerCoords[1][1],topCornerCached[1]);
@@ -793,18 +793,28 @@ void XQWFirstHand::xRepaintSingle(XQDEIcon *icon)
 	{
 		int sx=icon->imageCachedRect.x;
 		int sy=icon->imageCachedRect.y;
-		int sz=icon->imageCachedRect.z;
+                int sz=icon->imageCachedRect.z;
 		//QImage paint2Buffer=QImage(sz,sz,QImage::Format_ARGB32);
 		// this will erase only the interesting area
                 //ToDo erase the reflection!!!
-                XQDE_ImageEraseRect(paintBuffer,sx,sy,sz);
+                //ToDo erase with transparent background!!
+//                XQDE_ImageEraseRect(paintBuffer,sx,sy,sz);
 		//memset(paint2Buffer.bits(),0xFFFFFFFF,sizeof(uint)*sz*sz);
 
-                widgetpaint->begin(&paintBuffer);
-//              widgetpaint->fillRect(sx,sy,sz,sz,Qt::transparent);
 
+                widgetpaint->begin(&paintBuffer);
+       //         widgetpaint->setCompositionMode(QPainter::CompositionMode_SourceOver);
+                //Erase image area
+     //           widgetpaint->fillRect(sx,sy,sz,sz,Qt::transparent);
+//                widgetpaint->eraseRect(sx,sy,sz,sz);
                 //Repaint background
+    //            xRepaintSingleBackground(widgetpaint,sx,sy,sz);
+
+
+                widgetpaint->setCompositionMode(QPainter::CompositionMode_Source);
+//                widgetpaint->fillRect(sx,sy,sz,sz, Qt::transparent);
                 xRepaintSingleBackground(widgetpaint,sx,sy,sz);
+                widgetpaint->setCompositionMode(QPainter::CompositionMode_SourceOver);
 
 //                widgetpaint->drawImage(
 //                        xMakeUp_ArrowCoords.x,
@@ -829,7 +839,7 @@ void XQWFirstHand::xRepaintSingle(XQDEIcon *icon)
 //                #endif
 
 		
-                // reflection
+                // Paint reflection + icon
                 switch(DesktopEnvironment->GUI.dockAlign)
                 {
                         case 0:// 0 bottom
@@ -881,6 +891,7 @@ void XQWFirstHand::xRepaintSingle(XQDEIcon *icon)
 void XQWFirstHand::xMakeCentered()
 {
 }
+
 extern void storeConfiguration();
 
 void XQWFirstHand::xConfigurationChanged()
