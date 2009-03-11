@@ -261,6 +261,7 @@ void XQDEIcon::xRepaintDetached()
 
 void XQDEIcon::xRepaint()
 {
+
 	#ifndef RESIZEVIAXRENDER
 	#ifdef ENABLEDEBUGMSG
 	qWarning("void XQDEIcon::xRepaint() Qt");
@@ -280,7 +281,7 @@ void XQDEIcon::xRepaint()
         localImage.fill(Qt::transparent);
 	
 
-	if(localThumbnail.width()>8)
+	if(localThumbnail.width()>8) //check if a thumbnail is present
 	{
                 #ifdef ENABLEDEBUGMSG
                         qWarning("void XQDEIcon::xRepaint() localThumbnail.width()=%d",localThumbnail.width());

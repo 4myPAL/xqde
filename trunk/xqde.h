@@ -19,7 +19,7 @@
 	#define qt_x_time  QX11Info::appTime()
 	extern class QWidget *MainWindow;
 	#define XQDESTRING "xqde"
-        #define XQDESRCDATE "20090301"
+        #define XQDESRCDATE "20090309"
 	#define XQDE_USER_ACTION_CLICKSX	1
 	#define XQDE_USER_ACTION_CLICKDX	2
 	#define XQDE_USER_ACTION_CLICKMI	3
@@ -31,7 +31,8 @@
 	#define COMPOSITEMANAGER
 	#define RESIZEVIAXRENDER
         #define ENABLEDEBUGMSG
-	const int PILLOWMAXHEIGHT=256;
-	const int PILLOWMAXWIDTH=256;
+//Not used (09.03.09)
+//	const int PILLOWMAXHEIGHT=256;
+//	const int PILLOWMAXWIDTH=256;
 	const int xMakeUp_ArrowSize=8;
 #endif

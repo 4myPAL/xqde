@@ -42,11 +42,9 @@ Q_OBJECT
 public:
 // extra vars violates object programming paradigms
 	int animationsNextFrameCounter;
-
-
 // methods
-    XQDEIcon(QString logicName,QObject * p=0, void *cData=0,QImage *defaultImg=0, QString strTitle=0, QString defaulticon=0);
-    ~XQDEIcon();
+        XQDEIcon(QString logicName,QObject * p=0, void *cData=0,QImage *defaultImg=0, QString strTitle=0, QString defaulticon=0);
+        ~XQDEIcon();
 	void xRepaintDetached();
 	void xRepaintSmall();
 	void applyEffects();
@@ -65,18 +63,18 @@ public:
 	QString logic();
 	QString icon();
 	QString title();
-#ifndef RESIZEVIAXRENDER
+        #ifndef RESIZEVIAXRENDER
 	QImage *imageClean();
 	QImage *image();
-#else
+        #else
 	QPixmap *imageClean();
 	QPixmap *image();
-#endif
-#ifndef RESIZEVIAXRENDER
-void xSetImage(QImage &i);
-#else
-void xSetImage(QPixmap &i);
-#endif
+        #endif
+        #ifndef RESIZEVIAXRENDER
+        void xSetImage(QImage &i);
+        #else
+        void xSetImage(QPixmap &i);
+        #endif
 	QList <void *> *clientsData();
 	QList <void *> *pidsData();
 	void *clientData();
@@ -90,19 +88,19 @@ void xSetImage(QPixmap &i);
 	XQDEIconRect imageCachedArrowRect;
 	XQDEIconRect imageHotSpot;
 	class XQText *overText;
-#ifndef RESIZEVIAXRENDER
+        #ifndef RESIZEVIAXRENDER
 	QImage imageCachedArrow;
 	QImage imageCached;
 	QImage imageCachedReflection;
 	QImage imageCachedMini;
-#else
+        #else
 	QPixmap imageCachedArrowPixmap;
 	QPixmap imageCachedArrow;
 	QPixmap imageCached;
 	QPixmap imageCachedReflection;
 	QPixmap imageCachedMini;
 	//QPixmap localImagePixmap;
-#endif
+        #endif
 	int enableIconFromWindow;
 	int forceRunning;
 	int storeOnExit;
@@ -111,6 +109,7 @@ void xSetImage(QPixmap &i);
 	class QList <class XQDEAnimation *>*animations;
 	class QList <XQDESlotSensor *>*slotsSensor;
 	class QMap <QString,class XQDEAction *>*actions;
+        
 public slots:
 	void xSetIconWM(QImage &);
 	void xUpdateBroadcast();
@@ -127,17 +126,17 @@ public slots:
 	void menu_newWindow();
 	void xConfigure();
 	void xConfigurator();
+        
 protected:
-
-#ifndef RESIZEVIAXRENDER
+        #ifndef RESIZEVIAXRENDER
 	QImage localImage;
 	QImage localImageWidthEffects;
 	QImage localImageWidthEffectsReflection;
-#else
+        #else
 	QPixmap localImage;
 	QPixmap localImageWidthEffects;
 	QPixmap localImageWidthEffectsReflection;
-#endif
+        #endif
 
 	class QWidget *ExternalConfigurator;
 	QObject *localParent;
@@ -155,6 +154,7 @@ protected:
 	void xRepaint();
 	QMenu *ContextPopupMenu;
 	void localfillPopup(QMenu *,XQDEIcon *);
+
 signals:
 	void sguserAction(int,int,int,void *, XQDEIcon *);
 	void setGeometry(void *,int,int,int);
