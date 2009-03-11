@@ -686,6 +686,7 @@ void XQWFirstHand::xRepaint()
 {
 	//paintBuffer.fill(0x80000000+(unsigned int)winId());
         paintBuffer.fill(Qt::transparent);
+
         widgetpaint->begin(&paintBuffer);
 	if(activeIconsCounter>0){
 		//
@@ -759,7 +760,7 @@ void XQWFirstHand::xRepaint()
         widgetpaint->end();
 
 
-//        Test for refresh icon using icon xRepaint class trought xUpdateBroadcast (11.09.2009)
+//      Icon refresh using icon xRepaint class trought xRepaintSingleIndex (11.09.2009)
         for(int i=0;i<activeIconsCounter;i++)
                 {
                     xRepaintSingleIndex(i);
@@ -803,7 +804,7 @@ void XQWFirstHand::xRepaintSingle(XQDEIcon *icon)
 //              widgetpaint->fillRect(sx,sy,sz,sz,Qt::transparent);
 
                 //Repaint background
-                xRepaintSingleBackground(widgetpaint,sx,sy,sz);                
+                xRepaintSingleBackground(widgetpaint,sx,sy,sz);
 
 //                widgetpaint->drawImage(
 //                        xMakeUp_ArrowCoords.x,
@@ -817,17 +818,51 @@ void XQWFirstHand::xRepaintSingle(XQDEIcon *icon)
 
 		// TODO: reflection may or not may be update on hispeed repaint?		
 		
-                #ifndef RESIZEVIAXRENDER
-                //widgetpaint->drawImage(sx,sy+sz-2,icon->imageCachedReflection);
-                widgetpaint->drawImage(sx,sy,icon->imageCached);
-                #else
-                //ToDo check correct reflection (25.02.09)
-                widgetpaint->drawPixmap(sx,sy+sz-2,icon->imageCachedReflection);
-                //Paint icon
-                widgetpaint->drawPixmap(sx,sy,icon->imageCached);
-                #endif
+//                #ifndef RESIZEVIAXRENDER
+//                //widgetpaint->drawImage(sx,sy+sz-2,icon->imageCachedReflection);
+//                widgetpaint->drawImage(sx,sy,icon->imageCached);
+//                #else
+//                //ToDo check correct reflection (25.02.09)
+//                widgetpaint->drawPixmap(sx,sy+sz-2,icon->imageCachedReflection);
+//                //Paint icon
+//                widgetpaint->drawPixmap(sx,sy,icon->imageCached);
+//                #endif
 
 		
+                // reflection
+                switch(DesktopEnvironment->GUI.dockAlign)
+                {
+                        case 0:// 0 bottom
+                                #ifndef RESIZEVIAXRENDER
+                                widgetpaint->drawImage(icon->imageCachedRect.x,icon->imageCachedRect.y+icon->imageCachedRect.z-2,icon->imageCachedReflection);
+                                widgetpaint->drawImage(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
+                                #else
+                                widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y+icon->imageCachedRect.z-2,icon->imageCachedReflection);
+                                widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
+                                #endif
+                                break;
+                        case 1:// 1 top
+                                #ifndef RESIZEVIAXRENDER
+                                widgetpaint->drawImage(icon->imageCachedRect.x,icon->imageCachedRect.y+icon->imageCachedRect.z-2,icon->imageCachedReflection);
+                                widgetpaint->drawImage(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
+                                #else
+                                widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y+icon->imageCachedRect.z-2,icon->imageCachedReflection);
+                                widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
+                                #endif
+                                break;
+                        case 2:// 2 left
+                        break;
+                        case 3:// 3 right
+                        break;
+                }
+                // icon
+                #ifndef RESIZEVIAXRENDER
+                widgetpaint->drawImage(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
+                #else
+                widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
+                #endif
+
+
                 //Repaint arrow if is running
 		if(icon->isRunning())
 		{
@@ -1062,47 +1097,48 @@ void XQPillow::xRepaint()
 
 void XQPillow::xDrawText(const QPixmap *ppp)
 {
-static const void *lastPixmapDrawed=0;
-if(ppp==lastPixmapDrawed)return;
-lastPixmapDrawed=ppp;
-int nw=ppp->width();
-int nh=ppp->height();
-int w=width();
-int kw=0;
+    static const void *lastPixmapDrawed=0;
+    if(ppp==lastPixmapDrawed)return;
+    lastPixmapDrawed=ppp;
+    int nw=ppp->width();
+    int nh=ppp->height();
+    int w=width();
+    int kw=0;
 
 
-        switch(DesktopEnvironment->GUI.dockAlign)
-        {
-                case 0:
-                case 1:
-                        kw=last_kx;
-                        if(w<QApplication::desktop()->availableGeometry().width())
-                        {
-                                //if(nh>32)nh=32;
-                                setFixedSize(QApplication::desktop()->availableGeometry().width(),nh);
-                        }
-                        break;
-                case 2:
-                case 3:
-                        if((w<nw)&& w<800)
-                        {
-                                if(nw>800)nw=800;
-                                if(nh>32)nh=32;
-                                        setFixedSize(nw,nh);
-                        }
-                        else
-                        {
-                        }
-                        break;
-        }
+    switch(DesktopEnvironment->GUI.dockAlign)
+    {
+        case 0:
+        case 1:
+                kw=last_kx;
+                if(w<QApplication::desktop()->availableGeometry().width())
+                {
+                        //if(nh>32)nh=32;
+                        setFixedSize(QApplication::desktop()->availableGeometry().width(),nh);
+                }
+                break;
+        case 2:
+        case 3:
+                if((w<nw)&& w<800)
+                {
+                        if(nw>800)nw=800;
+                        if(nh>32)nh=32;
+                                setFixedSize(nw,nh);
+                }
+                else
+                {
+                }
+                break;
+    }
 
-        //paintBuffer.fill(0x80000000+(unsigned int)winId());
+    //paintBuffer.fill(0x80000000+(unsigned int)winId());
 
-        // ToDo posizionare testo sopra icona al centro
+    // ToDo posizionare testo sopra icona al centro
 //        last_kx=QApplication::desktop()->availableGeometry().width()/2-nw/2; //sempre al centro
 
 
         paintBuffer.fill(Qt::transparent);
+
         widgetpaint->begin(&paintBuffer);
         widgetpaint->drawPixmap(last_kx,0,*ppp);
         widgetpaint->end();
