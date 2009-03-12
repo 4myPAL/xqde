@@ -406,7 +406,7 @@ DiffIcon=DiffIconY+DiffIconX;
             }
 
             isRaised=1;
-            if(icon->detachedRect.z)icon->xRepaintDetached();
+            if(icon->detachedRect.z) icon->xRepaintDetached();
     }
     else
         {
@@ -432,7 +432,7 @@ DiffIcon=DiffIconY+DiffIconX;
             //icon->imageHotSpot.z=icon->imageCachedRect.z;
             //icon->xSetZoom(DesktopEnvironment->GUI.handIconsMax);
             icon->xSetZoom(icon->imageCachedRect.z);
-            if(icon->detachedRect.z)icon->xRepaintDetached();
+            if(icon->detachedRect.z) icon->xRepaintDetached();
         }
 
     icon->imageCachedArrowRect.x=icon->imageCachedRect.x+icon->imageCachedRect.z/2-DesktopEnvironment->GUI.handIconsMax/2-xMakeUp_ArrowSize/2;

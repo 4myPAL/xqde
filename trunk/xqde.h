@@ -19,7 +19,7 @@
 	#define qt_x_time  QX11Info::appTime()
 	extern class QWidget *MainWindow;
 	#define XQDESTRING "xqde"
-        #define XQDESRCDATE "20090309"
+        #define XQDESRCDATE "20090312"
 	#define XQDE_USER_ACTION_CLICKSX	1
 	#define XQDE_USER_ACTION_CLICKDX	2
 	#define XQDE_USER_ACTION_CLICKMI	3

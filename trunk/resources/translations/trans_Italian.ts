@@ -28,7 +28,7 @@
     <name>XQDEUIConfigurator</name>
     <message>
         <source>XQDE configuration tool</source>
-        <translation type="unfinished"></translation>
+        <translation>Tool di configurazione XQDE</translation>
     </message>
     <message>
         <source>About</source>

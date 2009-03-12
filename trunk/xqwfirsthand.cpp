@@ -828,7 +828,7 @@ void XQWFirstHand::xRepaintSingle(XQDEIcon *icon)
                         topBackgroundSize[1]                //repaint height
                         );
 
-
+                //Start drawin images on top of source(background)
                 widgetpaint->setCompositionMode(QPainter::CompositionMode_SourceOver);
 
 

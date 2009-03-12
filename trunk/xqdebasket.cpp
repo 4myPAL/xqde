@@ -45,6 +45,9 @@ void XQDEBasket::setTitleViaData(void *cData,QString &i, QObject *pf)
 }
 void XQDEBasket::setImageViaData(void *cData,QImage &i, QObject *pf)
 {
+        #ifdef ENABLEDEBUGMSG
+        qWarning("void XQDEBasket::setImageViaData");
+        #endif
 	XQDEIcon *ic=getViaData(cData,pf);
 	if(!ic)return;
 	ic->xSetIcon(i);
@@ -52,6 +55,9 @@ void XQDEBasket::setImageViaData(void *cData,QImage &i, QObject *pf)
 }
 void XQDEBasket::setImageViaData(void *cData,QImage &i)
 {
+        #ifdef ENABLEDEBUGMSG
+        qWarning("void XQDEBasket::setImageViaData");
+        #endif
 	XQDEIcon *ic=getViaData(cData);
 	if(!ic)return;
 	ic->xSetIcon(i);
@@ -96,7 +102,7 @@ XQDEIcon *XQDEBasket::getViaPID(long pid)
 }
 XQDEIcon *XQDEBasket::getViaData(void *cData, QObject *pf)
 {
-        qWarning("XQDEBasket::DelFromBasketViaData()");
+        qWarning("XQDEBasket::getViaData()");
 	for(int i=0;i<items.size();i++)
 	{
 		XQDEIcon *newItem=items.at(i);
