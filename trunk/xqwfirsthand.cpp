@@ -158,9 +158,9 @@ void XQWFirstHand::slot_animationPolling()
 					qWarning("Remove the animation if we are at end...");
                                         #endif
 					XQDEAnimation *ani=icon->animations->takeAt(k);
-					k--;
 					delete ani;
 					// TODO: garbage on actions!!
+                                        k--;
 				}
 				
 				
@@ -169,9 +169,9 @@ void XQWFirstHand::slot_animationPolling()
                                         #ifdef ENABLEDEBUGMSG
 					qWarning("We need to remove the icon!!");
                                         #endif
-					Basket->items.takeAt(i);
-					i--;
+					Basket->items.takeAt(i);					
                                         Basket->sgeBasket_As_Changed(6, NULL, NULL);
+                                        i--;
                                         
 					UpdateThisIcon=0;
 					delete icon;
@@ -189,8 +189,8 @@ void XQWFirstHand::slot_animationPolling()
 				{
 					icon->imageHotSpot.z=0;
 					icon->xSetZoom(icon->imageCachedRect.z);
-					xRepaintSingle( icon);
-					repaint(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCachedRect.z,icon->imageCachedRect.z);
+                                        xRepaintSingle(icon);
+                                        update(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCachedRect.z,icon->imageCachedRect.y+icon->imageCachedRect.z-2);
 				}
 				NeedToContinueAnimation+=UpdateThisIcon;
 			}
@@ -787,7 +787,7 @@ void XQWFirstHand::xRepaintSingle(XQDEIcon *icon)
 {
 	if(icon->detachedRect.z)
 	{
-		icon->xRepaintDetached();
+                icon->xRepaintDetached();
 	}
 	else
 	{
@@ -813,8 +813,25 @@ void XQWFirstHand::xRepaintSingle(XQDEIcon *icon)
 
                 widgetpaint->setCompositionMode(QPainter::CompositionMode_Source);
 //                widgetpaint->fillRect(sx,sy,sz,sz, Qt::transparent);
-                xRepaintSingleBackground(widgetpaint,sx,sy,sz);
+
+                //repaint backgound behind icon
+//                xRepaintSingleBackground(widgetpaint,sx,sy,sz);
+
+                //repaint backgound behind icon, with full dock height
+                widgetpaint->drawImage(
+                        sx,                                 //icon x coordinate
+                        topBackgroundCoords[1],             //dock top y coordinate
+                        topBackgroundCached[0],             //dock background image
+                        0,                                  //no deplacement x or y
+                        0,
+                        sz,                                 //repaint width
+                        topBackgroundSize[1]                //repaint height
+                        );
+
+
                 widgetpaint->setCompositionMode(QPainter::CompositionMode_SourceOver);
+
+
 
 //                widgetpaint->drawImage(
 //                        xMakeUp_ArrowCoords.x,
@@ -848,7 +865,7 @@ void XQWFirstHand::xRepaintSingle(XQDEIcon *icon)
                                 widgetpaint->drawImage(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
                                 #else
                                 widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y+icon->imageCachedRect.z-2,icon->imageCachedReflection);
-                                widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
+//                                widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
                                 #endif
                                 break;
                         case 1:// 1 top
@@ -857,7 +874,7 @@ void XQWFirstHand::xRepaintSingle(XQDEIcon *icon)
                                 widgetpaint->drawImage(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
                                 #else
                                 widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y+icon->imageCachedRect.z-2,icon->imageCachedReflection);
-                                widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
+//                                widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
                                 #endif
                                 break;
                         case 2:// 2 left

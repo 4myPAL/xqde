@@ -248,8 +248,11 @@ void XQDEIcon::xRepaintSmall()
 
 void XQDEIcon::xRepaintDetached()
 {
+        #ifdef ENABLEDEBUGMSG
+        qWarning("void XQDEIcon::xRepaintDetached()");
+        #endif
+
 	paintBuffer.fill(Qt::transparent);
-	//QPainter p;
         widgetpaint->begin(&paintBuffer);
 	#ifndef RESIZEVIAXRENDER
         widgetpaint->drawImage(0,0,imageCached);
@@ -458,6 +461,7 @@ void XQDEIcon::xConfigure()
 	l->setObject(this);
 	l->show();
 }
+
 void XQDEIcon::redoEffects()
 {
 	#ifdef ENABLEDEBUGMSG
@@ -660,7 +664,14 @@ void XQDEIcon::xSetImage(QImage &i)
 void XQDEIcon::xSetImage(QPixmap &i)
 #endif
 {
+        //copy new image
 	localImageWidthEffects=i;
+
+        //create new reflection
+        XRenderResizeImage(localImageWidthEffects,localImageWidthEffectsReflection,DesktopEnvironment->GUI.sizeIconsMax,isReflectionEnabled);
+        QImage pip;
+        XQDE_ImageReflectBottom(localImageWidthEffectsReflection,pip);
+        localImageWidthEffectsReflection=localImageWidthEffectsReflection.fromImage(pip);
 	//xRepaintSmall();
 	imageCachedMiniDirty=1;
 	imageHotSpot.z=0;
