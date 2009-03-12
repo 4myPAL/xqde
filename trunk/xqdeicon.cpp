@@ -320,7 +320,7 @@ void XQDEIcon::xRepaint()
 	#ifdef ENABLEDEBUGMSG
 	qWarning("void XQDEIcon::xRepaint() %d %d C",localImage.width(), localIconImage.width());
 	#endif
-	imageHotSpot.z=0;
+        imageHotSpot.z=0;
 
 //	xRepaintSmall();
         
@@ -471,7 +471,7 @@ void XQDEIcon::redoEffects()
         //xRepaintSmall();
 
 	imageCachedMiniDirty=1;
-	imageHotSpot.z=0;
+        imageHotSpot.z=0;
 }
 
 void XQDEIcon::applyEffects()
@@ -665,14 +665,30 @@ void XQDEIcon::xSetImage(QPixmap &i)
 #endif
 {
         //copy new image
-	localImageWidthEffects=i;
+	localImageWidthEffects=i;        
+        
+        if(isReflectionEnabled>0)
+        {
+            //create new reflection
+            XRenderResizeImage(localImageWidthEffects,localImageWidthEffectsReflection,DesktopEnvironment->GUI.sizeIconsMax,isReflectionEnabled);
+            QImage pip;
+            XQDE_ImageReflectBottom(localImageWidthEffectsReflection,pip);
+            localImageWidthEffectsReflection=localImageWidthEffectsReflection.fromImage(pip);
 
-        //create new reflection
-        XRenderResizeImage(localImageWidthEffects,localImageWidthEffectsReflection,DesktopEnvironment->GUI.sizeIconsMax,isReflectionEnabled);
-        QImage pip;
-        XQDE_ImageReflectBottom(localImageWidthEffectsReflection,pip);
-        localImageWidthEffectsReflection=localImageWidthEffectsReflection.fromImage(pip);
-	//xRepaintSmall();
+            #ifdef ENABLEDEBUGMSG
+                qWarning("void XQDEIcon::xSetImage(...) reflection");
+            #endif
+//            #ifndef RESIZEVIAXRENDER
+//            imageCachedReflection=localImageWidthEffectsReflection.scaled(newZoom,isReflectionEnabled, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+//             #else
+////            XRenderResizeImage(localImageWidthEffectsReflection,imageCachedReflection,imageHotSpot.z,isReflectionEnabled);
+//            imageCachedReflection = localImageWidthEffectsReflection.copy();
+//            #endif
+
+        }
+
+        //copy new image in
+        //xRepaintSmall();
 	imageCachedMiniDirty=1;
 	imageHotSpot.z=0;
 }

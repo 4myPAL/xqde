@@ -657,7 +657,7 @@ void XQWFirstHand::Basket_As_Changed(int action, XQDEIcon *newIcon, void *pW)
 			sy=newIcon->imageCachedRect.y;
 			sz=newIcon->imageCachedRect.z;
 //                        qDebug("rectangle: x:%d y:%d z:%d", sx,sy,sz);
-			repaint(sx,sy,sz,sz);
+                        repaint(sx,sy,sz,sy+sz-2);
 		break;
 		case 3:	// free
 		break;
@@ -669,7 +669,6 @@ void XQWFirstHand::Basket_As_Changed(int action, XQDEIcon *newIcon, void *pW)
 			newIcon->imageHotSpot.z=0;
  			newIcon->xSetZoom(newIcon->imageCachedRect.z);
 			repaintDock();
-
 		break;
 		case 6:// removed from basket and icon is deleted! after this call!!!
 			activeIconsCounter=Basket->items.size();
