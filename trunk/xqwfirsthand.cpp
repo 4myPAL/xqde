@@ -657,7 +657,8 @@ void XQWFirstHand::Basket_As_Changed(int action, XQDEIcon *newIcon, void *pW)
 			sy=newIcon->imageCachedRect.y;
 			sz=newIcon->imageCachedRect.z;
 //                        qDebug("rectangle: x:%d y:%d z:%d", sx,sy,sz);
-                        repaint(sx,sy,sz,sy+sz-2);
+                        //ToDo: il valore 10 indica l'altezza del riflesso, rendere dinamico
+                        repaint(sx,sy,sz,sz+10);
 		break;
 		case 3:	// free
 		break;
@@ -770,6 +771,7 @@ void XQWFirstHand::xRepaint()
 void XQWFirstHand::xRepaintSingleIndex(int iconIndex)
 {
 	XQDEIcon *icon=Basket->items.at(iconIndex);
+        
 	if(icon)xRepaintSingle(icon);
 }
 
