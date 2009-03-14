@@ -15,6 +15,9 @@
 #include <QApplication>
 #include <QPainter>
 
+//#include <KWin.h>
+
+
 #include "xqwidget.h"
 #include "xqde.h"
 
@@ -40,6 +43,7 @@ XQWidget::~XQWidget()
 void XQWidget::XQWidgetContructor(QObject *,QWidget *parent, QString HasNamedIcon)
 {
 
+
         widgetpaint = new QPainter();
 
         paintBuffer=QImage(1,1,QImage::Format_ARGB32);
@@ -50,11 +54,13 @@ void XQWidget::XQWidgetContructor(QObject *,QWidget *parent, QString HasNamedIco
         //remove window frame
         setWindowFlags(Qt::FramelessWindowHint);
 
+
         //Bug: white background on showing widget - SOLVED! (21.02.09)
         QPalette palette = this->palette();
         palette.setColor(QPalette::Window, Qt::transparent);
         this->setPalette(palette);
         setAutoFillBackground(true);
+
 
 }
 
@@ -62,14 +68,15 @@ void XQWidget::XQWidgetContructor(QObject *,QWidget *parent, QString HasNamedIco
 
 void XQWidget::paintEvent( QPaintEvent *e)
 {
-
         widgetpaint->begin(this);
         widgetpaint->setCompositionMode(QPainter::CompositionMode_Source);
         //widgetpaint->setRenderHint(QPainter::Antialiasing, true);
         widgetpaint->fillRect(rect(), Qt::transparent);
     
         widgetpaint->drawImage(e->rect(), paintBuffer, e->rect());
+
         widgetpaint->end();
+        setMask(rect());
 
 }
 					
