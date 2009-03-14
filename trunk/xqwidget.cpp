@@ -76,6 +76,8 @@ void XQWidget::paintEvent( QPaintEvent *e)
         widgetpaint->drawImage(e->rect(), paintBuffer, e->rect());
 
         widgetpaint->end();
+
+        //resolve bug on kwin and shadows
         setMask(rect());
 
 }

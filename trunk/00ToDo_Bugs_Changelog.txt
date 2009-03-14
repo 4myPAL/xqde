@@ -27,9 +27,9 @@ ToDo:
 - painting: migliorare gestione immagini per ottimizzare codice
 - text: sfondo costumizzabile da pannello configurazione
 - text: posizionarlo al centro dell'icona
-- widget: disable shadows con kwin, usare KWin::setShadowSize()
+- widget: disable shadows con kwin, usare KWin::setShadowSize() - Done
 - (dettettare finestre ridotte a task bar)
-- ottimizzazione memoria e prestazioni
+- ottimizzazione memoria e prestazioni - ~Done
 - aggiungere separazioni (con plugin?)
 - creare delle aree, ad es: programmi memorizzati, in esecuzione, plugins, ecc....
 - funzionalità: opzione per poter scegliere se ragguruppare icone in una sola o no

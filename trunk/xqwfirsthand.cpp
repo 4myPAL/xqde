@@ -662,13 +662,13 @@ void XQWFirstHand::Basket_As_Changed(int action, XQDEIcon *newIcon, void *pW)
 		case 3:	// free
 		break;
 		case 4:	// delete "rolling" or background window-sensor
-			Basket_As_Changed(5, newIcon,pW);
+//			Basket_As_Changed(5, newIcon,pW);
 		break;
 		case 5:	// add "rolling" or background window-sensor
 
-			newIcon->imageHotSpot.z=0;
- 			newIcon->xSetZoom(newIcon->imageCachedRect.z);
-			repaintDock();
+//			newIcon->imageHotSpot.z=0;
+// 			newIcon->xSetZoom(newIcon->imageCachedRect.z);
+//			repaintDock();
 		break;
 		case 6:// removed from basket and icon is deleted! after this call!!!
 			activeIconsCounter=Basket->items.size();
