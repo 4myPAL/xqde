@@ -272,40 +272,6 @@ QPixmap thumbnail(Window m_frameId, int maxDimension)
     return thumbnail;
 }
 
-void XRenderResizeImage(QPixmap &Source,QPixmap &thumbnail,int mx, int my)
-{
-    thumbnail=QPixmap(mx, my);
-//    double factorx;
-//    double factory;
-//    factorx = (double)1 / ((double)mx/ (double)Source.width()) ;
-//    factory = (double)1 / ((double)my/ (double)Source.height());
-//
-//    thumbnail.fill(QColor(255,255,255,0));
-//
-//    // Scaling matrix
-//    XTransform transformation = {{
-//        { XDoubleToFixed(factorx), XDoubleToFixed(0), XDoubleToFixed(    0) },
-//        { XDoubleToFixed(0), XDoubleToFixed(factory), XDoubleToFixed(    0) },
-//        { XDoubleToFixed(0), XDoubleToFixed(0), XDoubleToFixed(1) }
-//    }};
-//
-//    //XRenderSetPictureFilter(qt_xdisplay(), Source.x11PictureHandle(), FilterBest, 0, 0);
-//	//XRenderSetPictureFilter(qt_xdisplay(), Source.x11PictureHandle(),FilterBilinear, 0, 0 );
-//    XRenderSetPictureTransform(qt_xdisplay(), Source.x11PictureHandle(), &transformation);
-//    XRenderComposite(qt_xdisplay(),
-//                     PictOpOver, // we're filtering, alpha values are probable
-//					 //PictOpSrc, // we're filtering, alpha values are probable
-//                     Source.x11PictureHandle(), // src
-//                     None, // mask
-//                     thumbnail.x11PictureHandle(), // dst
-//                     0, 0, // src offset
-//                     0, 0, // mask offset
-//                     0, 0, // dst offset
-//                     mx,my);
-
-    //New (25.09.02)
-    thumbnail = Source.scaled(mx,my, Qt::IgnoreAspectRatio, Qt::FastTransformation);
-}
 
 void XRenderResizeImageGood(QPixmap &Source,QPixmap &thumbnail,int maxDimension)
 {
@@ -340,6 +306,41 @@ void XRenderResizeImageGood(QPixmap &Source,QPixmap &thumbnail,int maxDimension)
     thumbnail = Source.scaledToWidth(maxDimension, Qt::SmoothTransformation);
 }
 
+
+void XRenderResizeImage(QPixmap &Source,QPixmap &thumbnail,int mx, int my)
+{
+    thumbnail=QPixmap(mx, my);
+//    double factorx;
+//    double factory;
+//    factorx = (double)1 / ((double)mx/ (double)Source.width()) ;
+//    factory = (double)1 / ((double)my/ (double)Source.height());
+//
+//    thumbnail.fill(QColor(255,255,255,0));
+//
+//    // Scaling matrix
+//    XTransform transformation = {{
+//        { XDoubleToFixed(factorx), XDoubleToFixed(0), XDoubleToFixed(    0) },
+//        { XDoubleToFixed(0), XDoubleToFixed(factory), XDoubleToFixed(    0) },
+//        { XDoubleToFixed(0), XDoubleToFixed(0), XDoubleToFixed(1) }
+//    }};
+//
+//    //XRenderSetPictureFilter(qt_xdisplay(), Source.x11PictureHandle(), FilterBest, 0, 0);
+//	//XRenderSetPictureFilter(qt_xdisplay(), Source.x11PictureHandle(),FilterBilinear, 0, 0 );
+//    XRenderSetPictureTransform(qt_xdisplay(), Source.x11PictureHandle(), &transformation);
+//    XRenderComposite(qt_xdisplay(),
+//                     PictOpOver, // we're filtering, alpha values are probable
+//					 //PictOpSrc, // we're filtering, alpha values are probable
+//                     Source.x11PictureHandle(), // src
+//                     None, // mask
+//                     thumbnail.x11PictureHandle(), // dst
+//                     0, 0, // src offset
+//                     0, 0, // mask offset
+//                     0, 0, // dst offset
+//                     mx,my);
+
+    //New (25.09.02)
+    thumbnail = Source.scaled(mx,my, Qt::IgnoreAspectRatio, Qt::FastTransformation);
+}
 
 void XRenderResizeImage(QPixmap &Source,QPixmap &thumbnail,int maxDimension)
 {

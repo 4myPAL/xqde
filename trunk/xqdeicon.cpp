@@ -91,6 +91,7 @@ XQDEIcon::XQDEIcon(QString logicName,QObject *parent, void *cData,QImage *defaul
 	MouseSXClick->ActionType="exec";
 	MouseSXClick->Action=logic();
 	actions->insert("XQDE_USER_ACTION_CLICKSX",MouseSXClick);
+
 	XQDEAction *MouseDXClick=new XQDEAction;
 	MouseDXClick->ActionType="menu";
 	MouseDXClick->Action="";
@@ -332,10 +333,10 @@ void XQDEIcon::xRepaint()
                 #ifndef RESIZEVIAXRENDER
                 localImageWidthEffectsReflection=localImageWidthEffects.scaled(DesktopEnvironment->GUI.sizeIconsMax,isReflectionEnabled, Qt::KeepAspectRatio, Qt::SmoothTransformation );
                 #else
-                XRenderResizeImage(localImageWidthEffects,localImageWidthEffectsReflection,DesktopEnvironment->GUI.sizeIconsMax,isReflectionEnabled);
+//                XRenderResizeImage(localImageWidthEffects,localImageWidthEffectsReflection,DesktopEnvironment->GUI.sizeIconsMax,isReflectionEnabled);
                 #endif
 		QImage pip;
-		XQDE_ImageReflectBottom(localImageWidthEffectsReflection,pip);
+                XQDE_ImageReflectBottom(localImageWidthEffects,pip);
                 localImageWidthEffectsReflection=localImageWidthEffectsReflection.fromImage(pip);
 		
 	}
@@ -598,6 +599,7 @@ void XQDEIcon::xSetSmoothZoom(int newZoom)
             imageCachedReflection=localImageWidthEffectsReflection.scaled(newZoom,isReflectionEnabled, Qt::KeepAspectRatio, Qt::SmoothTransformation );
              #else
             XRenderResizeImage(localImageWidthEffectsReflection,imageCachedReflection,newZoom,isReflectionEnabled);
+
             #endif
 
         }

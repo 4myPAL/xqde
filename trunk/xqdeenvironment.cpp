@@ -94,33 +94,50 @@ QImage *XQDE_ImageEraseRect(QImage &lavoro,uint sx,uint sy,uint sz)
 
 QImage *XQDE_ImageReflectBottom(QPixmap &xImgSource,QImage &newImage)
 {
-	uint rHeight=xImgSource.height();
-	uint rWidth=xImgSource.width();
-	
-	newImage=QImage(rWidth,rHeight,QImage::Format_ARGB32);
-	newImage.fill(Qt::transparent);
-	
-	QPainter p;
-	p.begin(&newImage);
-	p.drawPixmap(0,0,xImgSource);
-	p.end();
-	
-	newImage=newImage.mirrored();
-	
+//	uint rHeight=xImgSource.height();
+//	uint rWidth=xImgSource.width();
+//
+//	newImage=QImage(rWidth,rHeight,QImage::Format_ARGB32);
+//	newImage.fill(Qt::transparent);
+//
+//	QPainter p;
+//	p.begin(&newImage);
+//	p.drawPixmap(0,0,xImgSource);
+//	p.end();
+//
+//	newImage=newImage.mirrored();
+//
+//
+//	double i=0.7;
+//	double ki=i/rHeight;
+//
+//	for(uint hri=0;hri<rHeight;hri++)
+//	{
+//		uint *riga=(uint *)newImage.scanLine(hri);
+//			for(uint y=0;y<rWidth;y++)
+//			{
+//				//0xAARRGGBB
+//                                riga[y]=(riga[y]&0x00FFFFFF)+(((unsigned int)((double)(i-ki*hri)*(double)(riga[y]>>24)))<<24);
+//			}
+//	}
+//	return &newImage;
 
-	double i=0.7;
-	double ki=i/rHeight;
-	
-	for(uint hri=0;hri<rHeight;hri++)
-	{
-		uint *riga=(uint *)newImage.scanLine(hri);
-			for(uint y=0;y<rWidth;y++)
-			{
-				//0xAARRGGBB
-                                riga[y]=(riga[y]&0x00FFFFFF)+(((unsigned int)((double)(i-ki*hri)*(double)(riga[y]>>24)))<<24);
-			}		
-	}
-	return &newImage;
+
+        qreal opacityFactor = 1;
+
+        newImage=xImgSource.toImage().mirrored();
+
+        // Add gradient to the reflection
+        QLinearGradient gradient(QPointF(0, 0), QPointF(0, newImage.height()*0.25));
+        gradient.setColorAt(0, QColor(0, 0, 0, 150));
+        gradient.setColorAt(1, Qt::transparent);
+
+        QPainter reflectionPainter(&newImage);
+        reflectionPainter.setOpacity(opacityFactor);
+        reflectionPainter.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+        reflectionPainter.fillRect(0, 0, newImage.width(), newImage.height(), gradient);
+        reflectionPainter.end();
+
 }
 
 QImage *XQDE_ImageRepeat(QImage &xImgSource,QImage &newImage, int rWidth,int rHeight)
