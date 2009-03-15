@@ -134,6 +134,7 @@ void XQWFirstHand::slot_animationPolling()
 		XQDEIcon *icon=Basket->items.at(i);
 		if(!icon)continue;
 		int UpdateThisIcon=0;
+
 		if(icon->animationsNextFrameCounter>0)
 		{
 			icon->animationsNextFrameCounter=0;
@@ -198,7 +199,7 @@ void XQWFirstHand::slot_animationPolling()
 		}
 	}
 
-	if(NeedToContinueAnimation>0)animationPolling->start(50);
+        if(NeedToContinueAnimation>0)animationPolling->start(50);
 }
 
 
@@ -765,14 +766,28 @@ void XQWFirstHand::xRepaint()
                 {
                     xRepaintSingleIndex(i);
                 }
+//        slot_animationPolling();
+
+
 }
 
 
 void XQWFirstHand::xRepaintSingleIndex(int iconIndex)
 {
-	XQDEIcon *icon=Basket->items.at(iconIndex);
-        
-	if(icon)xRepaintSingle(icon);
+        XQDEIcon *icon=Basket->items.at(iconIndex);
+
+        // if an animation is running, update icon position
+        // with stepAgain function
+        // -> prevent to drow picture outside dock when
+        // moving
+        for(int k=0;k<icon->animations->count();k++)
+        {
+                XQDEAnimation *ani=icon->animations->at(k);
+                ani->stepAgain();
+        }
+
+        if(icon)xRepaintSingle(icon);
+
 }
 
 extern QImage *XQDE_ImageCopyRop(const QImage &source, QImage &dest, uint sx, uint sy, uint sz);

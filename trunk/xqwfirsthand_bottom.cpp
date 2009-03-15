@@ -483,12 +483,14 @@ void XQWFirstHand_bottom::xMakeCentered()
 		qWarning("void XQWFirstHand_bottom::xMakeCentered() xMakeUp_MinSize=%d height=%d width=%d",xMakeUp_MinSize,height(), width());
 		#endif
 		
+                //ToDo: more improuvements
+                //Know BUGS: se più grande dello schermo fa il resize, ma poi se si aggiunge widget lo ridimensiona con dimensioni "normali"
                 if(xMakeUp_MinSize > width())
 		{
                         for(;DesktopEnvironment->GUI.handIconsMax > 15;DesktopEnvironment->GUI.handIconsMax -= 4)
 			{
 				xMakeUp_MinSize=iconCoordsByIndex(activeIconsCounter+1).x-iconCoordsByIndex(0).x;
-				if(xMakeUp_MinSize<width())break;
+				if(xMakeUp_MinSize < width())break;
 			}
                         #ifdef ENABLEDEBUGMSG
 			qWarning("Docker will be resized!!-from:%d to:%d",DesktopEnvironment->GUI.sizeIconsNormal,DesktopEnvironment->GUI.handIconsMax);
@@ -506,7 +508,7 @@ void XQWFirstHand_bottom::xMakeCentered()
                         for(;DesktopEnvironment->GUI.handIconsMax < DesktopEnvironment->GUI.sizeIconsNormal; DesktopEnvironment->GUI.handIconsMax += 4)
                         {
                                 xMakeUp_MinSize=iconCoordsByIndex(activeIconsCounter+1).x-iconCoordsByIndex(0).x;
-                                if(xMakeUp_MinSize>=width())break;
+                                if(xMakeUp_MinSize >= width())break;
                         }
                         #ifdef ENABLEDEBUGMSG
                         qWarning("Docker will be resized!!+from:%d to:%d",DesktopEnvironment->GUI.sizeIconsNormal,DesktopEnvironment->GUI.handIconsMax);
@@ -521,7 +523,7 @@ void XQWFirstHand_bottom::xMakeCentered()
 
         //New coordinate x and y for the dock
 	xMakeUp_Center.x=(width()-xMakeUp_MinSize-iconCoordsByIndex(0).x)/2;
-	xMakeUp_Center.y=height()-xMakeUp_ArrowSize-DesktopEnvironment->GUI.handIconsMax;
+        xMakeUp_Center.y=height()-xMakeUp_ArrowSize-DesktopEnvironment->GUI.handIconsMax;
 
         delete maskRaised;
         delete maskNormal;

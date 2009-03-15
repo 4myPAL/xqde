@@ -306,7 +306,7 @@ void XQDEAnimation::stepAgain()
                                 icon->repaint();
                         }
                         icon->move(icon->detachedRect.x+MainWindow->x(),icon->detachedRect.y+MainWindow->y());
-//                        MakeWindowOnTopPillow((void *)icon->winId());
+                        //ToDo: non usare show per mostrare icona, resta sopra alle finestre
                         icon->show();
                         }
                         break;
