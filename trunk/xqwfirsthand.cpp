@@ -933,15 +933,21 @@ void XQWFirstHand::xConfigurationChanged()
 	qWarning("void XQWFirstHand::xConfigurationChanged()");
 	#endif
 
-	xMakeCentered();
-	xMakeCenteredfix(1);
+        xMakeCentered();
+        xMakeCenteredfix(1);
 
-	for(int i=0;i<activeIconsCounter;i++)
-	{
-		XQDEIcon *icon=Basket->items.at(i);
-		if(!icon)continue;
-		icon->overText->xSetText(icon->title());
-	}
+        // DoTo aggiornare dock altrimenti resta nera, soluzione provvisoria.
+        // Bug: la dock non si sposta in modo fluido (minor)
+       xRepaint();
+
+// Removed (17.03.09) no more needed
+//	for(int i=0;i<activeIconsCounter;i++)
+//	{
+//		XQDEIcon *icon=Basket->items.at(i);
+//		if(!icon)continue;
+//		icon->overText->xSetText(icon->title());
+//	}
+
 	storeConfiguration();
 }
 
@@ -1132,9 +1138,11 @@ void XQPillow::move(int nx,int ny)
 		break;
 	}
 }
+
 void XQPillow::xReset()
 {
 }
+
 void XQPillow::xRepaint()
 {
 }
