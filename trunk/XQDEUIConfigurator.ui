@@ -23,7 +23,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>3</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
@@ -69,44 +69,27 @@ p, li { white-space: pre-wrap; }
       <attribute name="title">
        <string>Design</string>
       </attribute>
-      <layout class="QVBoxLayout">
-       <item>
-        <layout class="QGridLayout">
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_3">
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <layout class="QGridLayout" name="gridLayout_2">
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_8">
            <property name="text">
-            <string>Position</string>
+            <string>Vertical</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QComboBox" name="dockposition">
-           <item>
-            <property name="text">
-             <string>bottom</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>top</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>left</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>right</string>
-            </property>
-           </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Normal size</string>
+           </property>
           </widget>
          </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_7">
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_2">
            <property name="text">
-            <string>Horizontal</string>
+            <string>Big size</string>
            </property>
           </widget>
          </item>
@@ -126,13 +109,6 @@ p, li { white-space: pre-wrap; }
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_8">
-           <property name="text">
-            <string>Vertical</string>
            </property>
           </widget>
          </item>
@@ -158,24 +134,7 @@ p, li { white-space: pre-wrap; }
            </property>
           </widget>
          </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QGridLayout">
-         <property name="margin">
-          <number>0</number>
-         </property>
-         <property name="spacing">
-          <number>6</number>
-         </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>Normal size</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
+         <item row="3" column="1">
           <widget class="QSlider" name="normalsize">
            <property name="minimum">
             <number>16</number>
@@ -194,14 +153,7 @@ p, li { white-space: pre-wrap; }
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>Big size</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
+         <item row="4" column="1">
           <widget class="QSlider" name="bigsize">
            <property name="minimum">
             <number>16</number>
@@ -223,9 +175,59 @@ p, li { white-space: pre-wrap; }
            </property>
           </widget>
          </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Horizontal</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Position</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1" colspan="2">
+          <widget class="QComboBox" name="dockposition">
+           <item>
+            <property name="text">
+             <string>bottom</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>top</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>left</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>right</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="4" column="2">
+          <widget class="QSpinBox" name="spinBox_6"/>
+         </item>
+         <item row="3" column="2">
+          <widget class="QSpinBox" name="spinBox_5"/>
+         </item>
+         <item row="2" column="2">
+          <widget class="QSpinBox" name="spinBox"/>
+         </item>
+         <item row="1" column="2">
+          <widget class="QSpinBox" name="spinBox_2"/>
+         </item>
         </layout>
        </item>
-       <item>
+       <item row="2" column="0">
         <layout class="QHBoxLayout">
          <property name="spacing">
           <number>6</number>
@@ -256,12 +258,32 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </item>
-       <item>
+       <item row="4" column="0">
         <widget class="QCheckBox" name="autofit">
          <property name="text">
           <string>Autofit the dock on the screen</string>
          </property>
         </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -273,7 +295,7 @@ p, li { white-space: pre-wrap; }
        <item>
         <widget class="QTabWidget" name="tabWidget_2">
          <property name="currentIndex">
-          <number>3</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab_6">
           <attribute name="title">
@@ -323,11 +345,37 @@ p, li { white-space: pre-wrap; }
           </attribute>
           <layout class="QVBoxLayout">
            <item>
+            <spacer name="verticalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
             <widget class="QLabel" name="label_12">
              <property name="text">
               <string>Look on plugins page to configure addons</string>
              </property>
             </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
            </item>
            <item>
             <layout class="QGridLayout">
@@ -391,11 +439,37 @@ p, li { white-space: pre-wrap; }
           </attribute>
           <layout class="QVBoxLayout">
            <item>
+            <spacer name="verticalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
             <widget class="QLabel" name="label_19">
              <property name="text">
               <string>Look on plugins page to configure addons</string>
              </property>
             </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
            </item>
            <item>
             <layout class="QGridLayout">
@@ -429,11 +503,37 @@ p, li { white-space: pre-wrap; }
           </attribute>
           <layout class="QVBoxLayout">
            <item>
+            <spacer name="verticalSpacer_7">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
             <widget class="QLabel" name="label_21">
              <property name="text">
               <string>Look on plugins page to configure addons</string>
              </property>
             </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_6">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
            </item>
            <item>
             <layout class="QHBoxLayout">
@@ -535,13 +635,177 @@ p, li { white-space: pre-wrap; }
    <item>
     <widget class="QLabel" name="label_5">
      <property name="text">
-      <string>XQDE 0.0.1 is a XIA Projects 2007 product xqde@xiaprojects.com</string>
+      <string>XQDE is a XIA Projects 2009 product xqde@xiaprojects.com</string>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>textBrowser</tabstop>
+  <tabstop>dockposition</tabstop>
+  <tabstop>dockPositionX</tabstop>
+  <tabstop>spinBox_2</tabstop>
+  <tabstop>dockPositionY</tabstop>
+  <tabstop>spinBox</tabstop>
+  <tabstop>normalsize</tabstop>
+  <tabstop>spinBox_5</tabstop>
+  <tabstop>bigsize</tabstop>
+  <tabstop>spinBox_6</tabstop>
+  <tabstop>changeOverTextFont</tabstop>
+  <tabstop>changeOverTextColor</tabstop>
+  <tabstop>autofit</tabstop>
+  <tabstop>tabWidget_2</tabstop>
+  <tabstop>ic_path_add</tabstop>
+  <tabstop>ic_path_remove</tabstop>
+  <tabstop>ic_path_up</tabstop>
+  <tabstop>ic_path_down</tabstop>
+  <tabstop>listView</tabstop>
+  <tabstop>mod_minimized</tabstop>
+  <tabstop>mod_multiwindow</tabstop>
+  <tabstop>mod_tray</tabstop>
+  <tabstop>mod_thumbnail</tabstop>
+  <tabstop>mod_running</tabstop>
+  <tabstop>ani_new</tabstop>
+  <tabstop>ani_remove</tabstop>
+  <tabstop>background_theme</tabstop>
+  <tabstop>listWidgets</tabstop>
+  <tabstop>classNameWidget</tabstop>
+  <tabstop>lw_addWidget</tabstop>
+  <tabstop>list_plugin</tabstop>
+  <tabstop>list_plugin_configure</tabstop>
+ </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>dockPositionY</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>spinBox</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>426</x>
+     <y>109</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>499</x>
+     <y>103</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dockPositionX</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>spinBox_2</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>426</x>
+     <y>83</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>499</x>
+     <y>70</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>dockPositionY</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>468</x>
+     <y>116</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>402</x>
+     <y>121</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_2</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>dockPositionX</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>465</x>
+     <y>87</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>396</x>
+     <y>84</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>normalsize</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>spinBox_5</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>392</x>
+     <y>146</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>464</x>
+     <y>147</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_6</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>bigsize</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>468</x>
+     <y>174</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>409</x>
+     <y>173</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bigsize</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>spinBox_6</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>352</x>
+     <y>177</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>465</x>
+     <y>182</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_5</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>normalsize</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>462</x>
+     <y>135</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>404</x>
+     <y>141</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
