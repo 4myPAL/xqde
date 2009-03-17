@@ -39,8 +39,11 @@ XQDEConfigurator::XQDEConfigurator(XQDERoot *pr) : QDialog()
 		GlobalConfigurator->show();
 	}
 	else GlobalConfigurator=this;
+
 	qWarning("XQDEConfigurator::XQDEConfigurator() : QDialog() setupUi(this);");
+
 	setupUi(this);
+
 	qWarning("XQDEConfigurator::XQDEConfigurator() : QDialog() setupUi(this); end");
 
 	connect(bigsize, SIGNAL(valueChanged(int)),SLOT(bigsize_valueChanged(int)));
@@ -71,6 +74,7 @@ void XQDEConfigurator::list_plugin_configureClicked()
 		if(xci)DesktopEnvironment->UserProfile.configureComponent(xci);
 	}
 }
+
 void XQDEConfigurator::xReset()
 {
 
@@ -127,8 +131,6 @@ void XQDEConfigurator::lw_addWidgetClicked()
 	{
 		qWarning("[%ld] NOT added",(long)ClassWidget);
 		}
-
-	
 }
 
 void XQDEConfigurator::lw_itemClicked(QListWidgetItem *i)
@@ -161,36 +163,35 @@ event->pos() - rect().topLeft()
          update();
      }
 */
-
 }
 
 void XQDEConfigurator::changeOverTextColor_clicked()
 {
+    QColor color=QColorDialog::getColor (QColor(DesktopEnvironment->GUI.desktopFont.FontRed,DesktopEnvironment->GUI.desktopFont.FontGreen,DesktopEnvironment->GUI.desktopFont.FontBlue), this);
 
-QColor color=QColorDialog::getColor (QColor(DesktopEnvironment->GUI.desktopFont.FontRed,DesktopEnvironment->GUI.desktopFont.FontGreen,DesktopEnvironment->GUI.desktopFont.FontBlue), this);
+     if (color.isValid()) {
+         // the user clicked OK and font is set to the font the user selected
 
- if (color.isValid()) {
-     // the user clicked OK and font is set to the font the user selected
+    DesktopEnvironment->GUI.desktopFont.FontBlue=color.blue();
+    DesktopEnvironment->GUI.desktopFont.FontGreen=color.green();
+    DesktopEnvironment->GUI.desktopFont.FontRed=color.red();
 
-DesktopEnvironment->GUI.desktopFont.FontBlue=color.blue();
-DesktopEnvironment->GUI.desktopFont.FontGreen=color.green();
-DesktopEnvironment->GUI.desktopFont.FontRed=color.red();
+    ((XQWFirstHand *)MainWindow)->xConfigurationChanged();
 
-((XQWFirstHand *)MainWindow)->xConfigurationChanged();
-
- } else {
-     // the user canceled the dialog; font is set to the initial
-     // value, in this case Helvetica [Cronyx], 10
- }
-
+     }
+     else {
+         // the user canceled the dialog; font is set to the initial
+         // value, in this case Helvetica [Cronyx], 10
+     }
 
 }
+
 void XQDEConfigurator::changeOverTextFont_clicked()
 {
-bool ok;
- QFont font = QFontDialog::getFont(
+    bool ok;
+    QFont font = QFontDialog::getFont(
                  &ok, QFont(DesktopEnvironment->GUI.desktopFont.FontFamily, DesktopEnvironment->GUI.desktopFont.FontSize), this);
- if (ok) {
+    if (ok) {
             // the user clicked OK and font is set to the font the user selected
             DesktopEnvironment->GUI.desktopFont.FontFamily=font.family();
             DesktopEnvironment->GUI.desktopFont.FontSize=font.pointSize();
@@ -198,10 +199,11 @@ bool ok;
             qWarning("void XQDEConfigurator::changeOverTextFont_clicked() %s(%d)",DesktopEnvironment->GUI.desktopFont.FontFamily.toAscii().data(),DesktopEnvironment->GUI.desktopFont.FontSize);
             ((XQWFirstHand *)MainWindow)->xConfigurationChanged();
 
- } else {
-     // the user canceled the dialog; font is set to the initial
-     // value, in this case Helvetica [Cronyx], 10
- }
+     }
+    else {
+         // the user canceled the dialog; font is set to the initial
+         // value, in this case Helvetica [Cronyx], 10
+     }
 }
 
 

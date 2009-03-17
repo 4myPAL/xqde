@@ -17,11 +17,11 @@
 
 XQDEConfiguratorXML::XQDEConfiguratorXML() : QDialog()
 {
-	setupUi(this);
-	connect(pOK, SIGNAL(clicked()),SLOT(accept()));
-	connect(list_names, SIGNAL(itemClicked(QListWidgetItem *)),SLOT(ln_itemClicked(QListWidgetItem *)));
-	connect(var_value, SIGNAL(textChanged(const QString &)),SLOT(value_textChanged(const QString &)));
-	lastKeyName="";	
+        setupUi(this);
+        connect(pOK, SIGNAL(clicked()),SLOT(accept()));
+        connect(list_names, SIGNAL(itemClicked(QListWidgetItem *)),SLOT(ln_itemClicked(QListWidgetItem *)));
+        connect(var_value, SIGNAL(textChanged(const QString &)),SLOT(value_textChanged(const QString &)));
+        lastKeyName="";
 }
 
 
@@ -32,58 +32,60 @@ XQDEConfiguratorXML::~XQDEConfiguratorXML()
 
 void XQDEConfiguratorXML::value_textChanged(const QString &tt)
 {
-	if(lastKeyName=="" || lastRemoteObj==NULL)return;
+        if(lastKeyName=="" || lastRemoteObj==NULL) return;
 	
-		QObject *remoteObj=lastRemoteObj;
-		connect(this, SIGNAL(WriteNamedValue(const QString &,const QString &)), remoteObj, SLOT(WriteNamedValue(const QString &,const QString &)));
-	
-		WriteNamedValue(lastKeyName,tt);
+        QObject *remoteObj=lastRemoteObj;
+        connect(this, SIGNAL(WriteNamedValue(const QString &,const QString &)), remoteObj, SLOT(WriteNamedValue(const QString &,const QString &)));
 
-		disconnect(this, SIGNAL(WriteNamedValue(const QString &,const QString &)), remoteObj, SLOT(WriteNamedValue(const QString &,const QString &)));
+        WriteNamedValue(lastKeyName,tt);
 
+        disconnect(this, SIGNAL(WriteNamedValue(const QString &,const QString &)), remoteObj, SLOT(WriteNamedValue(const QString &,const QString &)));
 }
+
 void XQDEConfiguratorXML::ln_itemClicked(QListWidgetItem *lw)
 {
-	if(!lw)return;
-		lastKeyName="";
-		QObject *remoteObj=lastRemoteObj;
-		connect(this, SIGNAL(GetNamedValue(const QString &, QString &)), remoteObj, SLOT(GetNamedValue(const QString &, QString &)));
-		connect(this, SIGNAL(GetNamesList(QStringList &)), remoteObj, SLOT(GetNamesList(QStringList &)));
-		connect(this, SIGNAL(GetNamedDecription(const QString &, QString &)), remoteObj, SLOT(GetNamedDecription(const QString &, QString &)));
-		connect(this, SIGNAL(GetNamedType(const QString &, QString &)), remoteObj, SLOT(GetNamedType(const QString &, QString &)));
-		connect(this, SIGNAL(WriteNamedValue(const QString &,const QString &)), remoteObj, SLOT(WriteNamedValue(const QString &,const QString &)));
-	
-		QString t;
-		t="";
-		GetNamedDecription(lw->text(),t);
-		var_description->setText(t);
-		t="";
-		GetNamedValue(lw->text(),t);
-		var_value->setText(t);
+        if(!lw) return;
 
-		disconnect(this, SIGNAL(GetNamedValue(const QString &, QString &)), remoteObj, SLOT(GetNamedValue(const QString &, QString &)));
-		disconnect(this, SIGNAL(GetNamesList(QStringList &)), remoteObj, SLOT(GetNamesList(QStringList &)));
-		disconnect(this, SIGNAL(GetNamedDecription(const QString &, QString &)), remoteObj, SLOT(GetNamedDecription(const QString &, QString &)));
-		disconnect(this, SIGNAL(GetNamedType(const QString &, QString &)), remoteObj, SLOT(GetNamedType(const QString &, QString &)));
-		disconnect(this, SIGNAL(WriteNamedValue(const QString &,const QString &)), remoteObj, SLOT(WriteNamedValue(const QString &,const QString &)));
-	
-		lastKeyName=lw->text();
+        lastKeyName="";
+        QObject *remoteObj=lastRemoteObj;
+        connect(this, SIGNAL(GetNamedValue(const QString &, QString &)), remoteObj, SLOT(GetNamedValue(const QString &, QString &)));
+        connect(this, SIGNAL(GetNamesList(QStringList &)), remoteObj, SLOT(GetNamesList(QStringList &)));
+        connect(this, SIGNAL(GetNamedDecription(const QString &, QString &)), remoteObj, SLOT(GetNamedDecription(const QString &, QString &)));
+        connect(this, SIGNAL(GetNamedType(const QString &, QString &)), remoteObj, SLOT(GetNamedType(const QString &, QString &)));
+        connect(this, SIGNAL(WriteNamedValue(const QString &,const QString &)), remoteObj, SLOT(WriteNamedValue(const QString &,const QString &)));
+
+        QString t;
+        t="";
+        GetNamedDecription(lw->text(),t);
+        var_description->setText(t);
+        t="";
+        GetNamedValue(lw->text(),t);
+        var_value->setText(t);
+
+        disconnect(this, SIGNAL(GetNamedValue(const QString &, QString &)), remoteObj, SLOT(GetNamedValue(const QString &, QString &)));
+        disconnect(this, SIGNAL(GetNamesList(QStringList &)), remoteObj, SLOT(GetNamesList(QStringList &)));
+        disconnect(this, SIGNAL(GetNamedDecription(const QString &, QString &)), remoteObj, SLOT(GetNamedDecription(const QString &, QString &)));
+        disconnect(this, SIGNAL(GetNamedType(const QString &, QString &)), remoteObj, SLOT(GetNamedType(const QString &, QString &)));
+        disconnect(this, SIGNAL(WriteNamedValue(const QString &,const QString &)), remoteObj, SLOT(WriteNamedValue(const QString &,const QString &)));
+
+        lastKeyName=lw->text();
 }
 
 void XQDEConfiguratorXML::configureThisComponentViaXML(QObject *remoteObj)
 {
 	lastKeyName="";
 	lastRemoteObj=remoteObj;
-		// Erase all data!
-		list_names->reset();
-		var_description->setText("");
-		var_value->setText("");
-		c_name->setText("");
-		c_author->setText("");
-		c_web->setText("");
-		c_email->setText("");
-		c_autoupdate->setText("");
-		c_ver->setText("");
+
+        // Erase all data!
+        list_names->reset();
+        var_description->setText("");
+        var_value->setText("");
+        c_name->setText("");
+        c_author->setText("");
+        c_web->setText("");
+        c_email->setText("");
+        c_autoupdate->setText("");
+        c_ver->setText("");
 
 	if(remoteObj==NULL)
 	{
@@ -129,7 +131,7 @@ void XQDEConfiguratorXML::configureThisComponentViaXML(QObject *remoteObj)
 		
 		
 		QStringList li;
-		GetNamesList(li);
+                emit GetNamesList(li);
 		
 		list_names->clear();
 		

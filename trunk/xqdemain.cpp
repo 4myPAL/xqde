@@ -105,7 +105,8 @@ void XQDEMain::xReset()
 	if(!root)qWarning("Heavy error reported");
 	if(!TaskManager)qWarning("Heavy error reported");
 	if(!xqde)qWarning("Heavy error reported");
-		
+
+        //ToDo use the configurator class for import export settings...
 	XQDEConfigurator *xcfg=new XQDEConfigurator(root);
 	if(!xcfg)qWarning("Heavy error reported");
 

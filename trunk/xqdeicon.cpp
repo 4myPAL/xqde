@@ -741,7 +741,9 @@ void XQDEIcon::setIconGeometry(int x,int y,int z)
 
 		emit setGeometry(clientData(),x+MainWindow->x(),y+MainWindow->y(),z);
 	}
+
 extern QWidget *GlobalConfigurator;
+
 void XQDEIcon::xConfigurator()
 {
 	GlobalConfigurator->show();

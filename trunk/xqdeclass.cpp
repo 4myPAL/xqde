@@ -32,7 +32,7 @@ XQDEClass::XQDEClass(QObject *lRoot) :QObject()
         // setup my virtual Root-father wich I will use as Window parent or other issues
         #ifdef ENABLEDEBUGMSG
         qWarning("XQDEClass::XQDEClass(QObject *lRoot) :QObject()");
-#endif
+        #endif
         ObjectRoot=lRoot;
         ObjectName=QString("com.xiaprojects.XQDEClass.") + QString::number((long)this);
         // Reset my ID
@@ -83,13 +83,15 @@ void XQDEClass::FreezeSave(const QString &DataPath)
 	#ifdef ENABLEDEBUGMSG
 		qWarning("Home: %s",localPathDir.toAscii().data());
 	#endif
-		QDir *XQDEqd=new QDir(localPathDir);
-		XQDEqd->mkpath(".xqde");
-		XQDEqd->cd(".xqde");
-		localPathDir=XQDEqd->path();
+        QDir *XQDEqd=new QDir(localPathDir);
+        XQDEqd->mkpath(".xqde");
+        XQDEqd->cd(".xqde");
+        localPathDir=XQDEqd->path();
+
 	#ifdef ENABLEDEBUGMSG
 		qWarning("Created:%s",localPathDir.toAscii().data());
 	#endif
+
 	QDir *qd=new QDir(localPathDir);
 	if(!qd->mkpath(MyStoreDataPathRelative))
 	{
@@ -120,7 +122,7 @@ void XQDEClass::FreezeSave(const QString &DataPath)
 	{
 	#ifdef ENABLEDEBUGMSG
 		qWarning("Error writing xml");
-#endif
+        #endif
 		return;
 	}
 	QDomElement root=doc.createElement("xqde");
@@ -152,6 +154,7 @@ void XQDEClass::FreezeSave(const QString &DataPath)
 	#endif
 	
 }
+
 void XQDEClass::FreezeRestore(const QString &DataPath)
 {
 	const QString MyStoreDataPathRelative="data";
@@ -163,9 +166,10 @@ void XQDEClass::FreezeRestore(const QString &DataPath)
 	QString fn=localPathDir+"/.xqde/"+MyStoreDataPathRelative+"/"+ObjectName + ".xml";
 	#ifdef ENABLEDEBUGMSG
 	qWarning("Importing data: %s",fn.toAscii().data());
-#endif
+        #endif
 	import(fn);
 }
+
 void XQDEClass::import(const QString &fileName)
 {
 	QFile xmlFile(fileName);
@@ -200,15 +204,15 @@ void XQDEClass::import(const QString &fileName)
 			if(nn=="email")continue;
 			if(nn=="autoupdate")continue;
 				
-	#ifdef ENABLEDEBUGMSG
+                        #ifdef ENABLEDEBUGMSG
 			qWarning("importing %s",nn.toUtf8().constData());
-#endif			
+                        #endif
 			QString nv=nl.at(i).toElement().attributes().item(a).nodeValue();
 			WriteNamedValue(nn,nv);
 		}
 	}
-    xmlFile.close();
-	// ***
+        xmlFile.close();
+
 	#ifdef ENABLEDEBUGMSG
 	qWarning("End reading");
 	#endif
@@ -227,6 +231,7 @@ void XQDEClass::GetNamesList(QStringList &a)
 		a.append(ConfigurationData.at(i)->Key);
 	}
 }
+
 void XQDEClass::GetNamedValue(const QString &k, QString &v)
 {
 	if(k=="name")
@@ -244,6 +249,7 @@ void XQDEClass::GetNamedValue(const QString &k, QString &v)
 		}
 	}
 }
+
 QString XQDEClass::GetNamedValueString(const QString &k)
 {
 	QString v="";
@@ -285,7 +291,9 @@ void XQDEClass::GetNamedType(const QString &k, QString &v)
 		}
 	}
 }
+
 extern QString DataPath;
+
 void XQDEClass::WriteNamedValue(const QString &k,const QString &v)
 {
 	if(k=="name")

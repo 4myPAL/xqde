@@ -138,7 +138,7 @@ qWarning("Arrow:%d",xMakeUp_ArrowSize);
 			DesktopEnvironment->GUI.handIconsMax+xMakeUp_ArrowSize*2
 		);
 	}
-	xMakeUp();
+        xMakeUp();
 }
 
 void XQWFirstHand_bottom::xReset()
