@@ -34,13 +34,6 @@
 //#include <X11/Xlib.h>
 
 
-XQWFirstHand_bottom::~XQWFirstHand_bottom()
-{
-	#ifdef ENABLEDEBUGMSG
-qWarning("void XQWFirstHand_bottom::~XQWFirstHand_bottom()");
-		#endif
-}
-
 XQWFirstHand_bottom::XQWFirstHand_bottom(QObject *lRoot, QWidget *parent)
  : XQWFirstHand(lRoot, parent)
 {
@@ -48,6 +41,13 @@ XQWFirstHand_bottom::XQWFirstHand_bottom(QObject *lRoot, QWidget *parent)
 	qWarning("XQWFirstHand_bottom::XQWFirstHand_bottom(...)");
 		#endif
         xMakeUpIsMirrored=0;
+}
+
+XQWFirstHand_bottom::~XQWFirstHand_bottom()
+{
+	#ifdef ENABLEDEBUGMSG
+qWarning("void XQWFirstHand_bottom::~XQWFirstHand_bottom()");
+		#endif
 }
 
 void XQWFirstHand_bottom::xRepaintSingleBackground(QPainter *pp1_p,int sx,int sy,int sz)
@@ -320,6 +320,7 @@ void XQWFirstHand_bottom::purgeCacheFixBorder(int iconNum,int &cursor_x,int &cur
 //		}
 //		else
 //		{
+                    //BUG solved!! 19.03.09
                     //Bug: il testo non è al centro sopra l'icona,
                     // cursor_x non è perfetto
                     // ToDo, calcolare posizione centrale icona e usare quella
@@ -327,10 +328,10 @@ void XQWFirstHand_bottom::purgeCacheFixBorder(int iconNum,int &cursor_x,int &cur
                 Basket->items.at(iconNum)->overText->xDrawText();
                 const QPixmap *textPixmap=Basket->items.at(iconNum)->overText->getPixmap();
                 const QRect *textRect=Basket->items.at(iconNum)->overText->getBoundingRect();
-//
-//                Global_XQPillow->move((Basket->items.at(iconNum)->imageCachedRect.x + DesktopEnvironment->GUI.handIconsMax/2) -textRect->width()/2
-//                                      ,y()-Global_XQPillow->height());
-                Global_XQPillow->move(cursor_x-textRect->width()/2,y()-Global_XQPillow->height());
+
+                Global_XQPillow->move((DesktopEnvironment->GUI.dockAlignDisplaceX + (Basket->items.at(iconNum)->imageHotSpot.x)) - (textRect->width()/2)
+                                      ,y()-Global_XQPillow->height());
+
                 Global_XQPillow->xDrawText(textPixmap);
                 Global_XQPillow->repaint();
 //		}
@@ -419,7 +420,7 @@ DiffIcon=DiffIconY+DiffIconX;
             // left x<->y
             if(dx>0)
                 {
-                    AreMovingToLeft=xMakeUp_KMatrix[DiffIconY];
+                    AreMovingToLeft = xMakeUp_KMatrix[DiffIconY];
                 }
             else
                 {
@@ -559,7 +560,7 @@ void XQWFirstHand_bottom::xMakeCentered()
 
 	for(int i=0;i<activeIconsCounter;i++)
 	{
-		XQDEIconRect r=iconCoordsByIndex(i);
+		XQDEIconRect r = iconCoordsByIndex(i);
                 Basket->items.at(i)->setIconGeometry(r.x,r.y,r.z);
 		//Basket->items.at(i)->xRepaintSmall();
 	}
