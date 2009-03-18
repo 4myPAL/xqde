@@ -323,6 +323,8 @@ void XQWFirstHand::purgeCacheMovements()
 
 //                qWarning("%dx%d to %dx%d",ax,ay, xLastX, xLastY);
 
+                qWarning("%dx%d ",ax,ay);
+
 //Removed (22.02.09) - new gain in cpu %, and code semplified
                 
 //		if(ax==xLastX && ay==xLastY)
@@ -940,13 +942,12 @@ void XQWFirstHand::xConfigurationChanged()
         // Bug: la dock non si sposta in modo fluido (minor)
        xRepaint();
 
-// Removed (17.03.09) no more needed
-//	for(int i=0;i<activeIconsCounter;i++)
-//	{
-//		XQDEIcon *icon=Basket->items.at(i);
-//		if(!icon)continue;
-//		icon->overText->xSetText(icon->title());
-//	}
+        for(int i=0;i<activeIconsCounter;i++)
+        {
+                XQDEIcon *icon=Basket->items.at(i);
+                if(!icon)continue;
+                icon->overText->xSetText(icon->title());
+        }
 
 	storeConfiguration();
 }
@@ -970,8 +971,6 @@ void XQWFirstHand::xReset()
         {
                 mousePolling=new QTimer();
                 connect(mousePolling,SIGNAL(timeout()),this,SLOT(slot_mousePolling()));
-                //Solved Bug, no detection on startup
-                mousePolling->start(250);
         }
         if(animationPolling==0)
         {
@@ -981,7 +980,6 @@ void XQWFirstHand::xReset()
 
 
 }
-
 
 
 void XQWFirstHand::xMakeCenteredfix(int)
@@ -1163,7 +1161,7 @@ void XQPillow::xDrawText(const QPixmap *ppp)
         case 0:
         case 1:
                 kw=last_kx;
-                if(w<QApplication::desktop()->availableGeometry().width())
+                if(w < QApplication::desktop()->availableGeometry().width())
                 {
                         //if(nh>32)nh=32;
                         setFixedSize(QApplication::desktop()->availableGeometry().width(),nh);
@@ -1171,7 +1169,7 @@ void XQPillow::xDrawText(const QPixmap *ppp)
                 break;
         case 2:
         case 3:
-                if((w<nw)&& w<800)
+                if((w < nw)&& w<800)
                 {
                         if(nw>800)nw=800;
                         if(nh>32)nh=32;
@@ -1183,6 +1181,7 @@ void XQPillow::xDrawText(const QPixmap *ppp)
                 break;
     }
 
+    
     //paintBuffer.fill(0x80000000+(unsigned int)winId());
 
     // ToDo posizionare testo sopra icona al centro
