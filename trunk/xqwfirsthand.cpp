@@ -230,7 +230,12 @@ void XQWFirstHand::purgeCacheMovements()
 	
 	// Main loop
 	for(int recallme=1;recallme!=0;)
-	{
+        {
+                // process other events, this prevent to stop
+                // icons animations
+                // Bug solved: (21.03.09)
+                QCoreApplication::processEvents();
+
 		QPoint pos, vect;
                 // Mouse polling vars
                 QPoint mouse;
@@ -289,7 +294,6 @@ void XQWFirstHand::purgeCacheMovements()
                 ay=xLastY_notmanaged;
 
                 // controllo se il mouse esce dalla dock
-                // Bug: se si esce lateralmente la dock non è centrata
 
 // Removed (21.02.09)
 //                if(xLastX-xLastX_notmanaged>1)
@@ -323,7 +327,7 @@ void XQWFirstHand::purgeCacheMovements()
 
 //                qWarning("%dx%d to %dx%d",ax,ay, xLastX, xLastY);
 
-                qWarning("%dx%d ",ax,ay);
+//                qWarning("%dx%d ",ax,ay);
 
 //Removed (22.02.09) - new gain in cpu %, and code semplified
                 
@@ -378,7 +382,7 @@ void XQWFirstHand::mouseMoveEventSW(int x,int y,int force,int quality)
 		{
 			XQDEIcon *thisIcon=Basket->items.at(i);
 			mouseMoveEventSWIcon(x,y,i,thisIcon,quality);
-		}
+                }
 		xMakeUp_BackgroundCoords();
 	}
 }
@@ -939,7 +943,7 @@ void XQWFirstHand::xConfigurationChanged()
         xMakeCenteredfix(1);
 
         // DoTo aggiornare dock altrimenti resta nera, soluzione provvisoria.
-        // Bug: la dock non si sposta in modo fluido (minor)
+        // Bug: la dock non si sposta in modo fluido (minor Bug)
        xRepaint();
 
         for(int i=0;i<activeIconsCounter;i++)
