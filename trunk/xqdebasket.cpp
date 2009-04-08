@@ -227,6 +227,7 @@ QObject *SensorManager,void *cData,const char *logicName, const char *, const ch
 	// actions...
 	return addedIcon;
 }
+
 XQDEIcon *XQDEBasket::findTemplate(QString &stringmatch, QString &classmatch,QObject *)
 {
 	for(int ix=0;ix<templates.size();ix++)
@@ -234,7 +235,7 @@ XQDEIcon *XQDEBasket::findTemplate(QString &stringmatch, QString &classmatch,QOb
 		XQDEIcon *icon=templates.at(ix);
 		for(int i=0;i<icon->slotsSensor->count();i++)
 		{
-	qWarning("[%s][%s]",stringmatch.toAscii().data(),icon->slotsSensor->at(i)->Slot.toAscii().data());
+                        qWarning("[%s][%s]",stringmatch.toAscii().data(),icon->slotsSensor->at(i)->Slot.toAscii().data());
 			if(stringmatch.indexOf(icon->slotsSensor->at(i)->Slot)>=0)
 			{
 				return icon;

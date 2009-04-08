@@ -24,11 +24,10 @@ XQDEUIIconWindow::XQDEUIIconWindow()
     : QDialog()
 {
 	setupUi( this );
-    //connect( pbAdd, SIGNAL(clicked()), this, SLOT(addClicked()) );
-connect( addsl, SIGNAL(clicked()), this, SLOT(addClicked()) );
-connect( delsl, SIGNAL(clicked()), this, SLOT(delClicked()) );
-connect( bSaveAsTemplate, SIGNAL(clicked()), this, SLOT(SaveAsTemplate()) );
-
+        //connect( pbAdd, SIGNAL(clicked()), this, SLOT(addClicked()) );
+        connect( addsl, SIGNAL(clicked()), this, SLOT(addClicked()) );
+        connect( delsl, SIGNAL(clicked()), this, SLOT(delClicked()) );
+        connect( bSaveAsTemplate, SIGNAL(clicked()), this, SLOT(SaveAsTemplate()) );
 }
 
 XQDEUIIconWindow::~XQDEUIIconWindow()
@@ -67,6 +66,7 @@ void XQDEUIIconWindow::accept()
 	Basket->FreezeSave("");
 	QDialog::accept();
 }
+
 void XQDEUIIconWindow::addClicked()
 {
 	if(sl->text().length()>1)
@@ -74,6 +74,7 @@ void XQDEUIIconWindow::addClicked()
 		slotsSensor->insertItem(0,sl->text());
 	}
 }
+
 void XQDEUIIconWindow::delClicked()
 {
 	if(slotsSensor->currentRow()>=0)slotsSensor->takeItem(slotsSensor->currentRow());

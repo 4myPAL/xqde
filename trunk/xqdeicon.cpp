@@ -618,7 +618,8 @@ void XQDEIcon::setLogic(const QString &nl)
 	{
 		localLogicName=nl;
 	}
-	QObject *XQDEIcon::sensor()
+
+QObject *XQDEIcon::sensor()
 	{
 		return localParent;
 	}
@@ -631,29 +632,32 @@ int XQDEIcon::isRunning()
 	
 QStringList XQDEIcon::slotsSensorList()
 	{
-		QStringList l;
+                QStringList list;
 		for(int i=0;i<slotsSensor->count();i++)
 		{
-			l.append(slotsSensor->at(i)->Slot);
+                        list.append(slotsSensor->at(i)->Slot);
 		}
-		return l;
+                return list;
 	}
-	QString XQDEIcon::logic()
+
+QString XQDEIcon::logic()
 	{
 		return localLogicName;
 	}
-	QString XQDEIcon::icon()
+
+QString XQDEIcon::icon()
 	{
 		return localIcon;
 	}
-	QString XQDEIcon::title()
+
+QString XQDEIcon::title()
 	{
 		return localTitle;
 	}
 #ifndef RESIZEVIAXRENDER
-	QImage *XQDEIcon::imageClean()
+QImage *XQDEIcon::imageClean()
 #else
-	QPixmap *XQDEIcon::imageClean()
+QPixmap *XQDEIcon::imageClean()
 #endif
 	{
 		return &localImage;
