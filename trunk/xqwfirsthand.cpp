@@ -1106,12 +1106,12 @@ extern void MakeWindowOnTopPillow(void *);
 XQPillow::XQPillow(QWidget *p, int align)
  : XQWidget(0,0)
 {
-	m_NearOf=p;
+//	m_NearOf=p;
 	m_Align=align;
 	Global_XQPillow=this;
 	setFixedSize(1,1);
-	move(-2000,-2000);
-	last_kx=0;
+        //move(-2000,-2000);
+//	last_kx=0;
 
 //	MakeWindowOnTopPillow((void*)winId());
 }
@@ -1124,20 +1124,20 @@ void XQPillow::move(int nx,int ny)
 {
 	switch(DesktopEnvironment->GUI.dockAlign)
 	{
-		case 0:
-			XQWidget::move(0,ny);
-			last_kx=nx;
-		break;
-		case 1:
-                        XQWidget::move(0,ny);
-                        last_kx=nx;
-		break;
-		case 2:
+                case 0: // bottom
+                        XQWidget::move(nx,ny);
+//			last_kx=nx;
+                        break;
+                case 1: // top
+                        XQWidget::move(nx,ny);
+//                        last_kx=nx;
+                        break;
+                case 2: // left // Todo: change position on dock alignement
 			XQWidget::move(nx,ny);
-		break;
-		case 3:
+                        break;
+                case 3: // right
 			XQWidget::move(nx,ny);
-		break;
+                        break;
 	}
 }
 
@@ -1149,52 +1149,61 @@ void XQPillow::xRepaint()
 {
 }
 
-void XQPillow::xDrawText(const QPixmap *ppp)
+void XQPillow::xDrawText(const QPixmap *TextPixmap)
 {
-    static const void *lastPixmapDrawed=0;
-    if(ppp==lastPixmapDrawed)return;
-    lastPixmapDrawed=ppp;
-    int nw=ppp->width();
-    int nh=ppp->height();
-    int w=width();
-    int kw=0;
+    // Compare the 2 Pixmap, a pointer to the old one is used
+    // if pointer change new image is repaint
+    static const void *lastTextPixmapDrawed;
+    if(TextPixmap==lastTextPixmapDrawed) return;
+    lastTextPixmapDrawed=TextPixmap;
+
+//    int nw = TextPixmap->width();
+//    int nh = TextPixmap->height();
+//    int w  = width();
+//    int kw = 0;
 
 
-    switch(DesktopEnvironment->GUI.dockAlign)
-    {
-        case 0:
-        case 1:
-                kw=last_kx;
-                if(w < QApplication::desktop()->availableGeometry().width())
-                {
-                        //if(nh>32)nh=32;
-                        setFixedSize(QApplication::desktop()->availableGeometry().width(),nh);
-                }
-                break;
-        case 2:
-        case 3:
-                if((w < nw)&& w<800)
-                {
-                        if(nw>800)nw=800;
-                        if(nh>32)nh=32;
-                                setFixedSize(nw,nh);
-                }
-                else
-                {
-                }
-                break;
-    }
+//    switch(DesktopEnvironment->GUI.dockAlign)
+//    {
+//        case 0: // bottom
+//        case 1: // top
+////                kw=last_kx;
+//                if(w < QApplication::desktop()->availableGeometry().width())
+//                {
+//                        //if(nh>32)nh=32;
+//                        setFixedSize(QApplication::desktop()->availableGeometry().width(),nh);
+//                }
+//                break;
+//        case 2: // left
+//        case 3: // right
+//                if((w < nw) && w<800)
+//                {
+//                        if(nw>800)nw=800;
+//                        if(nh>32)nh=32;
+//                                setFixedSize(nw,nh);
+//                }
+//                else
+//                {
+//                }
+//                break;
+//    }
 
+    // Resize the widget size!
+    setFixedSize(TextPixmap->width(),TextPixmap->height());
+
+//    QRect rect = QApplication::desktop()->geometry();
+//    QPoint rectWidget = QWidget::pos();
+//
+//    setPos(rect.center().x(),rectWidget.x() - TextPixmap->height());
     
     //paintBuffer.fill(0x80000000+(unsigned int)winId());
 
-    // ToDo posizionare testo sopra icona al centro
-//        last_kx=QApplication::desktop()->availableGeometry().width()/2-nw/2; //sempre al centro
+    //        last_kx=QApplication::desktop()->availableGeometry().width()/2-nw/2; //sempre al centro
 
 
-        paintBuffer.fill(Qt::transparent);
+    paintBuffer.fill(Qt::transparent);
 
-        widgetpaint->begin(&paintBuffer);
-        widgetpaint->drawPixmap(last_kx,0,*ppp);
-        widgetpaint->end();
+    widgetpaint->begin(&paintBuffer);
+    widgetpaint->drawPixmap(0,0,*TextPixmap);
+    widgetpaint->end();
 }

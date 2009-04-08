@@ -113,31 +113,30 @@ qWarning("Arrow:%d",xMakeUp_ArrowSize);
 		DesktopEnvironment->GUI.handIconsMax+xMakeUp_ArrowSize*2,
 		DesktopEnvironment->GUI.handIconsMax+xMakeUp_ArrowSize*2,
 		Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-	if(true)
-	{
-		QImage buffer;
-		topBackgroundCached[0]=topBackground[0].scaled (
-			topBackground[0].width(),
-			DesktopEnvironment->GUI.handIconsMax+xMakeUp_ArrowSize*2,
-			Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
-		buffer=topBackgroundCached[0].copy();
-		XQDE_ImageRepeat(buffer,topBackgroundCached[0],
-			QApplication::desktop()->availableGeometry().width()+(DesktopEnvironment->GUI.handIconsMax+2)*4,
-			DesktopEnvironment->GUI.handIconsMax+xMakeUp_ArrowSize*2
-			
-		);
-		topBackgroundCached[1]=topBackground[1].scaled (
-			topBackground[0].width(),
-			DesktopEnvironment->GUI.handIconsMax+xMakeUp_ArrowSize*2,
-			Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
-		buffer=topBackgroundCached[1].copy();
-		XQDE_ImageRepeat(
-			buffer,
-			topBackgroundCached[1],
-			QApplication::desktop()->availableGeometry().width()+(DesktopEnvironment->GUI.handIconsMax+2)*4,
-			DesktopEnvironment->GUI.handIconsMax+xMakeUp_ArrowSize*2
-		);
-	}
+
+        QImage buffer;
+        topBackgroundCached[0]=topBackground[0].scaled (
+                topBackground[0].width(),
+                DesktopEnvironment->GUI.handIconsMax+xMakeUp_ArrowSize*2,
+                Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+
+        buffer=topBackgroundCached[0].copy();
+
+        XQDE_ImageRepeat(buffer,topBackgroundCached[0],
+                QApplication::desktop()->availableGeometry().width()+(DesktopEnvironment->GUI.handIconsMax+2)*4,
+                DesktopEnvironment->GUI.handIconsMax+xMakeUp_ArrowSize*2 );
+
+        topBackgroundCached[1]=topBackground[1].scaled (
+                topBackground[0].width(),
+                DesktopEnvironment->GUI.handIconsMax+xMakeUp_ArrowSize*2,
+                Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+
+        buffer=topBackgroundCached[1].copy();
+
+        XQDE_ImageRepeat(buffer,topBackgroundCached[1],
+                QApplication::desktop()->availableGeometry().width()+(DesktopEnvironment->GUI.handIconsMax+2)*4,
+                DesktopEnvironment->GUI.handIconsMax+xMakeUp_ArrowSize*2 );
+
         xMakeUp();
 }
 
@@ -242,7 +241,7 @@ void XQWFirstHand_bottom::purgeCacheFixBorder(int iconNum,int &cursor_x,int &cur
 		#endif
 
         /*if(cursor_y<=kky)*/ // TODO: test
-        //Bug semi Solved (21.02.09): smooth dock con mouse in uscita x e y dock
+        //Bug Solved (21.02.09): smooth dock con mouse in uscita x e y dock
         if(!maskNormal->contains(QPoint(cursor_x,cursor_y)))
 	{
             //Improvement (22.02.09): con (DesktopEnvironment->GUI.handIconsMax/4) ottengo l'effetto gradevole di rimpicciolimento in funzione
@@ -320,10 +319,13 @@ void XQWFirstHand_bottom::purgeCacheFixBorder(int iconNum,int &cursor_x,int &cur
 //		}
 //		else
 //		{
-                    //BUG solved!! 19.03.09
-                    //Bug: il testo non è al centro sopra l'icona,
-                    // cursor_x non è perfetto
-                    // ToDo, calcolare posizione centrale icona e usare quella
+
+                //BUG solved!! 19.03.09
+                //Bug: il testo non è al centro sopra l'icona,
+                // cursor_x non è perfetto
+                // ToDo, calcolare posizione centrale icona e usare quella
+
+
 
                 Basket->items.at(iconNum)->overText->xDrawText();
                 const QPixmap *textPixmap=Basket->items.at(iconNum)->overText->getPixmap();
@@ -331,6 +333,8 @@ void XQWFirstHand_bottom::purgeCacheFixBorder(int iconNum,int &cursor_x,int &cur
 
                 Global_XQPillow->move((DesktopEnvironment->GUI.dockAlignDisplaceX + (Basket->items.at(iconNum)->imageHotSpot.x)) - (textRect->width()/2)
                                       ,y()-Global_XQPillow->height());
+
+                //qWarning("Deplacement x: %d  y:%d", (DesktopEnvironment->GUI.dockAlignDisplaceX + (Basket->items.at(iconNum)->imageHotSpot.x)) - (textRect->width()/2), y()-Global_XQPillow->height());
 
                 Global_XQPillow->xDrawText(textPixmap);
                 Global_XQPillow->repaint();
