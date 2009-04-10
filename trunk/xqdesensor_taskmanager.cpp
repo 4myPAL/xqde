@@ -22,6 +22,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <algorithm>
 
 #include "xqde.h"
 #include "xqdesensor_taskmanager.h"
@@ -32,9 +33,11 @@
 
 
 #include <X11/Xlib.h>
+#include <X11/Xutil.h>
 #include <X11/extensions/Xcomposite.h>
 #include <X11/extensions/Xfixes.h>
 #include <X11/extensions/Xrender.h>
+#include <X11/extensions/shape.h>
 
 
 
@@ -176,101 +179,569 @@ NET::AllTypesMask
 */
 
 
+//static
+//const int minSize = 8;
+//
+//static
+//bool operator< ( const QRect& r1, const QRect& r2 )
+//{
+//    return r1.width() * r1.height() < r2.width() * r2.height();
+//}
+//
+//// Recursively iterates over the window w and its children, thereby building
+//// a tree of window descriptors. Windows in non-viewable state or with height
+//// or width smaller than minSize will be ignored.
+//static
+//void getWindowsRecursive( std::vector<QRect>& windows, Window w,
+//                          int rx = 0, int ry = 0, int depth = 0 )
+//{
+//    XWindowAttributes atts;
+//    XGetWindowAttributes( QX11Info::display(), w, &atts );
+//    if ( atts.map_state == IsViewable &&
+//         atts.width >= minSize && atts.height >= minSize ) {
+//        int x = 0, y = 0;
+//        if ( depth ) {
+//            x = atts.x + rx;
+//            y = atts.y + ry;
+//        }
+//
+//        QRect r( x, y, atts.width, atts.height );
+//        if ( std::find( windows.begin(), windows.end(), r ) == windows.end() ) {
+//            windows.push_back( r );
+//        }
+//
+//        Window root, parent;
+//        Window* children;
+//        unsigned int nchildren;
+//
+//        if( XQueryTree( QX11Info::display(), w, &root, &parent, &children, &nchildren ) != 0 ) {
+//            for( unsigned int i = 0; i < nchildren; ++i ) {
+//                getWindowsRecursive( windows, children[ i ], x, y, depth + 1 );
+//            }
+//            if( children != NULL )
+//                XFree( children );
+//        }
+//    }
+//    if ( depth == 0 )
+//        std::sort( windows.begin(), windows.end() );
+//}
+//
+//static
+//Window findRealWindow( Window w, int depth = 0 )
+//{
+//    if( depth > 5 )
+//        return None;
+//    static Atom wm_state = XInternAtom( QX11Info::display(), "WM_STATE", False );
+//    Atom type;
+//    int format;
+//    unsigned long nitems, after;
+//    unsigned char* prop;
+//    if( XGetWindowProperty( QX11Info::display(), w, wm_state, 0, 0, False, AnyPropertyType,
+//        &type, &format, &nitems, &after, &prop ) == Success ) {
+//        if( prop != NULL )
+//            XFree( prop );
+//        if( type != None )
+//            return w;
+//    }
+//    Window root, parent;
+//    Window* children;
+//    unsigned int nchildren;
+//    Window ret = None;
+//    if( XQueryTree( QX11Info::display(), w, &root, &parent, &children, &nchildren ) != 0 ) {
+//        for( unsigned int i = 0;
+//             i < nchildren && ret == None;
+//             ++i )
+//            ret = findRealWindow( children[ i ], depth + 1 );
+//        if( children != NULL )
+//            XFree( children );
+//    }
+//    return ret;
+//}
+//
+//static
+//Window windowUnderCursor( bool includeDecorations = true )
+//{
+//    Window root;
+//    Window child;
+//    uint mask;
+//    int rootX, rootY, winX, winY;
+//    XGrabServer( QX11Info::display() );
+//    XQueryPointer( QX11Info::display(), QX11Info::appRootWindow(), &root, &child,
+//                   &rootX, &rootY, &winX, &winY, &mask );
+//    if( child == None )
+//        child = QX11Info::appRootWindow();
+//    if( !includeDecorations ) {
+//        Window real_child = findRealWindow( child );
+//        if( real_child != None ) // test just in case
+//            child = real_child;
+//    }
+//    return child;
+//}
+//
+//static
+//QPixmap grabWindow( Window child, int x, int y, uint w, uint h, uint border,
+//                    QString *title=0 )
+//{
+//    QPixmap pm( QPixmap::grabWindow( QX11Info::appRootWindow(), x, y, w, h ) );
+//
+////    KWindowInfo winInfo( findRealWindow(child), NET::WMVisibleName, NET::WM2WindowClass );
+////    if ( title )
+////        (*title) = winInfo.visibleName();
+////    if ( windowClass )
+////        (*windowClass) = winInfo.windowClassName();
+//
+////#ifdef HAVE_X11_EXTENSIONS_SHAPE_H
+//    int tmp1, tmp2;
+//    //Check whether the extension is available
+//    if ( XShapeQueryExtension( QX11Info::display(), &tmp1, &tmp2 ) ) {
+////        QBitmap mask(w,h);
+//        //As the first step, get the mask from XShape.
+//        int count, order;
+//        XRectangle* rects = XShapeGetRectangles( QX11Info::display(), child,
+//                                                 ShapeBounding, &count, &order );
+//        //The ShapeBounding region is the outermost shape of the window;
+//        //ShapeBounding - ShapeClipping is defined to be the border.
+//        //Since the border area is part of the window, we use bounding
+//        // to limit our work region
+//        if (rects) {
+//            //Create a QRegion from the rectangles describing the bounding mask.
+//            QRegion contents;
+//            for ( int pos = 0; pos < count; pos++ )
+//                contents += QRegion( rects[pos].x, rects[pos].y,
+//                                     rects[pos].width, rects[pos].height );
+//            XFree( rects );
+//
+//            //Create the bounding box.
+//            QRegion bbox( 0, 0, w, h );
+//
+//            if( border > 0 ) {
+//                contents.translate( border, border );
+//                contents += QRegion( 0, 0, border, h );
+//                contents += QRegion( 0, 0, w, border );
+//                contents += QRegion( 0, h - border, w, border );
+//                contents += QRegion( w - border, 0, border, h );
+//            }
+//
+//            //Get the masked away area.
+//            QRegion maskedAway = bbox - contents;
+//            QVector<QRect> maskedAwayRects = maskedAway.rects();
+//
+////            //Construct a bitmap mask from the rectangles
+////            QPainter p(&mask);
+////            p.fillRect(0, 0, w, h, Qt::color1);
+////            for (int pos = 0; pos < maskedAwayRects.count(); pos++)
+////                    p.fillRect(maskedAwayRects[pos], Qt::color0);
+////            p.end();
+//
+//            //pm.setMask(mask);
+//        }
+//    }
+////#endif
+//
+//    return pm;
+//}
+
+
 QPixmap thumbnail(Window m_frameId, int maxDimension)
 {
 
+//    if (!m_windowPixmap)
+//    {
+//        qWarning("thumbnail return pixmap");
+//        return QPixmap();
+//    }
+//
+//        Display *dpy = qt_xdisplay();
+//
+//    XWindowAttributes winAttr;
+//    XGetWindowAttributes(dpy, m_frameId, &winAttr);
+////    XserverRegion region = XFixesCreateRegionFromWindow(dpy, m_frameId,
+////                                                        WindowRegionBounding);
+////
+//
+//        QPixmap thumbnail = QPixmap::grabWindow(m_frameId);
+//
+//        if (thumbnail.isNull())
+//        {
+//            return QPixmap();
+//        }
+//
+//        QPixmap pixmap(maxDimension, maxDimension);
+//        pixmap.fill(Qt::transparent);
+//
+//        if (thumbnail.width() > thumbnail.height())
+//        {
+//            thumbnail = thumbnail.scaledToWidth(maxDimension, Qt::SmoothTransformation);
+//        }
+//        else
+//        {
+//            thumbnail = thumbnail.scaledToHeight(maxDimension, Qt::SmoothTransformation);
+//        }
 
-//    Composite Help: http://ktown.kde.org/~fredrik/composite_howto.html
+//
+//
+//    /******************************/
+//
+// int revert;
+//
+//    Display *dpy = qt_xdisplay();
+//
+//    // We need to find out some things about the window, such as it's size,
+//    // it's position on the screen, and the format of the pixel data
+//    XWindowAttributes attr;
+//    qWarning("XGetInputFocus");
+//    XGetInputFocus(dpy, &m_frameId, &revert);
+//    qWarning("XGetWindowAttributes");
+//    XGetWindowAttributes(dpy, m_frameId, &attr);
+//
+//    XRenderPictFormat *format = XRenderFindVisualFormat(dpy, attr.visual);
+//    bool hasAlpha             = (format->type == PictTypeDirect &&
+//                                 format->direct.alphaMask);
+//    int x                     = attr.x;
+//    int y                     = attr.y;
+//    int width                 = attr.width;
+//    int height                = attr.height;
+//
+//    // Create a Render picture so we can reference the window contents.
+//    // We need to set the subwindow mode to IncludeInferiors, otherwise child
+//    // widgets in the window won't be included when we draw it, which is not
+//    // what we want.
+//    XRenderPictureAttributes pa;
+//    pa.subwindow_mode = IncludeInferiors; // Don't clip child widgets
+//
+//    qWarning("XRenderCreatePicture");
+//    Picture picture = XRenderCreatePicture(dpy, m_windowPixmap, format, CPSubwindowMode, &pa);
+//    // Create a copy of the bounding region for the window
+//    qWarning("Create XserverRegion");
+//    XserverRegion region = XFixesCreateRegionFromWindow(dpy, m_frameId,WindowRegionBounding);
+//    qWarning("XFixesSetPictureClipRegion");
+//    XFixesSetPictureClipRegion(dpy, picture, 0, 0, region);
+//    qWarning("XFixesDestroyRegion");
+//    XFixesDestroyRegion(dpy, region);
+//
+//    double factor;
+//    if (width > height)
+//    {
+//        factor = (double)maxDimension / (double)width;
+//    }
+//    else
+//    {
+//        factor = (double)maxDimension / (double)height;
+//    }
+//    int thumbnailWidth = width * factor;
+//    int thumbnailHeight = height * factor;
+//
+//    QPixmap thumbnail(thumbnailWidth, thumbnailHeight);
+//    thumbnail.fill(Qt::transparent);
+//#if 0
+//    QPixmap full(width, height);
+//    full.fill(QApplication::palette().active().background());
+//
+//    XRenderComposite(dpy,
+//                     hasAlpha ? PictOpOver : PictOpSrc,
+//                     picture, // src
+//                     None, // mask
+//                     full.x11RenderHandle(), // dst
+//                     0, 0, // src offset
+//                     0, 0, // mask offset
+//                     0, 0, // dst offset
+//                     width, height);
+//
+//    thumbnail.convertFromImage(full.convertToImage().smoothScale(thumbnailWidth,
+//                               thumbnailHeight));
+//#else
+//    // XRENDER scaling
+//    qWarning("XRenderSetPictureFilter");
+//    XRenderSetPictureFilter( dpy, picture, FilterBilinear, 0, 0 );
+//    // Scaling matrix
+//    XTransform xform = {{
+//        { XDoubleToFixed( 1 ), XDoubleToFixed( 0 ), XDoubleToFixed(      0 ) },
+//        { XDoubleToFixed( 0 ), XDoubleToFixed( 1 ), XDoubleToFixed(      0 ) },
+//        { XDoubleToFixed( 0 ), XDoubleToFixed( 0 ), XDoubleToFixed( factor ) }
+//    }};
+//
+//    qWarning("XRenderSetPictureTransform");
+//    XRenderSetPictureTransform(dpy, picture, &xform);
+//    qWarning("XRenderComposite");
+//    XRenderComposite(dpy,
+//                     hasAlpha ? PictOpOver : PictOpSrc,
+//                     picture, // src
+//                     None, // mask
+//                     thumbnail.x11PictureHandle(), // dst
+//                     0, 0, // src offset
+//                     0, 0, // mask offset
+//                     0, 0, // dst offset
+//                     thumbnailWidth, thumbnailHeight);
+//#endif
+//
+//    qWarning("XRenderFreePicture");
+//    XRenderFreePicture(dpy, picture);
+//
+
+
+////        ***********************************************   //
+////    Composite Help: http://ktown.kde.org/~fredrik/composite_howto.html
+//
+//    if (!m_windowPixmap)
+//    {
+//        return QPixmap();
+//    }
+
+//    qWarning("Create thumbnail...");
+//
+//    Display *dpy = qt_xdisplay();
+//    int revert;
+//
+//    //Crash here!!
+//    // penso che m_frameId non sia corretto
+//    // ho inserito XGetInputFocus per prendere id
+//    // della finestra in focus... solo per test
+//    XWindowAttributes winAttr;
+//    XGetInputFocus(dpy, &m_frameId, &revert);
+//    XGetWindowAttributes(dpy, m_frameId, &winAttr);
+//    XRenderPictFormat *format = XRenderFindVisualFormat(dpy, winAttr.visual);
+//
+//    bool hasAlpha = ( format->type == PictTypeDirect && format->direct.alphaMask);
+//
+//    XRenderPictureAttributes picAttr;
+//    picAttr.subwindow_mode = IncludeInferiors; // Don't clip child widgets
+//
+//    Picture picture = XRenderCreatePicture(dpy, m_windowPixmap, format,
+//                                           CPSubwindowMode, &picAttr);
+//
+//    // Get shaped windows handled correctly.
+//    XserverRegion region = XFixesCreateRegionFromWindow(dpy, m_frameId,
+//                                                        WindowRegionBounding);
+//    XFixesSetPictureClipRegion(dpy, picture, 0, 0, region);
+//    XFixesDestroyRegion(dpy, region);
+//
+//
+//    double factor;
+//    if (winAttr.width > winAttr.height)
+//    {
+//        factor = (double)maxDimension / (double)winAttr.width;
+//    }
+//    else
+//    {
+//        factor = (double)maxDimension / (double)winAttr.height;
+//    }
+//    int thumbnailWidth = (int)(winAttr.width * factor);
+//    int thumbnailHeight = (int)(winAttr.height * factor);
+//
+//    QPixmap thumbnail(thumbnailWidth, thumbnailHeight);
+//
+//    thumbnail.fill(Qt::transparent);
+//
+//#if 0 // QImage::smoothScale() scaling
+//    QPixmap full(winAttr.width, winAttr.height);
+//    full.fill(QApplication::palette().active().background());
+//
+//    bool hasAlpha = format->type == PictTypeDirect && format->direct.alphaMask;
+//
+//    XRenderComposite(dpy,
+//                     hasAlpha ? PictOpOver : PictOpSrc,
+//                     picture, // src
+//                     None, // mask
+//                     full.x11RenderHandle(), // dst
+//                     0, 0, // src offset
+//                     0, 0, // mask offset
+//                     0, 0, // dst offset
+//                     winAttr.width, winAttr.height);
+//
+//    KPixmapIO io;
+//    QImage image = io.convertToImage(full);
+//    thumbnail = io.convertToPixmap(image.smoothScale(thumbnailWidth,
+//                                                     thumbnailHeight));
+//#else // XRENDER scaling
+//    // Scaling matrix
+//    XTransform transformation = {{
+//        { XDoubleToFixed(1), XDoubleToFixed(0), XDoubleToFixed(     0) },
+//        { XDoubleToFixed(0), XDoubleToFixed(1), XDoubleToFixed(     0) },
+//        { XDoubleToFixed(0), XDoubleToFixed(0), XDoubleToFixed(factor) }
+//    }};
+//
+//    XRenderSetPictureTransform(dpy, picture, &transformation);
+////    XRenderSetPictureFilter(dpy, picture, FilterBest, 0, 0);
+//
+////    XRenderComposite(dpy,
+////                     PictOpOver, // we're filtering, alpha values are probable
+////                     picture, // src
+////                     None, // mask
+////                     thumbnail.x11PictureHandle(), // dst
+////                     0, 0, // src offset
+////                     0, 0, // mask offset
+////                     0, 0, // dst offset
+////                     thumbnailWidth, thumbnailHeight);
+//
+//    XRenderComposite( dpy, hasAlpha ? PictOpOver : PictOpSrc, picture, None,
+//                      thumbnail.x11PictureHandle(), 0, 0, 0, 0, 0, 0, thumbnailWidth, thumbnailHeight );
+//
+//#endif
+//    XRenderFreePicture(dpy, picture);
+//
+//
+//    return thumbnail;
+
+
+////        ***********************************************   //
+////    Composite Help: http://ktown.kde.org/~fredrik/composite_howto.html
+//
+//    if (!m_windowPixmap)
+//    {
+//        return QPixmap();
+//    }
+//    // If we're using the raster or OpenGL graphics systems, a QPixmap isn't an X pixmap,
+//        // so we have to get the window contents into a QImage and then draw that.
+//        Display *dpy = qt_xdisplay();
+//
+//        // XXX We really should keep a cached copy of the image client side, and only
+//        //     update it in response to a damage event.
+////        m_frameId = 0x7800022; //only for test
+////        m_frameId = findRealWindow(0x140015f, 1);
+//        Pixmap pixmap = XCompositeNameWindowPixmap(dpy, m_frameId);
+//
+//        XWindowAttributes winAttr;
+//        XGetWindowAttributes(dpy, m_frameId, &winAttr);
+//
+//        if ( winAttr.map_state == IsViewable /*&&
+//         winAttr.width >= minSize && winAttr.height >= minSize*/ ) ;
+//        else return QPixmap();
+//
+////        double factor;
+////        if (winAttr.width > winAttr.height)
+////        {
+////            factor = (double)maxDimension / (double)winAttr.width;
+////        }
+////        else
+////        {
+////            factor = (double)maxDimension / (double)winAttr.height;
+////        }
+////
+////        int thumbnailWidth = (int)(winAttr.width * factor);
+////        int thumbnailHeight = (int)(winAttr.height * factor);
+////
+////        int thumbnailWidth1 = (int)(winAttr.width );
+////        int thumbnailHeight2 = (int)(winAttr.height);
+//
+//        int a = winAttr.width;
+//        int b = winAttr.height;
+//        XImage *ximage = XGetImage(dpy, pixmap, 0, 0, winAttr.width, winAttr.height, AllPlanes, ZPixmap);
+//        XFreePixmap(dpy, pixmap);
+//        // We actually check if we get the image from X11 since clientWinId can be any arbiter window (with crazy XWindowAttribute and the pixmap associated is bad)
+//        if (!ximage)
+//            return QPixmap();
+//        // This is safe to do since we only composite ARGB32 windows, and PictStandardARGB32
+//        // matches QImage::Format_ARGB32_Premultiplied.
+//        QImage image((const uchar*)ximage->data, ximage->width, ximage->height, ximage->bytes_per_line,
+//                    QImage::Format_ARGB32_Premultiplied);
+//
+//        XDestroyImage( ximage );
+//        return QPixmap::fromImage ( image, Qt::AutoColor );
+
+
+//        /* ############## Test ########## */
+//
+////    KWindowInfo winInfo( findRealWindow(m_frameId), NET::WMVisibleName, NET::WM2WindowClass );
+////    QString title = winInfo.visibleName();
+////    QString windowClass = winInfo.windowClassName();
+////
+//    NETWinInfo infoTitle(qt_xdisplay(), findRealWindow(m_frameId), qt_xrootwin(),NET::WMName);
+//    const char *title0=infoTitle.name();
+//    QString title(QString::fromUtf8(title0,-1));
+//
+//
+//    Window root;
+//    int y, x;
+//    uint w, h, border, depth;
+//    //XGrabServer( QX11Info::display() );
+//    Window child = windowUnderCursor( false );
+//    XGetGeometry( QX11Info::display(), child, &root, &x, &y, &w, &h, &border, &depth );
+//    Window parent;
+//    Window* children;
+//    unsigned int nchildren;
+//    if( XQueryTree( QX11Info::display(), child, &root, &parent,
+//                    &children, &nchildren ) != 0 ) {
+//        if( children != NULL )
+//            XFree( children );
+//        int newx, newy;
+//        Window dummy;
+//        if( XTranslateCoordinates( QX11Info::display(), parent, QX11Info::appRootWindow(),
+//            x, y, &newx, &newy, &dummy )) {
+//            x = newx;
+//            y = newy;
+//        }
+//    }
+//    QPixmap pm( grabWindow( child, x, y, w, h, border, &title ) );
+//    //XUngrabServer( QX11Info::display() );
+//    return pm;
+
+   // ######## other test ###########33
 
     if (!m_windowPixmap)
     {
         return QPixmap();
     }
 
-    qWarning("Create thumbnail...");
-
     Display *dpy = qt_xdisplay();
+    // We need to find out some things about the window, such as it's size, it's position
+    // on the screen, and the format of the pixel data
+    XWindowAttributes attr;
+    XGetWindowAttributes( dpy, m_frameId, &attr );
 
-    XWindowAttributes winAttr;
-    XGetWindowAttributes(dpy, m_frameId, &winAttr);
-    XRenderPictFormat *format = XRenderFindVisualFormat(dpy, winAttr.visual);
+    XRenderPictFormat *format = XRenderFindVisualFormat( dpy, attr.visual );
+    bool hasAlpha             = ( format->type == PictTypeDirect && format->direct.alphaMask );
+    int x                     = attr.x;
+    int y                     = attr.y;
+    int width                 = attr.width;
+    int height                = attr.height;
 
-    XRenderPictureAttributes picAttr;
-    picAttr.subwindow_mode = IncludeInferiors; // Don't clip child widgets
+    // Create a Render picture so we can reference the window contents.
+    // We need to set the subwindow mode to IncludeInferiors, otherwise child widgets
+    // in the window won't be included when we draw it, which is not what we want.
+    XRenderPictureAttributes pa;
+    pa.subwindow_mode = IncludeInferiors; // Don't clip child widgets
 
-    Picture picture = XRenderCreatePicture(dpy, m_windowPixmap, format,
-                                           CPSubwindowMode, &picAttr);
+    Picture picture = XRenderCreatePicture( dpy, m_frameId, format, CPSubwindowMode, &pa );
 
-    // Get shaped windows handled correctly.
-    // !! Crash if change desktop!!!! ToDo!
-    // on kwin (kde4) is not working
-    XserverRegion region = XFixesCreateRegionFromWindow(dpy, m_frameId,
-                                                        WindowRegionBounding);
-    XFixesSetPictureClipRegion(dpy, picture, 0, 0, region);
-    XFixesDestroyRegion(dpy, region);
+    //        double factor;
+    //        if (attr.width > attr.height)
+    //        {
+    //            factor = (double)maxDimension / (double)attr.width;
+    //        }
+    //        else
+    //        {
+    //            factor = (double)maxDimension / (double)attr.height;
+    //        }
+    //
+    //        int thumbnailWidth = (int)(attr.width * factor);
+    //        int thumbnailHeight = (int)(attr.height * factor);
 
-
-    double factor;
-    if (winAttr.width > winAttr.height)
-    {
-        factor = (double)maxDimension / (double)winAttr.width;
-    }
-    else
-    {
-        factor = (double)maxDimension / (double)winAttr.height;
-    }
-    int thumbnailWidth = (int)(winAttr.width * factor);
-    int thumbnailHeight = (int)(winAttr.height * factor);
+    int thumbnailWidth = (int)(attr.width );
+    int thumbnailHeight = (int)(attr.height);
 
     QPixmap thumbnail(thumbnailWidth, thumbnailHeight);
-
     thumbnail.fill(Qt::transparent);
 
-#if 0 // QImage::smoothScale() scaling
-    QPixmap full(winAttr.width, winAttr.height);
-    full.fill(QApplication::palette().active().background());
+    //XRenderComposite(dpy,
+    //                     PictOpOver, // we're filtering, alpha values are probable
+    //                     picture, // src
+    //                     None, // mask
+    //                     thumbnail.x11PictureHandle(), // dst
+    //                     0, 0, // src offset
+    //                     0, 0, // mask offset
+    //                     0, 0, // dst offset
+    //                     thumbnailWidth, thumbnailHeight);
 
-    bool hasAlpha = format->type == PictTypeDirect && format->direct.alphaMask;
+    XRenderComposite( dpy, hasAlpha ? PictOpOver : PictOpSrc, picture, None,
+                    thumbnail.x11PictureHandle(), 0, 0, 0, 0, 0, 0, thumbnailWidth, thumbnailHeight );
 
-    XRenderComposite(dpy,
-                     hasAlpha ? PictOpOver : PictOpSrc,
-                     picture, // src
-                     None, // mask
-                     full.x11RenderHandle(), // dst
-                     0, 0, // src offset
-                     0, 0, // mask offset
-                     0, 0, // dst offset
-                     winAttr.width, winAttr.height);
-
-    KPixmapIO io;
-    QImage image = io.convertToImage(full);
-    thumbnail = io.convertToPixmap(image.smoothScale(thumbnailWidth,
-                                                     thumbnailHeight));
-#else // XRENDER scaling
-    // Scaling matrix
-    XTransform transformation = {{
-        { XDoubleToFixed(1), XDoubleToFixed(0), XDoubleToFixed(     0) },
-        { XDoubleToFixed(0), XDoubleToFixed(1), XDoubleToFixed(     0) },
-        { XDoubleToFixed(0), XDoubleToFixed(0), XDoubleToFixed(factor) }
-    }};
-
-    XRenderSetPictureTransform(dpy, picture, &transformation);
-    //XRenderSetPictureFilter(dpy, picture, FilterBest, 0, 0);
-
-    XRenderComposite(dpy,
-                     PictOpOver, // we're filtering, alpha values are probable
-                     picture, // src
-                     None, // mask
-                     thumbnail.x11PictureHandle(), // dst
-                     0, 0, // src offset
-                     0, 0, // mask offset
-                     0, 0, // dst offset
-                     thumbnailWidth, thumbnailHeight);
-#endif
     XRenderFreePicture(dpy, picture);
+
 
     return thumbnail;
 }
+
+
 
 
 void XRenderResizeImageGood(QPixmap &Source,QPixmap &thumbnail,int maxDimension)
@@ -392,8 +863,14 @@ void updateWindowPixmap(Window m_frameId)
         qWarning("XFreePixmap");
         XFreePixmap(qt_xdisplay(), m_windowPixmap);
     }
-    qWarning("XCompositeNameWindowPixmap");
-    m_windowPixmap = XCompositeNameWindowPixmap(qt_xdisplay(), m_frameId);
+
+    //Bug fix: when no windows is active set m_windowPixmap = 0;
+    qWarning("Window m_frameId: %d",m_frameId);
+    if (m_frameId != 0){
+        m_windowPixmap = XCompositeNameWindowPixmap(qt_xdisplay(), m_frameId);
+    }
+    else m_windowPixmap = 0;
+
 }
 
 XQDESensor_TaskManager::XQDESensor_TaskManager(XQDEClass *parent)
@@ -441,8 +918,8 @@ void XQDESensor_TaskManager::updateThisThumbnail(Window lastActiveWindow)
 
         //ricava immagine screen..
         //Bug: disabilitata la funzione "updateWindowPixmap", con kwin non trova immagine finestra!
-//      updateWindowPixmap(lastActiveWindow);
-	QImage pi=thumbnail(lastActiveWindow,DesktopEnvironment->GUI.sizeIconsMax).toImage();
+        updateWindowPixmap(lastActiveWindow);
+        QImage pi=thumbnail(lastActiveWindow,DesktopEnvironment->GUI.sizeIconsMax).toImage();
 
 	XQDEIcon *ic=Basket->getViaData((void *)lastActiveWindow,this);
 	if(!ic)return;
@@ -508,7 +985,7 @@ int PIDisRunning(long p)
 
 void XQDESensor_TaskManager::postAddClient(Window window)
 {
-	//qWarning("now adding windows! _%x_",(int)window);
+        qWarning("now adding windows! _%x_",(int)window);
 	XSync(qt_xdisplay(), False);
 
 	Atom type_ret;
@@ -518,8 +995,7 @@ void XQDESensor_TaskManager::postAddClient(Window window)
 
 	if (XGetWindowProperty(qt_xdisplay(), window, XInternAtom(qt_xdisplay(),"_NET_WM_STATE", false), 0l, 2048l,
 			       False, XA_ATOM, &type_ret, &format_ret,
-			       &nitems_ret, &unused, &data_ret)
-	    == Success) {
+                               &nitems_ret, &unused, &data_ret)   == Success) {
 		//qWarning("now adding windows! _%x_ TEST OK",(int)window);
 	}
 	else
@@ -532,46 +1008,46 @@ void XQDESensor_TaskManager::postAddClient(Window window)
 	NETWinInfo infoTest(qt_xdisplay(), window, qt_xrootwin(),win_properties_mini,sizeof(win_properties_mini)/sizeof(unsigned long));
 	unsigned long st=infoTest.state();
 	unsigned long ty=infoTest.windowType();
-	//qWarning("now adding state_%ldd_type_%ld_",st,ty);
+        qWarning("now adding state_%ldd_type_%ld_",st,ty);
 
 	if(ty & NET::Unknown)
 	{
-		//qWarning("NET::Unknown");
-		return;
+                //qWarning("NET::Unknown");
+                return;
 	}
 	if(ty & NET::Override)
 	{
-		//qWarning("NET::Override");
+                //qWarning("NET::Override");
 		return;
 	}
 	if(ty & NET::Desktop)
 	{
-		//qWarning("NET::Desktop");
+                //qWarning("NET::Desktop");
 		return;
 	}
 	if(ty & NET::Dock)
 	{
-		//qWarning("NET::Dock");
+                //qWarning("NET::Dock");
 		return;
 	}
 	if(ty & NET::Menu)
 	{
-		//qWarning("NET::Menu");
+                //qWarning("NET::Menu");
 		return;
 	}
 	if(ty & NET::TopMenu)
 	{
-		//qWarning("NET::TopMenu");
+                //qWarning("NET::TopMenu");
 		return;
 	}
 	if(ty & NET::Utility)
 	{
-		//qWarning("NET::Utility");
+                //qWarning("NET::Utility");
 		return;
 	}
 	if(ty & NET::Splash)
 	{
-		//qWarning("NET::Splash");
+                //qWarning("NET::Splash");
 		return;
 	}
 
@@ -600,24 +1076,24 @@ void XQDESensor_TaskManager::postAddClient(Window window)
 		//qWarning("NET::KeepBelow");
 		return;
 	}
-	//qWarning("ST=%ld",st);
-	//qWarning("Looking for transient...");
+        qWarning("ST=%ld",st);
+        qWarning("Looking for transient...");
 	NETWinInfo infoTest2(qt_xdisplay(), window, qt_xrootwin(),win_properties_trans,sizeof(win_properties_trans)/sizeof(unsigned long));
 
 	if(infoTest2.transientFor()!=0)
 	{
-		//qWarning("is Transient for other windows...");
+                //qWarning("is Transient for other windows...");
 		return;
 	}
 
-	//qWarning("about _%d_",(int)window);
+        qWarning("about _%d_",(int)window);
 	NETWinInfo info(qt_xdisplay(), window, qt_xrootwin(),win_properties_name,sizeof(win_properties_name)/sizeof(unsigned long));
-	//qWarning("about P1_%d_",(int)window);
+        qWarning("about P1_%d_",(int)window);
 	//if(info==0)return;
 	if(info.windowClassName()==0)return;
-	//qWarning("about P2_%d_",(int)window);
+        qWarning("about P2_%d_",(int)window);
 	if(strcmp(info.windowClassName(),XQDESTRING)==0)return;
-	//qWarning("about P3_%d_",(int)window);
+        qWarning("about P3_%d_",(int)window);
 
 	// BufferStrings to avoid crash
 	QString windowClassName=QString::fromUtf8(info.windowClassName());
@@ -625,27 +1101,27 @@ void XQDESensor_TaskManager::postAddClient(Window window)
 	//froAscii(), fromLatin1(), fromUtf8(), and fromLocal8Bit()
 	QString title=QString::fromUtf8(info.name(),-1);
 
-	//qWarning("about P4_%d_",(int)window);
+        qWarning("about P4_%d_",(int)window);
 	NETIcon taskIcon=info.icon(DesktopEnvironment->GUI.sizeIconsMax,DesktopEnvironment->GUI.sizeIconsMax);
 	QImage taskQIcon;
 	taskQIcon=QImage(1,1,QImage::Format_ARGB32);
 	taskQIcon.fill(Qt::transparent);
-	//qWarning("about P5_%d_",(int)window);
+        qWarning("about P5_%d_",(int)window);
 	if(taskIcon.data!=0)
 	{
-		//qWarning("about P5A_%d_",(int)window);
+                qWarning("about P5A_%d_",(int)window);
 		taskQIcon=QImage(taskIcon.size.width,taskIcon.size.height,QImage::Format_ARGB32);
                 taskQIcon.fill(Qt::transparent);
 		memcpy(
 			(unsigned char *)taskQIcon.bits(),
 			taskIcon.data,taskIcon.size.width*taskIcon.size.height*(1+1+1+1));
-		//qWarning("about P5B_%d_",(int)window);
+                qWarning("about P5B_%d_",(int)window);
 	}
 	
 	int WindowPid=info.pid();
 	
 
-	//qWarning("safe position gained! %d (pid %d)",(int)window, WindowPid);
+        qWarning("safe position gained! %d (pid %d)",(int)window, WindowPid);
 	// now the window can be closed!
 	
 	//QString newLogicName=QString::fromUtf8(windowClassName);
@@ -1172,7 +1648,7 @@ bool XQDESensor_TaskManager::x11EventFilter( XEvent *ev )
 	if (ev->xany.window == qt_xrootwin() ) {
 		unsigned long m[ 5 ];
 		NETRootInfo::event( ev, m, 5 );
-		if (( m[ PROTOCOLS ] & CurrentDesktop ) )qWarning("CurrentDesktop");
+                if (( m[ PROTOCOLS ] & CurrentDesktop ) ) qWarning("CurrentDesktop");
 		if (( m[ PROTOCOLS ] & ActiveWindow )  )
                 {
                 Window thisActive=activeWindow();
