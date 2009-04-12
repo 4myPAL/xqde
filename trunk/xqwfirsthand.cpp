@@ -492,8 +492,11 @@ void XQWFirstHand::wheelEvent(QWheelEvent *e)
 void XQWFirstHand::onEnter()
 {
         //mostra XQwidget per testo
-	MakeWindowOnTop((void*)winId());
-        Global_XQPillow->setVisible(true);
+        MakeWindowOnTop((void*)winId());
+//        Removed to fix bug and reimplemented in purgeCacheFixBorder function
+//        Bug fix: usando setVisible qui, viene mostrato prima il testo
+//        vecchio e solo dopo quello nuovo, questo causa uno sfarfallio
+//        Global_XQPillow->setVisible(true);
 //	qApp->syncX();
         MakeWindowOnTop((void*)Global_XQPillow->winId());
 //	qApp->syncX();

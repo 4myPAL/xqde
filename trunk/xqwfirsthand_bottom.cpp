@@ -339,6 +339,7 @@ void XQWFirstHand_bottom::purgeCacheFixBorder(int iconNum,int &cursor_x,int &cur
 
                 Global_XQPillow->xDrawText(textPixmap);
                 Global_XQPillow->repaint();
+                Global_XQPillow->setVisible(true);
 //		}
 	}
 }
