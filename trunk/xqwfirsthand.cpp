@@ -105,6 +105,10 @@ XQWFirstHand::XQWFirstHand(QObject *lRoot, QWidget *parent)
 
         mousePolling=0;
         animationPolling=0;
+
+        // start dock on bottom and show on all desktops
+        // added (10.04.09)
+        MakeWindowOnBottom((void*)winId());
 }
 
 XQWFirstHand::~XQWFirstHand()
