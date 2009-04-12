@@ -82,7 +82,7 @@ void XQText::xPreparePillow(QRect &)
 void XQText::xSetText(const QString &newText)
 {
 	pillowText=newText;
-	isTextDrawed=0;
+        isTextDrawed=0;
 	isPixmapTextDrawed=0;
 }
 
@@ -98,7 +98,6 @@ void XQText::xSetBackgroundPath(const QString &newPath)
 
 void XQText::paintEvent( QPaintEvent *e)
 {
-
 	XQWidget::paintEvent(e);
 	return;
 }

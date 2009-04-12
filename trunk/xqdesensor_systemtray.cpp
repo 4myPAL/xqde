@@ -121,7 +121,7 @@ void XQDESensor_SystemTray::xRepaint()
 {
 	// TODO:full repaint?
 	//paintBuffer.fill(0x00000000);
-	//qWarning("XQDESensor_SystemTray::xRepaint()");
+        //qWarning("XQDESensor_SystemTray::xRepaint()");
 	paintBuffer.fill(0x80000000+(unsigned int)winId());
 	
         widgetpaint->begin(&paintBuffer);

@@ -456,6 +456,7 @@ void XQWFirstHand::mouseReleaseEvent (QMouseEvent *e)
 		{
 			XQDEIcon *newIcon=Basket->items.at(indexIcon);
 			newIcon->userAction(but,0,0);
+                        newIcon->overText->xSetText(newIcon->title());
 		}
 	}
 }
@@ -944,7 +945,7 @@ void XQWFirstHand::xConfigurationChanged()
 
         // DoTo aggiornare dock altrimenti resta nera, soluzione provvisoria.
         // Bug: la dock non si sposta in modo fluido (minor Bug)
-       xRepaint();
+        xRepaint();
 
         for(int i=0;i<activeIconsCounter;i++)
         {
@@ -1153,9 +1154,9 @@ void XQPillow::xDrawText(const QPixmap *TextPixmap)
 {
     // Compare the 2 Pixmap, a pointer to the old one is used
     // if pointer change new image is repaint
-    static const void *lastTextPixmapDrawed;
-    if(TextPixmap==lastTextPixmapDrawed) return;
-    lastTextPixmapDrawed=TextPixmap;
+//    static const void *lastTextPixmapDrawed;
+//    if(TextPixmap==lastTextPixmapDrawed) return;
+//    lastTextPixmapDrawed=TextPixmap;
 
 //    int nw = TextPixmap->width();
 //    int nh = TextPixmap->height();

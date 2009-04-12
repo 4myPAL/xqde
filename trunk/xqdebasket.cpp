@@ -36,11 +36,12 @@ XQDEBasket::XQDEBasket(XQDEClass *parent)
 XQDEBasket::~XQDEBasket()
 {
 }
-void XQDEBasket::setTitleViaData(void *cData,QString &i, QObject *pf)
+
+void XQDEBasket::setTitleViaData(void *cData,QString &title, QObject *pf)
 {
 	XQDEIcon *ic=getViaData(cData,pf);
 	if(!ic)return;
-	ic->xSetTitle(i);
+        ic->xSetTitle(title);
 	//emit Basket_As_Changed(2, ic, NULL);
 }
 void XQDEBasket::setImageViaData(void *cData,QImage &i, QObject *pf)

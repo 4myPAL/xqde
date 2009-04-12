@@ -874,17 +874,12 @@ void updateWindowPixmap(Window m_frameId)
 }
 
 XQDESensor_TaskManager::XQDESensor_TaskManager(XQDEClass *parent)
- : XQDEClass(parent),
-NETRootInfo4( qt_xdisplay(),
-//int _what
+    : XQDEClass(parent),
+    NETRootInfo4( qt_xdisplay(),//int _what
                                    /* 1 >= 0 ?
                                      windows_properties : desktop_properties,
 */
-full_properties
-,
-                                     sizeof(full_properties)/sizeof(unsigned long),
-                                     -1, false
-                                     )
+full_properties, sizeof(full_properties)/sizeof(unsigned long), -1, false)
 {
 	m_windowPixmap=0;
 
@@ -917,7 +912,7 @@ void XQDESensor_TaskManager::updateThisThumbnail(Window lastActiveWindow)
 	timer_slotupdateThumbnail->stop();
 
         //ricava immagine screen..
-        //Bug: disabilitata la funzione "updateWindowPixmap", con kwin non trova immagine finestra!
+        //Bug FIX (10.04.09): disabilitata la funzione "updateWindowPixmap", con kwin non trova immagine finestra!
         updateWindowPixmap(lastActiveWindow);
         QImage pi=thumbnail(lastActiveWindow,DesktopEnvironment->GUI.sizeIconsMax).toImage();
 
@@ -1086,14 +1081,14 @@ void XQDESensor_TaskManager::postAddClient(Window window)
 		return;
 	}
 
-        qWarning("about _%d_",(int)window);
+        //qWarning("about _%d_",(int)window);
 	NETWinInfo info(qt_xdisplay(), window, qt_xrootwin(),win_properties_name,sizeof(win_properties_name)/sizeof(unsigned long));
-        qWarning("about P1_%d_",(int)window);
+        //qWarning("about P1_%d_",(int)window);
 	//if(info==0)return;
 	if(info.windowClassName()==0)return;
-        qWarning("about P2_%d_",(int)window);
+        //qWarning("about P2_%d_",(int)window);
 	if(strcmp(info.windowClassName(),XQDESTRING)==0)return;
-        qWarning("about P3_%d_",(int)window);
+        //qWarning("about P3_%d_",(int)window);
 
 	// BufferStrings to avoid crash
 	QString windowClassName=QString::fromUtf8(info.windowClassName());
@@ -1101,21 +1096,21 @@ void XQDESensor_TaskManager::postAddClient(Window window)
 	//froAscii(), fromLatin1(), fromUtf8(), and fromLocal8Bit()
 	QString title=QString::fromUtf8(info.name(),-1);
 
-        qWarning("about P4_%d_",(int)window);
+        //qWarning("about P4_%d_",(int)window);
 	NETIcon taskIcon=info.icon(DesktopEnvironment->GUI.sizeIconsMax,DesktopEnvironment->GUI.sizeIconsMax);
 	QImage taskQIcon;
 	taskQIcon=QImage(1,1,QImage::Format_ARGB32);
 	taskQIcon.fill(Qt::transparent);
-        qWarning("about P5_%d_",(int)window);
+        //qWarning("about P5_%d_",(int)window);
 	if(taskIcon.data!=0)
 	{
-                qWarning("about P5A_%d_",(int)window);
+                //qWarning("about P5A_%d_",(int)window);
 		taskQIcon=QImage(taskIcon.size.width,taskIcon.size.height,QImage::Format_ARGB32);
                 taskQIcon.fill(Qt::transparent);
 		memcpy(
 			(unsigned char *)taskQIcon.bits(),
 			taskIcon.data,taskIcon.size.width*taskIcon.size.height*(1+1+1+1));
-                qWarning("about P5B_%d_",(int)window);
+                //qWarning("about P5B_%d_",(int)window);
 	}
 	
 	int WindowPid=info.pid();
@@ -1124,7 +1119,7 @@ void XQDESensor_TaskManager::postAddClient(Window window)
         qWarning("safe position gained! %d (pid %d)",(int)window, WindowPid);
 	// now the window can be closed!
 	
-	//QString newLogicName=QString::fromUtf8(windowClassName);
+
 	if(DesktopEnvironment->GUI.task_GroupByPID)
 	{
 		// first we test for pid (wow what great idea aahhahahha)
@@ -1163,48 +1158,48 @@ void XQDESensor_TaskManager::postAddClient(Window window)
 	// now we test if there is the first window of a "static" icon
 		// check for existing basket:
         //Feature: add the possibility to skip the task grouping
-		for(int i=0;i<Basket->items.size();i++)
-		{
-			XQDEIcon *icon=Basket->items.at(i);
-                        if((windowClassName.indexOf(icon->logic())>=0 ) &&
-                            (icon->clientsData()->size()<1 || icon->groupWindows>0)) {
-				// match
-				//qWarning("First window of static icon:%d [%d]",i,(int)window);
-				icon->clientsData()->append((void *)window);
-				XQDEIcon *iconPidded=Basket->getViaPID(WindowPid);
-				if(iconPidded==NULL)icon->pidsData()->append((void *)WindowPid);
-				
-				icon->xSetTitle(title);
-				// ok than? we need to attach the userAction!!!
-				disconnect (icon,SIGNAL(sguserAction(int,int,int,void *,XQDEIcon *)),this,SLOT(userAction(int,int,int,void *,XQDEIcon *)));
-				connect (icon,SIGNAL(sguserAction(int,int,int,void *,XQDEIcon *)),this,SLOT(userAction(int,int,int,void *,XQDEIcon *)));
-				disconnect(icon,SIGNAL(setGeometry(void *,int,int,int)),this,SLOT(setGeometry(void *,int,int,int)));
-				connect(icon,SIGNAL(setGeometry(void *,int,int,int)),SLOT(setGeometry(void *,int,int,int)));
+        for(int i=0;i<Basket->items.size();i++)
+        {
+            XQDEIcon *icon=Basket->items.at(i);
+            if((windowClassName.indexOf(icon->logic())>=0 ) &&
+                (icon->clientsData()->size()<1 || icon->groupWindows>0)) {
+                    // match
+                    //qWarning("First window of static icon:%d [%d]",i,(int)window);
+                    icon->clientsData()->append((void *)window);
+                    XQDEIcon *iconPidded=Basket->getViaPID(WindowPid);
+                    if(iconPidded==NULL)icon->pidsData()->append((void *)WindowPid);
+
+                    icon->xSetTitle(title);
+                    // ok than? we need to attach the userAction!!!
+                    disconnect (icon,SIGNAL(sguserAction(int,int,int,void *,XQDEIcon *)),this,SLOT(userAction(int,int,int,void *,XQDEIcon *)));
+                    connect (icon,SIGNAL(sguserAction(int,int,int,void *,XQDEIcon *)),this,SLOT(userAction(int,int,int,void *,XQDEIcon *)));
+                    disconnect(icon,SIGNAL(setGeometry(void *,int,int,int)),this,SLOT(setGeometry(void *,int,int,int)));
+                    connect(icon,SIGNAL(setGeometry(void *,int,int,int)),SLOT(setGeometry(void *,int,int,int)));
 
 
-				disconnect(icon,SIGNAL(sguserAction(int,int,int,void *,XQDEIcon *)),this,SLOT(userAction(int,int,int,void *,XQDEIcon *)));
-				connect(icon,SIGNAL(sguserAction(int,int,int,void *,XQDEIcon *)),this,SLOT(userAction(int,int,int,void *,XQDEIcon *)));
+                    disconnect(icon,SIGNAL(sguserAction(int,int,int,void *,XQDEIcon *)),this,SLOT(userAction(int,int,int,void *,XQDEIcon *)));
+                    connect(icon,SIGNAL(sguserAction(int,int,int,void *,XQDEIcon *)),this,SLOT(userAction(int,int,int,void *,XQDEIcon *)));
 
-				disconnect(icon,SIGNAL(fillPopup(QMenu *,XQDEIcon *)),this,SLOT(fillPopup(QMenu *,XQDEIcon *)));
-				connect(icon,SIGNAL(fillPopup(QMenu *,XQDEIcon *)),this,SLOT(fillPopup(QMenu *,XQDEIcon *)));
+                    disconnect(icon,SIGNAL(fillPopup(QMenu *,XQDEIcon *)),this,SLOT(fillPopup(QMenu *,XQDEIcon *)));
+                    connect(icon,SIGNAL(fillPopup(QMenu *,XQDEIcon *)),this,SLOT(fillPopup(QMenu *,XQDEIcon *)));
 
-				setGeometry((void *)window,icon->iconGeometry.x+MainWindow->x(),icon->iconGeometry.y+MainWindow->y(),icon->iconGeometry.z);
+                    setGeometry((void *)window,icon->iconGeometry.x+MainWindow->x(),icon->iconGeometry.y+MainWindow->y(),icon->iconGeometry.z);
 
-				Basket->sgeBasket_As_Changed(5,icon,(void *)window);
-				return;
-			}
-		}
+                    Basket->sgeBasket_As_Changed(5,icon,(void *)window);
+                    return;
+            }
+        }
 
 	XQDEIcon *addedIcon=0;
 	// check for existing template:
 	addedIcon=Basket->findTemplate(title,windowClassName,this);
-	/*
-	for(int i=0;i<Basket->templates.size();i++)
-	{
-		XQDEIcon *icon=Basket->templates.at(i);
-		if(newLogicName.indexOf(icon->logic())>=0)addedIcon=Basket->clone(icon,this);
-	}
-	*/
+
+//        for(int i=0;i<Basket->templates.size();i++)
+//        {
+//                XQDEIcon *icon=Basket->templates.at(i);
+//                if(windowClassName.indexOf(icon->logic()) >= 0) addedIcon=Basket->clone(icon,this);
+//        }
+
 	if(addedIcon==0)
 	{
 		addedIcon=Basket->AddtoBasket(

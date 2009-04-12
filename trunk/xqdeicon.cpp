@@ -205,6 +205,7 @@ void XQDEIcon::userActionDefault(int a,int ,int )
 				sx->Pointer=this;
 				sx->doit();
 			}
+                break;
                 //New (04.03.09) start application on middle click
                 case XQDE_USER_ACTION_CLICKMI:
                         menu_newWindow();
@@ -435,13 +436,13 @@ void XQDEIcon::xSetIcon(const QString & newIcon)
 	xRepaint();
 }
 
-void XQDEIcon::xSetTitle(const QString &newIcon)
+void XQDEIcon::xSetTitle(const QString &newIconTitle)
 {
 	#ifdef ENABLEDEBUGMSG
 	qWarning("void XQDEIcon::xSetTitle(QString newIcon)");
 	#endif
-	if(newIcon==localTitle)return;
-	localTitle=newIcon;
+        if(newIconTitle==localTitle)return;
+        localTitle=newIconTitle;
 	overText->xSetText(localTitle);
 }
 

@@ -94,12 +94,16 @@ qWarning("Arrow:%d",xMakeUp_ArrowSize);
 			+QApplication::desktop()->availableGeometry().top()
 		);
 		*/
-		int myHeight=(DesktopEnvironment->GUI.sizeIconsMax+xMakeUp_ArrowSize);
-		setRect(DesktopEnvironment->GUI.dockAlignDisplaceX,
-			QApplication::desktop()->availableGeometry().bottom() - myHeight+DesktopEnvironment->GUI.dockAlignDisplaceY,
-			QApplication::desktop()->availableGeometry().width()  + QApplication::desktop()->availableGeometry().left(),
+                int myHeight = (DesktopEnvironment->GUI.sizeIconsMax+xMakeUp_ArrowSize);
+                int myWidth  = (activeIconsCounter+1)*DesktopEnvironment->GUI.handIconsMax*2;
+                setRect(DesktopEnvironment->GUI.dockAlignDisplaceX,
+                        QApplication::desktop()->availableGeometry().bottom() - myHeight+DesktopEnvironment->GUI.dockAlignDisplaceY,
+                        QApplication::desktop()->availableGeometry().width()  + QApplication::desktop()->availableGeometry().left(),
                         QApplication::desktop()->availableGeometry().bottom() + DesktopEnvironment->GUI.dockAlignDisplaceY
-		);
+                );
+//                qWarning("W: %d, H: %d", myWidth, myHeight);
+//                setFixedSize(myWidth, myHeight);
+//                move(QApplication::desktop()->geometry().center().x() - myWidth/2, QApplication::desktop()->availableGeometry().bottom() - myHeight+DesktopEnvironment->GUI.dockAlignDisplaceY);
 
 	}
                 #ifdef ENABLEDEBUGMSG
@@ -321,12 +325,9 @@ void XQWFirstHand_bottom::purgeCacheFixBorder(int iconNum,int &cursor_x,int &cur
 //		{
 
                 //BUG solved!! 19.03.09
-                //Bug: il testo non è al centro sopra l'icona,
-                // cursor_x non è perfetto
-                // ToDo, calcolare posizione centrale icona e usare quella
+                //il testo non è al centro sopra l'icona
 
-
-
+                // Prepare Pixmap with the text
                 Basket->items.at(iconNum)->overText->xDrawText();
                 const QPixmap *textPixmap=Basket->items.at(iconNum)->overText->getPixmap();
                 const QRect *textRect=Basket->items.at(iconNum)->overText->getBoundingRect();
@@ -345,14 +346,14 @@ void XQWFirstHand_bottom::purgeCacheFixBorder(int iconNum,int &cursor_x,int &cur
 void XQWFirstHand_bottom::xMakeUp_BackgroundCoords()
 {
 	#ifdef ENABLEDEBUGMSG
-qWarning("void XQWFirstHand_bottom::xMakeUp_BackgroundCoords()");
-		#endif
+        qWarning("void XQWFirstHand_bottom::xMakeUp_BackgroundCoords()");
+        #endif
 
-	XQDEIcon *thisIcon0=Basket->items.at(0);
-	XQDEIcon *thisIcon1=Basket->items.at(activeIconsCounter-1);
-	topBackgroundCoords[0]=thisIcon0->imageCachedRect.x;
+        XQDEIcon *IconFirst=Basket->items.at(0);
+        XQDEIcon *IconLast=Basket->items.at(activeIconsCounter-1);
+        topBackgroundCoords[0]=IconFirst->imageCachedRect.x;
 	topBackgroundCoords[1]=xMakeUp_ArrowCoords.y-xMakeUp_ArrowSize;
-	topBackgroundSize[0]=thisIcon1->imageCachedRect.x-thisIcon0->imageCachedRect.x+thisIcon1->imageCachedRect.z;
+        topBackgroundSize[0]=IconLast->imageCachedRect.x-IconFirst->imageCachedRect.x+IconLast->imageCachedRect.z;
 	topBackgroundSize[1]=xMakeUp_ArrowSize*2+DesktopEnvironment->GUI.handIconsMax;
 
 	topCornerCoords[0][0]=topBackgroundCoords[0]-DesktopEnvironment->GUI.handIconsMax-xMakeUp_ArrowSize*2;
@@ -365,22 +366,22 @@ void XQWFirstHand_bottom::mouseMoveEventSWIcon(int tx, int ty,int ,XQDEIcon *ico
 {
 	//qWarning("mouseMoveEventSWIcon(int %d, int %d,int ,%d)",tx,ty,(int)icon);
 
-int dx=0;
-int dy=0;
-int DiffIconX=0;
-int DiffIconY=0;
-int DiffIcon=0;
-int AreMovingToLeft=0;
+    int dx=0;
+    int dy=0;
+    int DiffIconX=0;
+    int DiffIconY=0;
+    int DiffIcon=0;
+    int AreMovingToLeft=0;
 
 
-/****************************************/
-dx=icon->imageHotSpot.x-tx;
-DiffIconX=abs(dx);
-dy=icon->imageHotSpot.y-ty;
-DiffIconY=abs(dy);
+    /****************************************/
+    dx=icon->imageHotSpot.x-tx;
+    DiffIconX=abs(dx);
+    dy=icon->imageHotSpot.y-ty;
+    DiffIconY=abs(dy);
 
-DiffIcon=DiffIconY+DiffIconX;
-//qWarning("%d %d %d %d %d",DiffIcon,DiffIconX,DiffIconY, icon->imageHotSpot.y, xDesignVirtualEscapeMatrix);
+    DiffIcon=DiffIconY+DiffIconX;
+    //qWarning("%d %d %d %d %d",DiffIcon,DiffIconX,DiffIconY, icon->imageHotSpot.y, xDesignVirtualEscapeMatrix);
 
 
     if(DiffIcon < xMakeUp_sizeMatrix *2)
@@ -430,6 +431,7 @@ DiffIcon=DiffIconY+DiffIconX;
                 {
                     AreMovingToLeft = -xMakeUp_KMatrix[DiffIconY];
                 }
+            
             icon->imageCachedRect.y = icon->iconGeometry.y;
             icon->imageCachedRect.x = (icon->iconGeometry.x)+AreMovingToLeft;
             icon->imageCachedRect.z = DesktopEnvironment->GUI.handIconsMax;
