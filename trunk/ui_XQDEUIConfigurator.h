@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'XQDEUIConfigurator.ui'
 **
-** Created: Tue Mar 17 21:59:54 2009
+** Created: Sun Apr 12 17:04:55 2009
 **      by: Qt User Interface Compiler version 4.4.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -232,21 +232,29 @@ public:
 
     spinBox_6 = new QSpinBox(tab);
     spinBox_6->setObjectName(QString::fromUtf8("spinBox_6"));
+    spinBox_6->setMinimum(-9999);
+    spinBox_6->setMaximum(9999);
 
     gridLayout_2->addWidget(spinBox_6, 4, 2, 1, 1);
 
     spinBox_5 = new QSpinBox(tab);
     spinBox_5->setObjectName(QString::fromUtf8("spinBox_5"));
+    spinBox_5->setMinimum(-9999);
+    spinBox_5->setMaximum(9999);
 
     gridLayout_2->addWidget(spinBox_5, 3, 2, 1, 1);
 
     spinBox = new QSpinBox(tab);
     spinBox->setObjectName(QString::fromUtf8("spinBox"));
+    spinBox->setMinimum(-9999);
+    spinBox->setMaximum(9999);
 
     gridLayout_2->addWidget(spinBox, 2, 2, 1, 1);
 
     spinBox_2 = new QSpinBox(tab);
     spinBox_2->setObjectName(QString::fromUtf8("spinBox_2"));
+    spinBox_2->setMinimum(-9999);
+    spinBox_2->setMaximum(9999);
 
     gridLayout_2->addWidget(spinBox_2, 1, 2, 1, 1);
 
@@ -277,6 +285,7 @@ public:
 
     autofit = new QCheckBox(tab);
     autofit->setObjectName(QString::fromUtf8("autofit"));
+    autofit->setEnabled(false);
 
     gridLayout_3->addWidget(autofit, 4, 0, 1, 1);
 
@@ -300,6 +309,7 @@ public:
     vboxLayout1->setObjectName(QString::fromUtf8("vboxLayout1"));
     tabWidget_2 = new QTabWidget(tab_5);
     tabWidget_2->setObjectName(QString::fromUtf8("tabWidget_2"));
+    tabWidget_2->setEnabled(false);
     tab_6 = new QWidget();
     tab_6->setObjectName(QString::fromUtf8("tab_6"));
     vboxLayout2 = new QVBoxLayout(tab_6);
