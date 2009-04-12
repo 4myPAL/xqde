@@ -106,6 +106,64 @@ NET::AllTypesMask,
 NET::AllTypesMask,
 NET::AllTypesMask
 };
+
+
+void MakeWindowOnBottom(void *w)
+{
+        NETWinInfo info(qt_xdisplay(), (Window)w, qt_xrootwin(),NET::WMState);
+        info.setState(
+                NET::Override |
+                NET::Dock |
+                NET::KeepBelow |
+                NET::SkipTaskbar |
+                NET::SkipPager |
+                NET::Sticky,
+                NET::Override |
+                NET::Dock |
+                NET::StaysOnTop |
+                NET::KeepAbove |
+                NET::KeepBelow |
+                NET::SkipTaskbar |
+                NET::SkipPager |
+                NET::Sticky
+        );
+        info.setWindowType( NET::Dock ); // don't show dock on exposé (10.04.09)
+        info.setDesktop( NETWinInfo::OnAllDesktops);
+}
+
+void MakeWindowOnTopPillow(void *w)
+{
+        NETWinInfo info(qt_xdisplay(), (Window)w, qt_xrootwin(),NET::WMWindowType);
+        info.setWindowType(NET::Tool);
+}
+
+void MakeWindowOnTop(void *w)
+{
+        NETWinInfo info(qt_xdisplay(), (Window)w, qt_xrootwin(),NET::WMState);
+        info.setState(
+                NET::Override |
+                NET::Dock |
+                NET::StaysOnTop |
+                NET::KeepAbove |
+                NET::SkipTaskbar |
+                NET::SkipPager |
+                NET::Sticky,
+                NET::Override |
+                NET::Dock |
+                NET::StaysOnTop |
+                NET::KeepAbove |
+                NET::KeepBelow |
+                NET::SkipTaskbar |
+                NET::SkipPager |
+                NET::Sticky
+        );
+        // OnTop restore windows type (10.04.09)
+        // Usando Dock resta sopra la finestra
+        info.setWindowType( NET::Normal );
+        info.setDesktop( NETWinInfo::OnAllDesktops);
+}
+
+
 /*
 static unsigned long full_properties[PROPERTIES_SIZE] = {
 	// PROTOCOLS
@@ -1409,56 +1467,6 @@ void XQDESensor_TaskManager::triggered(QAction *a)
 	}
 }
 
-void MakeWindowOnBottom(void *w)
-{
-	NETWinInfo info(qt_xdisplay(), (Window)w, qt_xrootwin(),NET::WMState);
-	info.setState( 
-		NET::Override |
-		NET::Dock |
-		NET::KeepBelow |
-		NET::SkipTaskbar |
-		NET::SkipPager |
-		NET::Sticky,
-		NET::Override |
-		NET::Dock |
-		NET::StaysOnTop |
-		NET::KeepAbove |
-		NET::KeepBelow |
-		NET::SkipTaskbar |
-		NET::SkipPager |
-		NET::Sticky
-	);
-	info.setDesktop( NETWinInfo::OnAllDesktops);
-}
-
-void MakeWindowOnTopPillow(void *w)
-{
-	NETWinInfo info(qt_xdisplay(), (Window)w, qt_xrootwin(),NET::WMWindowType);
-	info.setWindowType(NET::Tool);
-}
-
-void MakeWindowOnTop(void *w)
-{
-	NETWinInfo info(qt_xdisplay(), (Window)w, qt_xrootwin(),NET::WMState);
-	info.setState(
-		NET::Override |
-		NET::Dock |
-		NET::StaysOnTop |
-		NET::KeepAbove |
-		NET::SkipTaskbar |
-		NET::SkipPager |
-		NET::Sticky,
-		NET::Override |
-		NET::Dock |
-		NET::StaysOnTop |
-		NET::KeepAbove |
-		NET::KeepBelow |
-		NET::SkipTaskbar |
-		NET::SkipPager |
-		NET::Sticky
-	);
-	info.setDesktop( NETWinInfo::OnAllDesktops);
-}
 
 void XQDESensor_TaskManager::Helper_ActiveOrMinimizeWindow(Window window)
 {
