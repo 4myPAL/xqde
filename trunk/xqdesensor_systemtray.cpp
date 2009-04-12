@@ -79,41 +79,41 @@ void XQDESensor_SystemTray::xReset()
     connect( kwin_module, SIGNAL( systemTrayWindowRemoved(WId) ),
              this, SLOT( updateTrayWindows() ) );
 */
-//    QByteArray screenstr;
-//    screenstr.setNum(qt_xscreen());
-//    QByteArray trayatom = "_NET_SYSTEM_TRAY_S" + screenstr;
-//
-//    Display *display = qt_xdisplay();
-//
-//    net_system_tray_selection = XInternAtom(display, trayatom, false);
-//    net_system_tray_opcode = XInternAtom(display, "_NET_SYSTEM_TRAY_OPCODE", false);
-//
-//    // Acquire system tray
-//    XSetSelectionOwner(display,
-//                       net_system_tray_selection,
-//                       winId(),
-//                       CurrentTime);
-//
-//    WId root = qt_xrootwin();
-//
-//    if (XGetSelectionOwner (display, net_system_tray_selection) == winId())
-//    {
-//        XClientMessageEvent xev;
-//
-//        xev.type = ClientMessage;
-//        xev.window = root;
-//
-//        xev.message_type = XInternAtom (display, "MANAGER", False);
-//        xev.format = 32;
-//        xev.data.l[0] = CurrentTime;
-//        xev.data.l[1] = net_system_tray_selection;
-//        xev.data.l[2] = winId();
-//        xev.data.l[3] = 0;
-//        xev.data.l[4] = 0;
-//
-//        XSendEvent (display, root, False, StructureNotifyMask, (XEvent *)&xev);
-//	qWarning("SystemTray installed!");
-//    }
+    QByteArray screenstr;
+    screenstr.setNum(qt_xscreen());
+    QByteArray trayatom = "_NET_SYSTEM_TRAY_S" + screenstr;
+
+    Display *display = qt_xdisplay();
+
+    net_system_tray_selection = XInternAtom(display, trayatom, false);
+    net_system_tray_opcode = XInternAtom(display, "_NET_SYSTEM_TRAY_OPCODE", false);
+
+    // Acquire system tray
+    XSetSelectionOwner(display,
+                       net_system_tray_selection,
+                       winId(),
+                       CurrentTime);
+
+    WId root = qt_xrootwin();
+
+    if (XGetSelectionOwner (display, net_system_tray_selection) == winId())
+    {
+        XClientMessageEvent xev;
+
+        xev.type = ClientMessage;
+        xev.window = root;
+
+        xev.message_type = XInternAtom (display, "MANAGER", False);
+        xev.format = 32;
+        xev.data.l[0] = CurrentTime;
+        xev.data.l[1] = net_system_tray_selection;
+        xev.data.l[2] = winId();
+        xev.data.l[3] = 0;
+        xev.data.l[4] = 0;
+
+        XSendEvent (display, root, False, StructureNotifyMask, (XEvent *)&xev);
+        qWarning("SystemTray installed!");
+    }
 }
 
 
@@ -205,33 +205,34 @@ void XQDESensor_SystemTray::emb( WId )
 
 void NoDecor(WId win)
 {
-Atom AtomWinAttr = XInternAtom(qt_xdisplay(), "_OL_WIN_ATTR" ,    FALSE);
-Atom AtomDecor   = XInternAtom(qt_xdisplay(), "_OL_DECOR_ADD",    FALSE);
-Atom   winAttrs[2];
-Atom   winDecor[3];
-int numberOfDecorations = 0;
+    Atom AtomWinAttr = XInternAtom(qt_xdisplay(), "_OL_WIN_ATTR" ,    FALSE);
+    Atom AtomDecor   = XInternAtom(qt_xdisplay(), "_OL_DECOR_ADD",    FALSE);
+    Atom   winAttrs[2];
+    Atom   winDecor[3];
+    int numberOfDecorations = 0;
 
-XChangeProperty(qt_xdisplay(),
-win,
-AtomWinAttr,
-XA_ATOM,
-32,
-PropModeReplace,
-(unsigned char*)winAttrs,
-1);
+    XChangeProperty(qt_xdisplay(),
+    win,
+    AtomWinAttr,
+    XA_ATOM,
+    32,
+    PropModeReplace,
+    (unsigned char*)winAttrs,
+    1);
 
-/*
-** Tell Open Look to add some decorations to our window
-*/
-XChangeProperty(qt_xdisplay(),
-win,
-AtomDecor,
-XA_ATOM,
-32,
-PropModeReplace,
-(unsigned char*)winDecor,
-numberOfDecorations);
+    /*
+    ** Tell Open Look to add some decorations to our window
+    */
+    XChangeProperty(qt_xdisplay(),
+    win,
+    AtomDecor,
+    XA_ATOM,
+    32,
+    PropModeReplace,
+    (unsigned char*)winDecor,
+    numberOfDecorations);
 }
+
 #include <qxembed.h>
 void XQDESensor_SystemTray::embedWindow( WId w, bool  )
 {
@@ -242,48 +243,42 @@ void XQDESensor_SystemTray::embedWindow( WId w, bool  )
 		//qWarning("already mapped: %d",(int)w);
 		return;
 	}
-	//managed_trayWindows.append(w);
-        //static Atom hack_atom = XInternAtom( qt_xdisplay(), "_KDE_SYSTEM_TRAY_EMBEDDING", False );
-        //XChangeProperty( qt_xdisplay(), w, hack_atom, hack_atom, 32, PropModeReplace, NULL, 0 );
-	//QXEmbed *emb=new QXEmbed(this,"prova");
-	//emb->embed(w);
-/*
-	withdrawWindow( w );
-	//usleep(10000000);
-	QX11EmbedContainer *emb=new QX11EmbedContainer(this);
-	vContainer->addWidget(emb);
-	emb->show();
-	XSync(qt_xdisplay(), False);
+//        managed_trayWindows.append(w);
+//        static Atom hack_atom = XInternAtom( qt_xdisplay(), "_KDE_SYSTEM_TRAY_EMBEDDING", False );
+//        XChangeProperty( qt_xdisplay(), w, hack_atom, hack_atom, 32, PropModeReplace, NULL, 0 );
+//        QXEmbed *emb=new QXEmbed(this,"prova");
+//        emb->embed(w);
 
-	XReparentWindow(qt_xdisplay(), w, winId(), 0, 0);
+//	withdrawWindow( w );
+//	//usleep(10000000);
+//	QX11EmbedContainer *emb=new QX11EmbedContainer(this);
+//	vContainer->addWidget(emb);
+//	emb->show();
+//	XSync(qt_xdisplay(), False);
+//
+//	XReparentWindow(qt_xdisplay(), w, winId(), 0, 0);
+//
+//	//emb->embedInto(w);
+//	emb->embedClient ( w);
 
-	//emb->embedInto(w);
-	emb->embedClient ( w);
-*/
 	static int x=32;
 	static int y=QApplication::desktop()->availableGeometry().height()-32;
-NETRootInfo rootinfo( qt_xdisplay(), NET::WM2MoveResizeWindow);//NET::WMMoveResize);
-rootinfo.moveResizeWindowRequest(w,
-				NET::TopLeft
-				| 1<<8 |1<<9
-				,
-				
 
-x,
-y-=32,
-32,
-32);
-NETWinInfo info(qt_xdisplay(), w, qt_xrootwin(),NET::WMState);
+        NETRootInfo rootinfo( qt_xdisplay(), NET::WM2MoveResizeWindow); //NET::WMMoveResize);
 
-info.setState( NET::Override | NET::StaysOnTop | NET::KeepAbove | NET::SkipTaskbar | NET::SkipPager , NET::Override | NET::StaysOnTop | NET::KeepAbove | NET::SkipTaskbar | NET::SkipPager );
+        rootinfo.moveResizeWindowRequest(w, NET::TopLeft | 1<<8 |1<<9, x, y-=32, 32, 32);
+
+        NETWinInfo info(qt_xdisplay(), w, qt_xrootwin(),NET::WMState);
+
+        info.setState( NET::Override | NET::StaysOnTop | NET::KeepAbove | NET::SkipTaskbar | NET::SkipPager , NET::Override | NET::StaysOnTop | NET::KeepAbove | NET::SkipTaskbar | NET::SkipPager );
 	info.setDesktop( NETWinInfo::OnAllDesktops);
-NoDecor(w);
+//        NoDecor(w);
 	XMapWindow(qt_xdisplay(), w);
 	//
         //XDeleteProperty(qt_xdisplay(), w, hack_atom );
 	update();
 //        (01.03.09) udate and repaint to the same thing
-        //repaint();
+//        repaint();
 }
 #ifdef pippo
 
