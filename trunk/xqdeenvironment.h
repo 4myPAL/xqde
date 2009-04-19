@@ -122,6 +122,7 @@ class QImage;
 QImage *XQDE_ImageRepeat(QImage &,QImage &, int ,int );
 QImage *XQDE_ImageEraseRect(QImage &,uint,uint,uint);
 QImage *XQDE_ImageSetIntensity(QImage &,double);
+
 /*
 #ifndef RESIZEVIAXRENDER
 	void XQDE_ImageRotate(QImage &target,const QImage &source, double degree);

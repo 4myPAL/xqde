@@ -27,11 +27,18 @@
 #include "xqtext.h"
 
 void MakeWindowOnTopPillow(void *);
+
+#ifndef RESIZEVIAXRENDER
 extern QImage *XQDE_ImageReflectBottom(QImage &xImgSource,QImage &newImage, int rHeight);
+extern QImage *XQDE_ImageReflectBottom(QImage &xImgSource,QImage &newImage);
+#else
 extern QImage *XQDE_ImageReflectBottom(QPixmap &xImgSource,QImage &newImage, int rHeight);
 extern QImage *XQDE_ImageReflectBottom(QPixmap &xImgSource,QImage &newImage);
 void XRenderResizeImageGood(QPixmap &Source,QPixmap &thumbnail,int maxDimension);
 void XRenderResizeImage(QPixmap &Source,QPixmap &thumbnail,int mx, int my);
+#endif
+
+
 
 
 XQDEIcon::XQDEIcon(QString logicName,QObject *parent, void *cData,QImage *defaultImg, QString strTitle, QString defaulticon): XQWidget(parent)
@@ -334,12 +341,15 @@ void XQDEIcon::xRepaint()
                 #ifndef RESIZEVIAXRENDER
                 localImageWidthEffectsReflection=localImageWidthEffects.scaled(DesktopEnvironment->GUI.sizeIconsMax,isReflectionEnabled, Qt::KeepAspectRatio, Qt::SmoothTransformation );
                 #else
-//                XRenderResizeImage(localImageWidthEffects,localImageWidthEffectsReflection,DesktopEnvironment->GUI.sizeIconsMax,isReflectionEnabled);
+                XRenderResizeImage(localImageWidthEffects,localImageWidthEffectsReflection,DesktopEnvironment->GUI.sizeIconsMax,isReflectionEnabled);
                 #endif
 		QImage pip;
                 XQDE_ImageReflectBottom(localImageWidthEffects,pip);
+                #ifndef RESIZEVIAXRENDER
+                localImageWidthEffectsReflection=pip.copy();
+                #else
                 localImageWidthEffectsReflection=localImageWidthEffectsReflection.fromImage(pip);
-		
+                #endif
 	}
 	
 	#ifdef ENABLEDEBUGMSG
@@ -677,10 +687,19 @@ void XQDEIcon::xSetImage(QPixmap &i)
         if(isReflectionEnabled>0)
         {
             //create new reflection
+            #ifndef RESIZEVIAXRENDER
+            localImageWidthEffectsReflection = localImageWidthEffects.scaled(DesktopEnvironment->GUI.sizeIconsMax,isReflectionEnabled, Qt::IgnoreAspectRatio, Qt::FastTransformation);
+            #else
             XRenderResizeImage(localImageWidthEffects,localImageWidthEffectsReflection,DesktopEnvironment->GUI.sizeIconsMax,isReflectionEnabled);
+            #endif
+
             QImage pip;
-            XQDE_ImageReflectBottom(localImageWidthEffectsReflection,pip);
+            XQDE_ImageReflectBottom(localImageWidthEffects,pip);
+            #ifndef RESIZEVIAXRENDER
+            localImageWidthEffectsReflection=pip.copy();
+            #else
             localImageWidthEffectsReflection=localImageWidthEffectsReflection.fromImage(pip);
+            #endif
 
             #ifdef ENABLEDEBUGMSG
                 qWarning("void XQDEIcon::xSetImage(...) reflection");

@@ -183,7 +183,7 @@ void XQDEAnimation::step()
 	}
 }
 #ifndef RESIZEVIAXRENDER
-void XQDE_ImageResizeWithBorder(QImage &cleanSource, QImage &source, QImage &Buffer,int currentSize)
+void XQDE_ImageResizeWithBorder(QImage &cleanSource, QImage &image, QImage &Buffer, int sourceSize, int currentSize)
 #else
 void XQDE_ImageResizeWithBorder(QPixmap &cleanSource, QPixmap &image, QPixmap &Buffer,int sourceSize, int currentSize)
 #endif
@@ -227,7 +227,7 @@ void MakeWindowOnTopPillow(void *);
 void XQDEAnimation::stepAgain()
 {
 #ifndef RESIZEVIAXRENDER
-	QImage *image;
+        QImage image;
 	QImage Buffer;
 #else
 	QPixmap *image;
@@ -242,10 +242,12 @@ void XQDEAnimation::stepAgain()
         {
                 case 1://fade!
                         currentFade=((1.0-((double)endEffect/10))/(double)10)*currentStep+((double)endEffect/10);
-                        image=icon->image();
+
                         #ifndef RESIZEVIAXRENDER
+                        image=icon->image()->copy();
                         XQDE_ImageSetIntensity(image,currentFade);
                         #else
+                        image=icon->image();
                         imageImage=image->toImage();
                         XQDE_ImageSetIntensity(imageImage,currentFade);
                         Buffer=QPixmap::fromImage(imageImage);

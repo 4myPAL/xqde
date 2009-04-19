@@ -21,6 +21,7 @@
 
 #include "xqdeenvironment.h"
 #include "xqdeconfiguratorxml.h"
+#include "xqde.h"
 
 /*
 XQDEEnvironmentUserProfile 	XQDEEnvironment::UserProfile;
@@ -91,8 +92,11 @@ QImage *XQDE_ImageEraseRect(QImage &lavoro,uint sx,uint sy,uint sz)
 	return &lavoro;
 }
 
-
+#ifndef RESIZEVIAXRENDER
+QImage *XQDE_ImageReflectBottom(QImage &xImgSource,QImage &newImage)
+#else
 QImage *XQDE_ImageReflectBottom(QPixmap &xImgSource,QImage &newImage)
+#endif
 {
 //	uint rHeight=xImgSource.height();
 //	uint rWidth=xImgSource.width();
@@ -125,7 +129,12 @@ QImage *XQDE_ImageReflectBottom(QPixmap &xImgSource,QImage &newImage)
 
         qreal opacityFactor = 1;
 
+
+        #ifndef RESIZEVIAXRENDER
+        newImage=xImgSource.mirrored();
+        #else
         newImage=xImgSource.toImage().mirrored();
+        #endif
 
         // Add gradient to the reflection
         QLinearGradient gradient(QPointF(0, 0), QPointF(0, newImage.height()*0.25));
