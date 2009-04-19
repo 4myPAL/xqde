@@ -339,7 +339,7 @@ void XQDEIcon::xRepaint()
                 qWarning("void XQDEIcon::xRepaint() Reflection repainting");
                 #endif
                 #ifndef RESIZEVIAXRENDER
-                localImageWidthEffectsReflection=localImageWidthEffects.scaled(DesktopEnvironment->GUI.sizeIconsMax,isReflectionEnabled, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+                localImageWidthEffectsReflection=localImageWidthEffects.scaled(DesktopEnvironment->GUI.sizeIconsMax,isReflectionEnabled, Qt::IgnoreAspectRatio, Qt::FastTransformation );
                 #else
                 XRenderResizeImage(localImageWidthEffects,localImageWidthEffectsReflection,DesktopEnvironment->GUI.sizeIconsMax,isReflectionEnabled);
                 #endif
@@ -607,7 +607,7 @@ void XQDEIcon::xSetSmoothZoom(int newZoom)
                 qWarning("void XQDEIcon::xSetZoom(...) reflection");
             #endif
             #ifndef RESIZEVIAXRENDER
-            imageCachedReflection=localImageWidthEffectsReflection.scaled(newZoom,isReflectionEnabled, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+            imageCachedReflection=localImageWidthEffectsReflection.scaled(newZoom,isReflectionEnabled, Qt::IgnoreAspectRatio, Qt::FastTransformation );
              #else
             XRenderResizeImage(localImageWidthEffectsReflection,imageCachedReflection,newZoom,isReflectionEnabled);
 
