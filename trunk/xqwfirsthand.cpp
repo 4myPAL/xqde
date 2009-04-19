@@ -857,8 +857,10 @@ void XQWFirstHand::xRepaintSingle(XQDEIcon *icon)
                         sz,                                 //repaint width
                         topBackgroundSize[1]                //repaint height
                         );
+                //erase remaing area before draw icon (Bug fix: 19.04.09)
+                widgetpaint->fillRect(sx,sy, sz, sz + topBackgroundCoords[1] - topBackgroundSize[1], Qt::transparent);
 
-                //Start drawin images on top of source(background)
+                //Start drawing images on top of source(background)
                 widgetpaint->setCompositionMode(QPainter::CompositionMode_SourceOver);
 
 
