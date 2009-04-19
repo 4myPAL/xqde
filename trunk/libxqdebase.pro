@@ -12,13 +12,11 @@ HEADERS += libxqdebase.h \
     xqderoot.h \
     xquniqueapplication.h \
     xqwidget.h \
-    xqdedevice.h \
     xqdesensor_systemtray.h \
     xqdesensor_zoomengine.h \
     xqtext.h \
     xqderuler.h \
     xqwfirsthand.h \
-    xqdewindowmanagerinterface.h \
     xqdesensor_taskmanager.h \
     xqde.h \
     xqdebasket.h \
@@ -37,7 +35,9 @@ HEADERS += libxqdebase.h \
     xqdeio.h \
     xqdeinterface.h \
     xqimage.h \
-    import_netwm.h
+    import_netwm.h \
+    xqdedevice.h \
+    xqdewindowmanagerinterface.h
 SOURCES += libxqdebase.cpp \
     main.cpp \
     xqdeclass.cpp \
@@ -46,13 +46,11 @@ SOURCES += libxqdebase.cpp \
     xqderoot.cpp \
     xquniqueapplication.cpp \
     xqwidget.cpp \
-    xqdedevice.cpp \
     xqdesensor_systemtray.cpp \
     xqdesensor_zoomengine.cpp \
     xqtext.cpp \
     xqderuler.cpp \
     xqwfirsthand.cpp \
-    xqdewindowmanagerinterface.cpp \
     xqdesensor_taskmanager.cpp \
     xqdebasket.cpp \
     xqdeicon.cpp \
@@ -69,7 +67,9 @@ SOURCES += libxqdebase.cpp \
     xqdeplugin_webhelper.cpp \
     xqdeio.cpp \
     xqimage.cpp \
-    import_netwm.cpp
+    import_netwm.cpp \
+    xqdedevice.cpp \
+    xqdewindowmanagerinterface.cpp
 TEMPLATE = app
 LIBS += -lXcomposite
 QT += network \
