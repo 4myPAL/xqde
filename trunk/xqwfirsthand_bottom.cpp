@@ -491,8 +491,6 @@ void XQWFirstHand_bottom::xMakeCentered()
 		qWarning("void XQWFirstHand_bottom::xMakeCentered() xMakeUp_MinSize=%d height=%d width=%d",xMakeUp_MinSize,height(), width());
 		#endif
 		
-                //ToDo: more improuvements
-                //Know BUGS: se più grande dello schermo fa il resize, ma poi se si aggiunge widget lo ridimensiona con dimensioni "normali"
                 if(xMakeUp_MinSize > width())
 		{
                         for(;DesktopEnvironment->GUI.handIconsMax > 15;DesktopEnvironment->GUI.handIconsMax -= 4)
@@ -501,7 +499,7 @@ void XQWFirstHand_bottom::xMakeCentered()
 				if(xMakeUp_MinSize < width())break;
 			}
                         #ifdef ENABLEDEBUGMSG
-			qWarning("Docker will be resized!!-from:%d to:%d",DesktopEnvironment->GUI.sizeIconsNormal,DesktopEnvironment->GUI.handIconsMax);
+                        qWarning("Docker will be resized (1)!!-from:%d to:%d",DesktopEnvironment->GUI.sizeIconsNormal,DesktopEnvironment->GUI.handIconsMax);
                         #endif
 		}
                 else if (DesktopEnvironment->GUI.sizeIconsNormal > DesktopEnvironment->GUI.handIconsMax)
@@ -519,7 +517,7 @@ void XQWFirstHand_bottom::xMakeCentered()
                                 if(xMakeUp_MinSize >= width())break;
                         }
                         #ifdef ENABLEDEBUGMSG
-                        qWarning("Docker will be resized!!+from:%d to:%d",DesktopEnvironment->GUI.sizeIconsNormal,DesktopEnvironment->GUI.handIconsMax);
+                        qWarning("Docker will be resized (2)!!+from:%d to:%d",DesktopEnvironment->GUI.sizeIconsNormal,DesktopEnvironment->GUI.handIconsMax);
                         #endif
 
 			//exit(1);
@@ -528,6 +526,11 @@ void XQWFirstHand_bottom::xMakeCentered()
 		}
 		
 	}
+        
+        //Bug Fix: se più grande dello schermo fa il resize, ma poi se si aggiunge widget lo ridimensiona con dimensioni "normali"
+        //Now autoresize work correctly..yes! (25.04.09)
+        DesktopEnvironment->GUI.sizeIconsNormal = DesktopEnvironment->GUI.handIconsMax;
+
 
         //New coordinate x and y for the dock
 	xMakeUp_Center.x=(width()-xMakeUp_MinSize-iconCoordsByIndex(0).x)/2;
@@ -556,6 +559,13 @@ void XQWFirstHand_bottom::xMakeCentered()
                 QRegion::Rectangle
                 );
 
+
+
+        //Bug Fix now on resize background is on the right y position
+        //(25.04.09)
+        xMakeUp_ArrowCoords.x=0;
+        xMakeUp_ArrowCoords.y=DesktopEnvironment->GUI.sizeIconsMax-DesktopEnvironment->GUI.handIconsMax;
+        xMakeUp_ArrowCoords.z=0;
 
 	if(oldHandSizeIconMax!=DesktopEnvironment->GUI.handIconsMax) xMakeCenteredfix();
 
