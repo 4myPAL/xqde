@@ -528,7 +528,10 @@ void XQWFirstHand_bottom::xMakeCentered()
 	}
         
         //Bug Fix: se più grande dello schermo fa il resize, ma poi se si aggiunge widget lo ridimensiona con dimensioni "normali"
-        //Now autoresize work correctly..yes! (25.04.09)
+        //Now autoresize work correctly (25.04.09)
+        //Other Bug: la dock si rimpicciolisce ma non si espande più
+        //questo è succede perchè la funzione "DesktopEnvironment->GUI.sizeIconsNormal > DesktopEnvironment->GUI.handIconsMax"
+        //non è mai soddisfatta
         DesktopEnvironment->GUI.sizeIconsNormal = DesktopEnvironment->GUI.handIconsMax;
 
 
