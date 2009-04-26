@@ -859,7 +859,7 @@ void XQWFirstHand::xRepaintSingle(XQDEIcon *icon)
                         );
                 //erase remaing area before draw icon (Bug fix: 19.04.09)
                 //bug fix: now work OK (26.04.09
-                widgetpaint->fillRect(sx,DesktopEnvironment->GUI.dockAlignDisplaceY, sz, DesktopEnvironment->GUI.dockAlignDisplaceY + topBackgroundCoords[1], Qt::red);
+                widgetpaint->fillRect(sx,DesktopEnvironment->GUI.dockAlignDisplaceY, sz, DesktopEnvironment->GUI.dockAlignDisplaceY + topBackgroundCoords[1], Qt::transparent);
 
                 //Start drawing images on top of source(background)
                 widgetpaint->setCompositionMode(QPainter::CompositionMode_SourceOver);
