@@ -226,13 +226,13 @@ desktopFont.Alias=e->toElement().attribute("desktopFont.Alias",desktopFont.Alias
 XQDEEnvironmentGUI::XQDEEnvironmentGUI()
 {
         handIconsMax=32;
-        sizeIconsMax=128;
+        sizeIconsMax=74;
         sizeIconsNormal=32;
         task_GroupSimilarWindows=0;
         updateViaDND=1;
-        desktopFont.FontRed=255;
-        desktopFont.FontGreen=0;
-        desktopFont.FontBlue=0;
+        desktopFont.FontRed=36;
+        desktopFont.FontGreen=36;
+        desktopFont.FontBlue=36;
         desktopFont.FontFamily="Times new roman";
         desktopFont.FontSize=14;
         desktopFont.BackgroundPath="";
