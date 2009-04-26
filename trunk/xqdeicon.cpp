@@ -165,7 +165,7 @@ void XQDEIcon::localfillPopup(QMenu *ContextPopupMenu,XQDEIcon *pMe)
 //        ContextPopupMenu->addAction(QIcon(DesktopEnvironment->Theme.findImage("configure")),tr("Configure"),this,SLOT(xConfigure()));
 //        ContextPopupMenu->addAction(QIcon(DesktopEnvironment->Theme.findImage("configure")),tr("Global configuration"),this,SLOT(xConfigurator()));
         ContextPopupMenu->addAction(QIcon(":/images/configure.png"),tr("Configure"),this,SLOT(xConfigure()));
-        ContextPopupMenu->addAction(QIcon(":/images/configure.png"),tr("Global configuration"),this,SLOT(xConfigurator()));
+        ContextPopupMenu->addAction(QIcon(":/images/global_configure.png"),tr("Global configuration"),this,SLOT(xConfigurator()));
 	Q_UNUSED(pMe);
 }
 
