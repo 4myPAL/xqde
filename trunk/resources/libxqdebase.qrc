@@ -1,9 +1,10 @@
 <RCC>
     <qresource prefix="/" >
+        <file>translations/trans_Italian.ts</file>
         <file>images/configure.png</file>
         <file>images/keepindock.png</file>
         <file>images/new.png</file>
         <file>images/removeonexit.png</file>
-        <file>translations/trans_Italian.ts</file>
+        <file>images/global_configure.png</file>
     </qresource>
 </RCC>
