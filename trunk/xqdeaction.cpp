@@ -33,7 +33,7 @@ XQDEAction::XQDEAction()
 
 XQDEAction::~XQDEAction()
 {
-    if (disableActionForWhile) delete disableActionForWhile;
+//    if (disableActionForWhile) delete disableActionForWhile;
 }
 
 

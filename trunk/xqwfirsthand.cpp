@@ -44,7 +44,8 @@ XQWFirstHand::XQWFirstHand(QObject *lRoot, QWidget *parent)
  : XQWidget(lRoot, parent)
 {
         xInterpolationValue=1;
-        xMakeUp_Separation=-5;
+        //space between icons during zoom
+        xMakeUp_Separation=0;
 	//xMakeUp_ArrowSize=8;
 	//xMakeUp_Raise=0;
 	xMakeUp_sizeMatrix=0;
@@ -113,10 +114,10 @@ XQWFirstHand::XQWFirstHand(QObject *lRoot, QWidget *parent)
 
 XQWFirstHand::~XQWFirstHand()
 {
-    if(maskRaised) delete maskRaised;
-    if(maskNormal) delete maskNormal;
-    if(maskAutoRaise) delete maskAutoRaise;
-    if(cacheBusy) delete cacheBusy;
+//    if(maskRaised) delete maskRaised;
+//    if(maskNormal) delete maskNormal;
+//    if(maskAutoRaise) delete maskAutoRaise;
+//    if(cacheBusy) delete cacheBusy;
 }
 
 void XQDE_IconAddedNewAnimation()
@@ -678,13 +679,13 @@ void XQWFirstHand::Basket_As_Changed(int action, XQDEIcon *newIcon, void *pW)
 		case 3:	// free
 		break;
 		case 4:	// delete "rolling" or background window-sensor
-//			Basket_As_Changed(5, newIcon,pW);
+                        Basket_As_Changed(5, newIcon,pW);
 		break;
 		case 5:	// add "rolling" or background window-sensor
 
-//			newIcon->imageHotSpot.z=0;
-// 			newIcon->xSetZoom(newIcon->imageCachedRect.z);
-//			repaintDock();
+			newIcon->imageHotSpot.z=0;
+                        newIcon->xSetZoom(newIcon->imageCachedRect.z);
+                        repaintDock();
 		break;
 		case 6:// removed from basket and icon is deleted! after this call!!!
 			activeIconsCounter=Basket->items.size();
@@ -1023,7 +1024,6 @@ void XQWFirstHand::xMakeUp()
     }
 
     xMakeUp_sizeMatrix=(DesktopEnvironment->GUI.handIconsMax + xMakeUp_Separation)*2;
-
 
     ratio=double(DesktopEnvironment->GUI.sizeIconsMax-DesktopEnvironment->GUI.handIconsMax) / double(xMakeUp_sizeMatrix*2);
 
