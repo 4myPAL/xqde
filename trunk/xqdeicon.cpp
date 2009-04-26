@@ -321,7 +321,7 @@ void XQDEIcon::xRepaint()
         qWarning("void XQDEIcon::xRepaint() %d %d A",localImage.width(), localIconImage.width());
 	#endif
 
-	localImageWidthEffects=localImage.copy();
+//	localImageWidthEffects=localImage.copy();
 	#ifdef ENABLEDEBUGMSG
 	qWarning("void XQDEIcon::xRepaint() %d %d B",localImage.width(), localIconImage.width());
 	#endif
@@ -329,32 +329,34 @@ void XQDEIcon::xRepaint()
 	#ifdef ENABLEDEBUGMSG
 	qWarning("void XQDEIcon::xRepaint() %d %d C",localImage.width(), localIconImage.width());
 	#endif
-        imageHotSpot.z=0;
+//        imageHotSpot.z=0;
 
 //	xRepaintSmall();
         
-	if(isReflectionEnabled>0)
-	{
-                #ifdef ENABLEDEBUGMSG
-                qWarning("void XQDEIcon::xRepaint() Reflection repainting");
-                #endif
-                #ifndef RESIZEVIAXRENDER
-                localImageWidthEffectsReflection=localImageWidthEffects.scaled(DesktopEnvironment->GUI.sizeIconsMax,isReflectionEnabled, Qt::IgnoreAspectRatio, Qt::FastTransformation );
-                #else
-                XRenderResizeImage(localImageWidthEffects,localImageWidthEffectsReflection,DesktopEnvironment->GUI.sizeIconsMax,isReflectionEnabled);
-                #endif
-		QImage pip;
-                XQDE_ImageReflectBottom(localImageWidthEffects,pip);
-                #ifndef RESIZEVIAXRENDER
-                localImageWidthEffectsReflection=pip.copy();
-                #else
-                localImageWidthEffectsReflection=localImageWidthEffectsReflection.fromImage(pip);
-                #endif
-	}
-	
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQDEIcon::xRepaint() %d %d %d D",localImage.width(), localIconImage.width(),localImageWidthEffects.width());
-	#endif
+//	if(isReflectionEnabled>0)
+//	{
+//                #ifdef ENABLEDEBUGMSG
+//                qWarning("void XQDEIcon::xRepaint() Reflection repainting");
+//                #endif
+//                #ifndef RESIZEVIAXRENDER
+//                localImageWidthEffectsReflection=localImageWidthEffects.scaled(DesktopEnvironment->GUI.sizeIconsMax,isReflectionEnabled, Qt::IgnoreAspectRatio, Qt::FastTransformation );
+//                #else
+//                XRenderResizeImage(localImageWidthEffects,localImageWidthEffectsReflection,DesktopEnvironment->GUI.sizeIconsMax,isReflectionEnabled);
+//                #endif
+//		QImage pip;
+//                XQDE_ImageReflectBottom(localImageWidthEffectsReflection,pip);
+//                #ifndef RESIZEVIAXRENDER
+//                localImageWidthEffectsReflection=pip.copy();
+//                #else
+//                localImageWidthEffectsReflection=localImageWidthEffectsReflection.fromImage(pip);
+//                #endif
+//	}
+//	
+//	#ifdef ENABLEDEBUGMSG
+//	qWarning("void XQDEIcon::xRepaint() %d %d %d D",localImage.width(), localIconImage.width(),localImageWidthEffects.width());
+//	#endif
+        
+        xSetImage(localImage);
 }
 
 //Added(24.02.09)
@@ -694,7 +696,7 @@ void XQDEIcon::xSetImage(QPixmap &i)
             #endif
 
             QImage pip;
-            XQDE_ImageReflectBottom(localImageWidthEffects,pip);
+            XQDE_ImageReflectBottom(localImageWidthEffectsReflection,pip);
             #ifndef RESIZEVIAXRENDER
             localImageWidthEffectsReflection=pip.copy();
             #else
