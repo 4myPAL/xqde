@@ -53,6 +53,8 @@ void XQWidget::XQWidgetContructor(QObject *,QWidget *parent, QString HasNamedIco
         // http://bugs.kde.org/show_bug.cgi?id=99198
         //remove window frame
         setWindowFlags(Qt::FramelessWindowHint);
+//        setAttribute(Qt::WA_OpaquePaintEvent);
+        setAttribute(Qt::WA_TranslucentBackground);
 
 
         //Bug: white background on showing widget - SOLVED! (21.02.09)
@@ -60,6 +62,7 @@ void XQWidget::XQWidgetContructor(QObject *,QWidget *parent, QString HasNamedIco
         palette.setColor(QPalette::Window, Qt::transparent);
         this->setPalette(palette);
         setAutoFillBackground(true);
+//        widgetpaint->setCompositionMode(QPainter::CompositionMode_SourceOver);
 
 
 }
@@ -68,11 +71,14 @@ void XQWidget::XQWidgetContructor(QObject *,QWidget *parent, QString HasNamedIco
 
 void XQWidget::paintEvent( QPaintEvent *e)
 {
-        widgetpaint->begin(this);
         widgetpaint->setCompositionMode(QPainter::CompositionMode_Source);
-        //widgetpaint->setRenderHint(QPainter::Antialiasing, true);
-        widgetpaint->fillRect(rect(), Qt::transparent);
-    
+
+        widgetpaint->begin(this);
+
+//        widgetpaint->setRenderHint(QPainter::Antialiasing, true);
+//        widgetpaint->fillRect(rect(), Qt::transparent);
+//        widgetpaint->eraseRect(rect());
+
         widgetpaint->drawImage(e->rect(), paintBuffer, e->rect());
 
         widgetpaint->end();
