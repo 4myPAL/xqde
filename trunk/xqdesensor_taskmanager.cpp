@@ -18,6 +18,7 @@
 #include <QTimer>
 #include <QMenu>
 #include <QList>
+#include <QTime>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -735,23 +736,41 @@ QPixmap thumbnail(Window m_frameId, int maxDimension)
 
    // ######## other test ###########33
 
+//    Composite Help: http://ktown.kde.org/~fredrik/composite_howto.html
+
     if (!m_windowPixmap)
     {
-        return QPixmap();
+       return QPixmap();
     }
-
+    
     Display *dpy = qt_xdisplay();
     // We need to find out some things about the window, such as it's size, it's position
     // on the screen, and the format of the pixel data
     XWindowAttributes attr;
-    XGetWindowAttributes( dpy, m_frameId, &attr );
 
+    #ifdef ENABLEDEBUGMSG
+    QTime t;
+    t.start();
+    #endif
+
+    if( XGetWindowAttributes( dpy, m_frameId, &attr ) == 0)  return QPixmap();
+
+    #ifdef ENABLEDEBUGMSG
+    qDebug("Time elapsed XGetWindowAttributes: %d ms", t.elapsed());
+    t.restart();
+    #endif
+    
     XRenderPictFormat *format = XRenderFindVisualFormat( dpy, attr.visual );
     bool hasAlpha             = ( format->type == PictTypeDirect && format->direct.alphaMask );
     int x                     = attr.x;
     int y                     = attr.y;
     int width                 = attr.width;
     int height                = attr.height;
+
+    #ifdef ENABLEDEBUGMSG
+    qDebug("Time elapsed XRenderFindVisualFormat: %d ms", t.elapsed());
+    t.restart();
+    #endif
 
     // Create a Render picture so we can reference the window contents.
     // We need to set the subwindow mode to IncludeInferiors, otherwise child widgets
@@ -760,6 +779,11 @@ QPixmap thumbnail(Window m_frameId, int maxDimension)
     pa.subwindow_mode = IncludeInferiors; // Don't clip child widgets
 
     Picture picture = XRenderCreatePicture( dpy, m_frameId, format, CPSubwindowMode, &pa );
+
+    #ifdef ENABLEDEBUGMSG
+    qDebug("Time elapsed XRenderCreatePicture: %d ms", t.elapsed());
+    t.restart();
+    #endif
 
     //        double factor;
     //        if (attr.width > attr.height)
@@ -793,9 +817,18 @@ QPixmap thumbnail(Window m_frameId, int maxDimension)
     XRenderComposite( dpy, hasAlpha ? PictOpOver : PictOpSrc, picture, None,
                     thumbnail.x11PictureHandle(), 0, 0, 0, 0, 0, 0, thumbnailWidth, thumbnailHeight );
 
+    #ifdef ENABLEDEBUGMSG
+    qDebug("Time elapsed XRenderComposite: %d ms", t.elapsed());
+    t.restart();
+    #endif
+
     XRenderFreePicture(dpy, picture);
 
-
+    #ifdef ENABLEDEBUGMSG
+    qDebug("Time elapsed XRenderFreePicture: %d ms", t.elapsed());
+    t.restart();
+    #endif
+    
     return thumbnail;
 }
 
@@ -1018,7 +1051,6 @@ void XQDESensor_TaskManager::updateThisThumbnail(Window lastActiveWindow)
 		ic->xReset();
 		Basket->sgeBasket_As_Changed(2, ic, NULL);
 	}
-
 }
 
 int PIDisRunning(long p)
@@ -1137,7 +1169,7 @@ void XQDESensor_TaskManager::postAddClient(Window window)
 	if(infoTest2.transientFor()!=0)
 	{
                 //qWarning("is Transient for other windows...");
-		return;
+                return;
 	}
 
         //qWarning("about _%d_",(int)window);
