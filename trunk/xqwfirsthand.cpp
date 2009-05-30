@@ -896,7 +896,6 @@ void XQWFirstHand::xRepaintSingle(XQDEIcon *icon)
                         case 0:// 0 bottom
                                 #ifndef RESIZEVIAXRENDER
                                 widgetpaint->drawImage(icon->imageCachedRect.x,icon->imageCachedRect.y+icon->imageCachedRect.z-2,icon->imageCachedReflection);
-                                widgetpaint->drawImage(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
                                 #else
                                 widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y+icon->imageCachedRect.z-2,icon->imageCachedReflection);
 //                                widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
@@ -905,7 +904,6 @@ void XQWFirstHand::xRepaintSingle(XQDEIcon *icon)
                         case 1:// 1 top
                                 #ifndef RESIZEVIAXRENDER
                                 widgetpaint->drawImage(icon->imageCachedRect.x,icon->imageCachedRect.y+icon->imageCachedRect.z-2,icon->imageCachedReflection);
-                                widgetpaint->drawImage(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
                                 #else
                                 widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y+icon->imageCachedRect.z-2,icon->imageCachedReflection);
 //                                widgetpaint->drawPixmap(icon->imageCachedRect.x,icon->imageCachedRect.y,icon->imageCached);
