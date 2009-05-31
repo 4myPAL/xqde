@@ -126,26 +126,41 @@ QImage *XQDE_ImageReflectBottom(QPixmap &xImgSource,QImage &newImage)
 //	}
 //	return &newImage;
 
-
-        qreal opacityFactor = 1;
-
-
         #ifndef RESIZEVIAXRENDER
         newImage=xImgSource.mirrored();
         #else
         newImage=xImgSource.toImage().mirrored();
         #endif
 
-        // Add gradient to the reflection
-        QLinearGradient gradient(QPointF(0, 0), QPointF(0, newImage.height()*0.25));
-        gradient.setColorAt(0, QColor(0, 0, 0, 150));
-        gradient.setColorAt(1, Qt::transparent);
+// dont'work
+//        qreal opacityFactor = 1;
+//
+//        // Add gradient to the reflection
+//        QLinearGradient gradient(QPointF(0, 0), QPointF(0, newImage.height()*0.25));
+//        gradient.setColorAt(0, QColor(0, 0, 0, 150));
+//        gradient.setColorAt(1, Qt::transparent);
+//
+//        QPainter reflectionPainter(&newImage);
+//        reflectionPainter.save();
+//        reflectionPainter.setOpacity(opacityFactor);
+//        reflectionPainter.setCompositionMode(QPainter::CompositionMode_DestinationOver);
+//        reflectionPainter.fillRect(0, 0, newImage.width(), newImage.height(), gradient);
+//        reflectionPainter.restore();
+//        reflectionPainter.end();
 
-        QPainter reflectionPainter(&newImage);
-        reflectionPainter.setOpacity(opacityFactor);
-        reflectionPainter.setCompositionMode(QPainter::CompositionMode_DestinationIn);
-        reflectionPainter.fillRect(0, 0, newImage.width(), newImage.height(), gradient);
-        reflectionPainter.end();
+        double i=0.7;
+        double ki=i/ newImage.height();
+
+        for(uint hri=0;hri< newImage.height();hri++)
+        {
+                uint *riga=(uint *)newImage.scanLine(hri);
+                        for(uint y=0;y<newImage.width();y++)
+                        {
+                                //0xAARRGGBB
+                                riga[y]=(riga[y]&0x00FFFFFF)+(((unsigned int)((double)(i-ki*hri)*(double)(riga[y]>>24)))<<24);
+                        }
+        }
+        return &newImage;
 
 }
 
