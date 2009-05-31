@@ -118,14 +118,6 @@ void MakeWindowOnBottom(void *w)
                 NET::KeepBelow |
                 NET::SkipTaskbar |
                 NET::SkipPager |
-                NET::Sticky,
-                NET::Override |
-                NET::Dock |
-                NET::StaysOnTop |
-                NET::KeepAbove |
-                NET::KeepBelow |
-                NET::SkipTaskbar |
-                NET::SkipPager |
                 NET::Sticky
         );
         info.setWindowType( NET::Dock ); // don't show dock on exposé (10.04.09)
@@ -146,14 +138,6 @@ void MakeWindowOnTop(void *w)
                 NET::Dock |
                 NET::StaysOnTop |
                 NET::KeepAbove |
-                NET::SkipTaskbar |
-                NET::SkipPager |
-                NET::Sticky,
-                NET::Override |
-                NET::Dock |
-                NET::StaysOnTop |
-                NET::KeepAbove |
-                NET::KeepBelow |
                 NET::SkipTaskbar |
                 NET::SkipPager |
                 NET::Sticky
