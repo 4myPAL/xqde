@@ -1198,7 +1198,12 @@ void XQPillow::xDrawText(const QPixmap *TextPixmap)
 //    }
 
     // Resize the widget size!
-    setFixedSize(TextPixmap->width(),TextPixmap->height());
+    // se widget non cambia size nella classe xqwidget non viene eseguito il resize
+    // speed performance improuvements
+    // move a widget is realy fast!! use it if possible
+    setFixedSize(QApplication::desktop()->availableGeometry().width(),TextPixmap->height());
+
+//    setFixedSize(TextPixmap->width(),TextPixmap->height());
 
 //    QRect rect = QApplication::desktop()->geometry();
 //    QPoint rectWidget = QWidget::pos();

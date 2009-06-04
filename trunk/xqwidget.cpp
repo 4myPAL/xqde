@@ -71,7 +71,7 @@ void XQWidget::XQWidgetContructor(QObject *,QWidget *parent, QString HasNamedIco
 
 void XQWidget::paintEvent( QPaintEvent *e)
 {
-        widgetpaint->setCompositionMode(QPainter::CompositionMode_Source);
+//        widgetpaint->setCompositionMode(QPainter::CompositionMode_Source);
 
         widgetpaint->begin(this);
 
@@ -108,13 +108,15 @@ void XQWidget::paint(int x,int y,QPainter &p)
 void XQWidget::setFixedSize(int width,int height)
 {
 
-//	if((width * height) != (this->width()*this->height()))
-//	{
+        //controllo se devo fare il resize del widget
+        if((width * height) != (this->width()*this->height()))
+        {
             paintBuffer=QImage(width,height,QImage::Format_ARGB32);
             QWidget::setFixedSize(width,height);
-//	}
+        }
 	
 }
+
 
 void XQWidget::setRect(int top_left_x,int top_left_y,int bottom_right_x,int bottom_right_y)
 {
