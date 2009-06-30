@@ -331,15 +331,18 @@ void XQWFirstHand_bottom::purgeCacheFixBorder(int iconNum,int &cursor_x,int &cur
                 Basket->items.at(iconNum)->overText->xDrawText();
                 const QPixmap *textPixmap=Basket->items.at(iconNum)->overText->getPixmap();
                 const QRect *textRect=Basket->items.at(iconNum)->overText->getBoundingRect();
-
-                Global_XQPillow->move((DesktopEnvironment->GUI.dockAlignDisplaceX + (Basket->items.at(iconNum)->imageHotSpot.x)) - (textRect->width()/2)
-                                      ,y()-Global_XQPillow->height());
+               
 
                 //qWarning("Deplacement x: %d  y:%d", (DesktopEnvironment->GUI.dockAlignDisplaceX + (Basket->items.at(iconNum)->imageHotSpot.x)) - (textRect->width()/2), y()-Global_XQPillow->height());
 
 //                qWarning("width:%d ; h%d", textPixmap->size().width(), textPixmap->size().height());
                 Global_XQPillow->xDrawText(textPixmap);
                 Global_XQPillow->repaint();
+                
+                //Bug Fix: move after repaint, otherwise cause artifacts
+                Global_XQPillow->move((DesktopEnvironment->GUI.dockAlignDisplaceX + (Basket->items.at(iconNum)->imageHotSpot.x)) - (textRect->width()/2)
+                                      ,y()-Global_XQPillow->height());
+                
                 Global_XQPillow->setVisible(true);
 //		}
 	}
