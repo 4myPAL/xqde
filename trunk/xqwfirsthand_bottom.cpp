@@ -336,14 +336,20 @@ void XQWFirstHand_bottom::purgeCacheFixBorder(int iconNum,int &cursor_x,int &cur
                 //qWarning("Deplacement x: %d  y:%d", (DesktopEnvironment->GUI.dockAlignDisplaceX + (Basket->items.at(iconNum)->imageHotSpot.x)) - (textRect->width()/2), y()-Global_XQPillow->height());
 
 //                qWarning("width:%d ; h%d", textPixmap->size().width(), textPixmap->size().height());
+                //Bug Fix: stopping updates remove the boring flick under icons
+                Global_XQPillow->setUpdatesEnabled(false);
+
                 Global_XQPillow->xDrawText(textPixmap);
-                Global_XQPillow->repaint();
-                
+                Global_XQPillow->update();
+
+
                 //Bug Fix: move after repaint, otherwise cause artifacts
                 Global_XQPillow->move((DesktopEnvironment->GUI.dockAlignDisplaceX + (Basket->items.at(iconNum)->imageHotSpot.x)) - (textRect->width()/2)
                                       ,y()-Global_XQPillow->height());
                 
                 Global_XQPillow->setVisible(true);
+
+                Global_XQPillow->setUpdatesEnabled(true);
 //		}
 	}
 }
