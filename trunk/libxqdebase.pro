@@ -37,7 +37,8 @@ HEADERS += libxqdebase.h \
     xqimage.h \
     import_netwm.h \
     xqdedevice.h \
-    xqdewindowmanagerinterface.h
+    xqdewindowmanagerinterface.h \
+    xqdesystray.h
 SOURCES += libxqdebase.cpp \
     main.cpp \
     xqdeclass.cpp \
@@ -69,7 +70,8 @@ SOURCES += libxqdebase.cpp \
     xqimage.cpp \
     import_netwm.cpp \
     xqdedevice.cpp \
-    xqdewindowmanagerinterface.cpp
+    xqdewindowmanagerinterface.cpp \
+    xqdesystray.cpp
 TEMPLATE = app
 LIBS += -lXcomposite
 QT += network \

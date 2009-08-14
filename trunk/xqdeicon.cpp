@@ -147,25 +147,25 @@ void XQDEIcon::xSetParent( QObject *newParent)
 
 void XQDEIcon::localfillPopup(QMenu *ContextPopupMenu,XQDEIcon *pMe)
 {
-//        ContextPopupMenu->addAction(QIcon(DesktopEnvironment->Theme.findImage("new")),tr("New window"),this,SLOT(menu_newWindow()));
+        ContextPopupMenu->addAction(QIcon(DesktopEnvironment->Theme.findImage("/icons/new")),tr("New window"),this,SLOT(menu_newWindow()));
 
-        ContextPopupMenu->addAction(QIcon(":/images/new.png"),tr("New window"),this,SLOT(menu_newWindow()));
+//        ContextPopupMenu->addAction(QIcon(":/images/new.png"),tr("New window"),this,SLOT(menu_newWindow()));
 	if(storeOnExit==0)
 	{
-//                ContextPopupMenu->addAction(QIcon(DesktopEnvironment->Theme.findImage("keepindock")),tr("Keep in dock"),this,SLOT(menu_setKeepInDock()));
-                ContextPopupMenu->addAction(QIcon(":/images/keepindock.png"),tr("Keep in dock"),this,SLOT(menu_setKeepInDock()));
+                ContextPopupMenu->addAction(QIcon(DesktopEnvironment->Theme.findImage("/icons/keepindock")),tr("Keep in dock"),this,SLOT(menu_setKeepInDock()));
+//                ContextPopupMenu->addAction(QIcon(":/images/keepindock.png"),tr("Keep in dock"),this,SLOT(menu_setKeepInDock()));
 	}
 	else
 	{
-//                ContextPopupMenu->addAction(QIcon(DesktopEnvironment->Theme.findImage("removeonexit")),tr("Remove on exit"),this,SLOT(menu_setRemoveOnExit()));
-                ContextPopupMenu->addAction(QIcon(":/images/removeonexit.png"),tr("Remove on exit"),this,SLOT(menu_setRemoveOnExit()));
+                ContextPopupMenu->addAction(QIcon(DesktopEnvironment->Theme.findImage("/icons/removeonexit")),tr("Remove on exit"),this,SLOT(menu_setRemoveOnExit()));
+//                ContextPopupMenu->addAction(QIcon(":/images/removeonexit.png"),tr("Remove on exit"),this,SLOT(menu_setRemoveOnExit()));
 
 	}
 
-//        ContextPopupMenu->addAction(QIcon(DesktopEnvironment->Theme.findImage("configure")),tr("Configure"),this,SLOT(xConfigure()));
-//        ContextPopupMenu->addAction(QIcon(DesktopEnvironment->Theme.findImage("configure")),tr("Global configuration"),this,SLOT(xConfigurator()));
-        ContextPopupMenu->addAction(QIcon(":/images/configure.png"),tr("Configure"),this,SLOT(xConfigure()));
-        ContextPopupMenu->addAction(QIcon(":/images/global_configure.png"),tr("Global configuration"),this,SLOT(xConfigurator()));
+        ContextPopupMenu->addAction(QIcon(DesktopEnvironment->Theme.findImage("/icons/configure")),tr("Configure"),this,SLOT(xConfigure()));
+        ContextPopupMenu->addAction(QIcon(DesktopEnvironment->Theme.findImage("/icons/global_configure")),tr("Global configuration"),this,SLOT(xConfigurator()));
+//        ContextPopupMenu->addAction(QIcon(":/images/configure.png"),tr("Configure"),this,SLOT(xConfigure()));
+//        ContextPopupMenu->addAction(QIcon(":/images/global_configure.png"),tr("Global configuration"),this,SLOT(xConfigurator()));
 	Q_UNUSED(pMe);
 }
 
