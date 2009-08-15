@@ -247,8 +247,7 @@ void XQDEConfigurator::normalsize_valueChanged(int nv)
         }
 
         DesktopEnvironment->GUI.sizeIconsNormal=nv;
-//        Removed (26.04.09) bug fix
-//        DesktopEnvironment->GUI.handIconsMax=0; //this will help to recalculate
+        DesktopEnvironment->GUI.handIconsMax=0; //this will help to recalculate
         ((XQWFirstHand *)MainWindow)->xConfigurationChanged();
 }
 
@@ -260,8 +259,7 @@ void XQDEConfigurator::bigsize_valueChanged(int nv)
                 return;
         }
         DesktopEnvironment->GUI.sizeIconsMax=nv;
-//        Removed (26.04.09) bug fix
-//        DesktopEnvironment->GUI.handIconsMax=0; //this will help to recalculate
+        DesktopEnvironment->GUI.handIconsMax=0; //this will help to recalculate
 
         ((XQWFirstHand *)MainWindow)->xConfigurationChanged();
 }
