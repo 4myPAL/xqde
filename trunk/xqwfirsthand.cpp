@@ -228,8 +228,8 @@ void XQWFirstHand::purgeCacheMovements()
 
 // Removed (21.02.09)
 //        static timespec req,rem;
-//	req.tv_nsec=SleepFPS*1000;
-//	req.tv_sec=0;
+//        req.tv_nsec=SleepFPS*1000;
+//        req.tv_sec=0;
 	
 	
 	
@@ -346,11 +346,12 @@ void XQWFirstHand::purgeCacheMovements()
 //		{
                         mouseMoveEventSW(ax,ay,0,1);
 //			if(isRaised)recallme=1;
-			//xRepaint();
-			repaintDock();
+//			xRepaint();
+                        repaintDock();
 			//QApplication::flushX();
+//                        QCoreApplication::flush ();
 //			qApp->processEvents();
-			//QApplication::syncX();
+//                        QApplication::syncX();
 //                        nanosleep(&req,&rem);
 //		}
 
@@ -360,11 +361,13 @@ void XQWFirstHand::purgeCacheMovements()
 	cacheBusy->unlock();
 }
 
+
 void XQWFirstHand::repaintDock()
 {
 	xRepaint();
         repaint();
 }
+
 
 void XQWFirstHand::mouseMoveEventSW(int x,int y,int force,int quality)
 {
@@ -598,8 +601,58 @@ void XQWFirstHand::dragEnterEvent(QDragEnterEvent *event)
                 {
                         Basket->AddtoBasketWidget((QObject *) ClassWidget,(void *)0,(class XQDEPlugin *)ClassWidget,AddedDropTitle);
                 }
+
+//                QMap <QString, QString> metaData = mediaObject->metaData();
+
+//                 XQDEIcon *addedIcon=NULL;
+//                QImage defaultimg;
+//                addedIcon=new XQDEIcon("prova123",0,0,&defaultimg,event->mimeData()->text(),"");
+//                addedIcon->storeOnExit=1;// this will avoid lost of icon after
+//                qWarning("Adding:%s", event->mimeData()->text());
+////		XQDEIcon *newItem=iconImport(qd->path()+"/"+OldXMLs[i]);
+//                addedIcon->xReset();
+////		con->append(newItem);
+////		if(con==&items)
+//                    emit Basket_As_Changed(1, addedIcon, NULL);
+
+//                if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
+//                    QByteArray itemData = event->mimeData()->data("application/x-dnditemdata");
+//                    QDataStream dataStream(&itemData, QIODevice::ReadOnly);
+//
+//                    QPixmap pixmap;
+//                    QPoint offset;
+//                    dataStream >> pixmap >> offset;
+//
+////                    XQDEIcon *addedIcon=NULL;
+//////                    QLabel *newIcon = new QLabel(this);
+////                    QImage defaultimg = pixmap.toImage();
+////                    addedIcon=new XQDEIcon("prova123",0,0,&defaultimg,event->mimeData()->text(),"");
+////                    addedIcon->storeOnExit=1;// this will avoid lost of icon after
+////                    emit Basket_As_Changed(1, addedIcon, NULL);
+////                    newIcon->setPixmap(pixmap);
+////                    newIcon->move(event->pos() - offset);
+////                    newIcon->show();
+////                    newIcon->setAttribute(Qt::WA_DeleteOnClose);
+//
+//                    if (event->source() == this) {
+//                        event->setDropAction(Qt::MoveAction);
+//                        event->accept();
+//                    } else {
+//                        event->acceptProposedAction();
+//                    }
+//                } else {
+//                    event->ignore();
+//                }
+
+
                 event->acceptProposedAction();
         }
+
+
+
+
+
+
         /*
         ->mimeData()->hasFormat("text/plain"))
                  event->acceptProposedAction();
@@ -668,13 +721,16 @@ void XQWFirstHand::Basket_As_Changed(int action, XQDEIcon *newIcon, void *pW)
 		case 2: // refresh
 			newIcon->imageHotSpot.z=0;
 			newIcon->xSetZoom(newIcon->imageCachedRect.z);
-			xRepaintSingle(newIcon);
-			sx=newIcon->imageCachedRect.x;
-			sy=newIcon->imageCachedRect.y;
-			sz=newIcon->imageCachedRect.z;
-//                        qDebug("rectangle: x:%d y:%d z:%d", sx,sy,sz);
+//                        newIcon->xRepaintDetached();
+//			xRepaintSingle(newIcon);
+//			sx=newIcon->imageCachedRect.x;
+//			sy=newIcon->imageCachedRect.y;
+//			sz=newIcon->imageCachedRect.z;
+
+                        xRepaintSingle(newIcon);
                         //ToDo: il valore 10 indica l'altezza del riflesso, rendere dinamico
-                        repaint(sx,sy,sz,sz+10);
+                        update(newIcon->imageCachedRect.x,newIcon->imageCachedRect.y,newIcon->imageCachedRect.z,newIcon->imageCachedRect.y+newIcon->imageCachedRect.z+10);
+
 		break;
 		case 3:	// free
 		break;
@@ -781,6 +837,7 @@ void XQWFirstHand::xRepaint()
                 {
                     xRepaintSingleIndex(i);
                 }
+
 //        slot_animationPolling();
 
 
@@ -795,11 +852,12 @@ void XQWFirstHand::xRepaintSingleIndex(int iconIndex)
         // with stepAgain function
         // -> prevent to drow picture outside dock when
         // moving
-        for(int k=0;k<icon->animations->count();k++)
-        {
-                XQDEAnimation *ani=icon->animations->at(k);
-                ani->stepAgain();
-        }
+//        for(int k=0;k<icon->animations->count();k++)
+//        {
+//                XQDEAnimation *ani=icon->animations->at(k);
+//                ani->stepAgain();
+//        }
+//        icon->applyEffects();
 
         if(icon)xRepaintSingle(icon);
 
@@ -923,17 +981,17 @@ void XQWFirstHand::xRepaintSingle(XQDEIcon *icon)
 
 
                 //Repaint arrow if is running
-		if(icon->isRunning())
-		{
-			#ifndef RESIZEVIAXRENDER
+                if(icon->isRunning())
+                {
+                        #ifndef RESIZEVIAXRENDER
                         widgetpaint->drawImage(icon->imageCachedArrowRect.x,icon->imageCachedArrowRect.y,icon->imageCachedArrow);
-			#else
+                        #else
                         widgetpaint->drawPixmap(icon->imageCachedArrowRect.x,icon->imageCachedArrowRect.y,icon->imageCachedArrow);
-			#endif
-		}
+                        #endif
+                }
                 
                 widgetpaint->end();
-		//XQDE_ImageCopyRop(paint2Buffer, paintBuffer,sx,sy,sz);
+                //XQDE_ImageCopyRop(paint2Buffer, paintBuffer,sx,sy,sz);
 	}
 }
 
@@ -956,12 +1014,12 @@ void XQWFirstHand::xConfigurationChanged()
         // Bug: la dock non si sposta in modo fluido (minor Bug)
         xRepaint();
 
-        for(int i=0;i<activeIconsCounter;i++)
-        {
-                XQDEIcon *icon=Basket->items.at(i);
-                if(!icon)continue;
-                icon->overText->xSetText(icon->title());
-        }
+//        for(int i=0;i<activeIconsCounter;i++)
+//        {
+//                XQDEIcon *icon=Basket->items.at(i);
+//                if(!icon)continue;
+//                icon->overText->xSetText(icon->title());
+//        }
 
 	storeConfiguration();
 }

@@ -52,15 +52,26 @@ qWarning("void XQWFirstHand_bottom::~XQWFirstHand_bottom()");
 
 void XQWFirstHand_bottom::xRepaintSingleBackground(QPainter *pp1_p,int sx,int sy,int sz)
 {
-	pp1_p->drawImage(
-		sx,
+        pp1_p->drawImage(
+                sx,
                 topBackgroundCoords[1],
                 topBackgroundCached[0],
                 0,
                 0,
-		sz,
+                sz,
                 sz+xMakeUp_ArrowSize
-		);
+                );
+
+//repaint backgound behind icon, with full dock height
+//                widgetpaint->drawImage(
+//                        sx,                                 //icon x coordinate
+//                        topBackgroundCoords[1],             //dock top y coordinate
+//                        topBackgroundCached[0],             //dock background image
+//                        0,                                  //no deplacement x or y
+//                        0,
+//                        sz,                                 //repaint width
+//                        topBackgroundSize[1]                //repaint height
+//                        );
 }
 
 
@@ -99,7 +110,7 @@ qWarning("Arrow:%d",xMakeUp_ArrowSize);
                 setRect(DesktopEnvironment->GUI.dockAlignDisplaceX,
                         QApplication::desktop()->availableGeometry().bottom() - myHeight+DesktopEnvironment->GUI.dockAlignDisplaceY,
                         QApplication::desktop()->availableGeometry().width()  + QApplication::desktop()->availableGeometry().left(),
-                        QApplication::desktop()->availableGeometry().bottom() + DesktopEnvironment->GUI.dockAlignDisplaceY
+                        QApplication::desktop()->availableGeometry().bottom() + DesktopEnvironment->GUI.dockAlignDisplaceY+1 //aggiunto 1px per togliere spazio sotto dock, è un bug
                 );
 //                qWarning("W: %d, H: %d", myWidth, myHeight);
 //                setFixedSize(myWidth, myHeight);
@@ -112,11 +123,11 @@ qWarning("Arrow:%d",xMakeUp_ArrowSize);
 	topCornerCached[0]=topCorner[0].scaled(
 		DesktopEnvironment->GUI.handIconsMax+xMakeUp_ArrowSize*2,
 		DesktopEnvironment->GUI.handIconsMax+xMakeUp_ArrowSize*2,
-		Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+                Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 	topCornerCached[1]=topCorner[1].scaled(
 		DesktopEnvironment->GUI.handIconsMax+xMakeUp_ArrowSize*2,
 		DesktopEnvironment->GUI.handIconsMax+xMakeUp_ArrowSize*2,
-		Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+                Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
         QImage buffer;
         topBackgroundCached[0]=topBackground[0].scaled (
@@ -504,10 +515,10 @@ void XQWFirstHand_bottom::xMakeCentered()
                 if(xMakeUp_MinSize > width())
 		{
                         for(;DesktopEnvironment->GUI.handIconsMax > 15;DesktopEnvironment->GUI.handIconsMax -= 4)
-			{
-				xMakeUp_MinSize=iconCoordsByIndex(activeIconsCounter+1).x-iconCoordsByIndex(0).x;
-				if(xMakeUp_MinSize < width())break;
-			}
+                        {
+                                xMakeUp_MinSize=iconCoordsByIndex(activeIconsCounter+1).x-iconCoordsByIndex(0).x;
+                                if(xMakeUp_MinSize < width())break;
+                        }
                         #ifdef ENABLEDEBUGMSG
                         qWarning("Docker will be resized (1)!!-from:%d to:%d",DesktopEnvironment->GUI.sizeIconsNormal,DesktopEnvironment->GUI.handIconsMax);
                         #endif
@@ -566,7 +577,7 @@ void XQWFirstHand_bottom::xMakeCentered()
         //Bug Solved: (21.02.09), selection mask has only the dock with
         maskAutoRaise=new QRegion(
                 xMakeUp_Center.x,
-                height()-1,
+                height()-2, //2pixel for raise region
                 (width()/2-xMakeUp_Center.x)*2,
                 DesktopEnvironment->GUI.handIconsMax+xMakeUp_ArrowSize*2,
                 QRegion::Rectangle
@@ -588,12 +599,12 @@ void XQWFirstHand_bottom::xMakeCentered()
         #endif
 
 
-	for(int i=0;i<activeIconsCounter;i++)
-	{
-		XQDEIconRect r = iconCoordsByIndex(i);
+        for(int i=0;i<activeIconsCounter;i++)
+        {
+                XQDEIconRect r = iconCoordsByIndex(i);
                 Basket->items.at(i)->setIconGeometry(r.x,r.y,r.z);
-		//Basket->items.at(i)->xRepaintSmall();
-	}
+                //Basket->items.at(i)->xRepaintSmall();
+        }
 
 	mouseMoveEventSW(xLastX,xLastY,1);
 	//xRepaint();
