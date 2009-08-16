@@ -15,9 +15,6 @@
 #include <QApplication>
 #include <QPainter>
 
-//#include <KWin.h>
-
-
 #include "xqwidget.h"
 #include "xqde.h"
 
@@ -46,11 +43,9 @@ void XQWidget::XQWidgetContructor(QObject *,QWidget *parent, QString HasNamedIco
 
         widgetpaint = new QPainter();
 
-        paintBuffer=QImage(1,1,QImage::Format_ARGB32);
-        paintBuffer.fill(Qt::transparent);
+        paintBuffer=QImage(0,0,QImage::Format_ARGB32);
+//        paintBuffer.fill(Qt::transparent);
 
-        //ToDo: disable shadows when using kwin (es. KWin::setShadowSize())
-        // http://bugs.kde.org/show_bug.cgi?id=99198
         //remove window frame
         setWindowFlags(Qt::FramelessWindowHint);
 //        setAttribute(Qt::WA_OpaquePaintEvent);
@@ -83,7 +78,9 @@ void XQWidget::paintEvent( QPaintEvent *e)
 
         widgetpaint->end();
 
-        //resolve bug on kwin and shadows
+        // resolve bug on kwin and shadows
+        // disable shadows when using kwin (es. KWin::setShadowSize())
+        // http://bugs.kde.org/show_bug.cgi?id=99198
         setMask(rect());
 
 }
