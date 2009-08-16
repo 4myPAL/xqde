@@ -1,5 +1,9 @@
 #include <QLocale>
 #include <QTranslator>
+#include <QDebug>
+#include <QSystemTrayIcon>
+#include <QMessageBox>
+
 
 #include "xqdemain.h"
 #include "xqde.h"
@@ -55,31 +59,46 @@ void SetNullOnAllPointers();
 
 int main(int argc, char *argv[])
 {
+        Q_INIT_RESOURCE(libxqdebase);
 	XQDEMain *app=NULL;
 	SetNullOnAllPointers();
-	qWarning("XQDE Version %s This is a alpha testing only!",XQDESRCDATE);
-	qWarning("You can mail Stefano to xqde@xiaprojects.com");
-	qWarning("Updates can be found on http://xqde.xiaprojects.com");
+        qDebug("XQDE Version %s This is a alpha testing only!",XQDESRCDATE);
+        qDebug("You can mail Stefano to xqde@xiaprojects.com");
+        qDebug("Updates can be found on http://xqde.xiaprojects.com");
 
         if(testARGB()==true){
 		qWarning("XQDE Will use Composite Extensions!");
-		app = new XQDEMain(dpy,argc,argv, Qt::HANDLE( visual ), Qt::HANDLE( colormap ));
+                app = new XQDEMain(dpy,argc,argv, Qt::HANDLE( visual ), Qt::HANDLE( colormap ));
         }
         else{
                 qWarning("Error: testARGB() cannot find Composite Extensions");
                 app = new XQDEMain(dpy,argc,argv);
         }
-	QCoreApplication::setApplicationName("xqde");
-	//app->setName("xqde");
-	QCoreApplication::setOrganizationDomain ("www.xiaprojects.com");
-        QCoreApplication::setOrganizationName("XIA Projects 2009");
 
-        //Load translation, ex. file: trans_Italian.ts
-        QTranslator translator;
-        QString translationFile = QLocale::languageToString(QLocale::system().language());
-        translationFile = ":/translations/trans_"+translationFile+".ts";
-        translator.load(translationFile);
-        app->installTranslator(&translator);
+
+        if(app->isAppRunning == true) {
+            qDebug() << "The application is alredy running!!";
+            return 0;
+        }
+
+        if (!QSystemTrayIcon::isSystemTrayAvailable()) {
+        QMessageBox::critical(0, QObject::tr("Systray"),
+                              QObject::tr("I couldn't detect any system tray "
+                                          "on this system."));
+        return 1;
+        }
+        app->setQuitOnLastWindowClosed(false);
+
+        app->setApplicationName("xqde");
+        app->setOrganizationDomain ("www.xiaprojects.com");
+        app->setOrganizationName("XIA Projects 2009");
+
+        //Loading a interface translation, ex: "xqde_it.qm"
+        QTranslator appTranslator;
+        QString translationFile = ":/translations/xqde_" + QLocale::system().name();
+        appTranslator.load(translationFile);
+        app->installTranslator(&appTranslator);
+        qDebug()<<"Loaded language is: "<<translationFile;
 
 	app->xReset();
 	return app->exec();
