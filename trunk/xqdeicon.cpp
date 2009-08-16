@@ -84,8 +84,8 @@ XQDEIcon::XQDEIcon(QString logicName,QObject *parent, void *cData,QImage *defaul
 	localParent=parent;
 	localLogicName=logicName;
 	if(cData!=0)ClientData->append(cData);
-	localThumbnail=QImage(1,1,QImage::Format_ARGB32);
-        localThumbnail.fill(Qt::transparent);
+        localThumbnail=QImage(0,0,QImage::Format_ARGB32);
+//        localThumbnail.fill(Qt::transparent);
 	if(defaultImg)localIconImageWM=defaultImg->copy();
 	if(strTitle!="")localTitle=strTitle;
 	else localTitle=logicName;
@@ -162,7 +162,7 @@ void XQDEIcon::localfillPopup(QMenu *ContextPopupMenu,XQDEIcon *pMe)
 
 	}
 
-        ContextPopupMenu->addAction(QIcon(DesktopEnvironment->Theme.findImage("/icons/configure")),tr("Configure"),this,SLOT(xConfigure()));
+        ContextPopupMenu->addAction(QIcon(DesktopEnvironment->Theme.findImage("/icons/configure")),tr("Configure Icon"),this,SLOT(xConfigure()));
         ContextPopupMenu->addAction(QIcon(DesktopEnvironment->Theme.findImage("/icons/global_configure")),tr("Global configuration"),this,SLOT(xConfigurator()));
 //        ContextPopupMenu->addAction(QIcon(":/images/configure.png"),tr("Configure"),this,SLOT(xConfigure()));
 //        ContextPopupMenu->addAction(QIcon(":/images/global_configure.png"),tr("Global configuration"),this,SLOT(xConfigurator()));
@@ -206,12 +206,7 @@ void XQDEIcon::userActionDefault(int a,int ,int )
 			if(PIDData->size()>0)
 			{
 			}
-			else
-			{
-				XQDEAction *sx=(actions->value("XQDE_USER_ACTION_CLICKSX"));
-				sx->Pointer=this;
-				sx->doit();
-			}
+                        else menu_newWindow();
                 break;
                 //New (04.03.09) start application on middle click
                 case XQDE_USER_ACTION_CLICKMI:
@@ -293,7 +288,8 @@ void XQDEIcon::xRepaint()
         localImage.fill(Qt::transparent);
 	
 
-	if(localThumbnail.width()>8) //check if a thumbnail is present
+//	if(localThumbnail.width()>8) //check if a thumbnail is present
+        if(!localThumbnail.isNull()) //check if a thumbnail is present
 	{
                 #ifdef ENABLEDEBUGMSG
                         qWarning("void XQDEIcon::xRepaint() localThumbnail.width()=%d",localThumbnail.width());
@@ -471,16 +467,17 @@ void XQDEIcon::xGetImage(QImage &store)
 void XQDEIcon::xConfigure()
 {
 	if(ExternalConfigurator==0)ExternalConfigurator=(QWidget *)new XQDEUIIconWindow();
-	XQDEUIIconWindow *l=(XQDEUIIconWindow *)ExternalConfigurator;
-	l->setObject(this);
-	l->show();
+        XQDEUIIconWindow *iconConfig=(XQDEUIIconWindow *)ExternalConfigurator;
+        iconConfig->setObject(this);
+        iconConfig->setWindowTitle(this->title());
+        iconConfig->show();
 }
 
 void XQDEIcon::redoEffects()
 {
 	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQDEIcon::redoEffects() %d %d",localImageWidthEffects.width(), localImage.width());
-	#endif
+        qDebug("void XQDEIcon::redoEffects() %d %d",localImageWidthEffects.width(), localImage.width());
+        #endif
 	localImageWidthEffects=localImage.copy();
         //xRepaintSmall();
 
