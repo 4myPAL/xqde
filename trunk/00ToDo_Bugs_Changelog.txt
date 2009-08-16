@@ -32,7 +32,7 @@ ToDo:
 - ottimizzazione memoria e prestazioni - ~Done
 - aggiungere separazioni (con plugin?)
 - creare delle aree, ad es: programmi memorizzati, in esecuzione, plugins, ecc....
-- funzionalità: opzione per poter scegliere se ragguruppare icone in una sola o no
+- funzionalità: opzione per poter scegliere se raggruppare icone in una sola o no
 
 
 
@@ -41,6 +41,8 @@ Futuri ToDo:
 - drag&drop icon 
 - pannello configurazione e plugin/temi
 - usare le QGraphicsView?
+- OpenGl
+- style-sheet (tema)
 
 
 ToDo Done:
