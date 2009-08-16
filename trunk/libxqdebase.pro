@@ -1,7 +1,7 @@
 # File generato dal gestore qmake di KDevelop.
 # -------------------------------------------
 # Sottocartella relativa alla cartella principale del progetto: .
-# Il target � un'applicazione:
+# Il target è un'applicazione:
 FORMS += XQDEUIIcon.ui \
     XQDEUIConfigurator.ui \
     XQDEUIConfiguratorXML.ui
@@ -72,8 +72,11 @@ SOURCES += libxqdebase.cpp \
     xqdedevice.cpp \
     xqdewindowmanagerinterface.cpp \
     xqdesystray.cpp
+TRANSLATIONS = xqde_it.ts
 TEMPLATE = app
 LIBS += -lXcomposite
 QT += network \
-    xml
+    xml \
+    dbus
 RESOURCES += resources/libxqdebase.qrc
+#DEFINES += QT_NO_DEBUG_OUTPUT QT_NO_WARNING_OUTPUT
