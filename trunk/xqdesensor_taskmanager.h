@@ -44,6 +44,10 @@ public slots:
 	void slotPollingPID();
         bool x11EventFilter( XEvent *ev );
 
+private:
+        QPixmap originalPixmap;
+        QSize thumbnailSize;
+
 protected:
 	void Helper_RollDown(XQDEIcon *ic);
 	void Helper_RollUp(XQDEIcon *ic);

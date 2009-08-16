@@ -733,7 +733,101 @@ QPixmap thumbnail(Window m_frameId, int maxDimension)
 
    // ######## other test ###########33
 
-//    Composite Help: http://ktown.kde.org/~fredrik/composite_howto.html
+////    Composite Help: http://ktown.kde.org/~fredrik/composite_howto.html
+//
+//    if (!m_windowPixmap)
+//    {
+//       return QPixmap();
+//    }
+//
+//    Display *dpy = qt_xdisplay();
+//    // We need to find out some things about the window, such as it's size, it's position
+//    // on the screen, and the format of the pixel data
+//    XWindowAttributes attr;
+//
+//    #ifdef ENABLEDEBUGMSG
+//    QTime t;
+//    t.start();
+//    #endif
+//
+//    if( XGetWindowAttributes( dpy, m_frameId, &attr ) == 0)  return QPixmap();
+//
+//    #ifdef ENABLEDEBUGMSG
+//    qDebug("Time elapsed XGetWindowAttributes: %d ms", t.elapsed());
+//    t.restart();
+//    #endif
+//
+//    XRenderPictFormat *format = XRenderFindVisualFormat( dpy, attr.visual );
+//    bool hasAlpha             = ( format->type == PictTypeDirect && format->direct.alphaMask );
+//    int x                     = attr.x;
+//    int y                     = attr.y;
+//    int width                 = attr.width;
+//    int height                = attr.height;
+//
+//    #ifdef ENABLEDEBUGMSG
+//    qDebug("Time elapsed XRenderFindVisualFormat: %d ms", t.elapsed());
+//    t.restart();
+//    #endif
+//
+//    // Create a Render picture so we can reference the window contents.
+//    // We need to set the subwindow mode to IncludeInferiors, otherwise child widgets
+//    // in the window won't be included when we draw it, which is not what we want.
+//    XRenderPictureAttributes pa;
+//    pa.subwindow_mode = IncludeInferiors; // Don't clip child widgets
+//
+//    Picture picture = XRenderCreatePicture( dpy, m_frameId, format, CPSubwindowMode, &pa );
+//
+//    #ifdef ENABLEDEBUGMSG
+//    qDebug("Time elapsed XRenderCreatePicture: %d ms", t.elapsed());
+//    t.restart();
+//    #endif
+//
+//    //        double factor;
+//    //        if (attr.width > attr.height)
+//    //        {
+//    //            factor = (double)maxDimension / (double)attr.width;
+//    //        }
+//    //        else
+//    //        {
+//    //            factor = (double)maxDimension / (double)attr.height;
+//    //        }
+//    //
+//    //        int thumbnailWidth = (int)(attr.width * factor);
+//    //        int thumbnailHeight = (int)(attr.height * factor);
+//
+//    int thumbnailWidth = (int)(attr.width );
+//    int thumbnailHeight = (int)(attr.height);
+//
+//    QPixmap thumbnail(thumbnailWidth, thumbnailHeight);
+//    thumbnail.fill(Qt::transparent);
+//
+//    //XRenderComposite(dpy,
+//    //                     PictOpOver, // we're filtering, alpha values are probable
+//    //                     picture, // src
+//    //                     None, // mask
+//    //                     thumbnail.x11PictureHandle(), // dst
+//    //                     0, 0, // src offset
+//    //                     0, 0, // mask offset
+//    //                     0, 0, // dst offset
+//    //                     thumbnailWidth, thumbnailHeight);
+//
+//    XRenderComposite( dpy, hasAlpha ? PictOpOver : PictOpSrc, picture, None,
+//                    thumbnail.x11PictureHandle(), 0, 0, 0, 0, 0, 0, thumbnailWidth, thumbnailHeight );
+//
+//    #ifdef ENABLEDEBUGMSG
+//    qDebug("Time elapsed XRenderComposite: %d ms", t.elapsed());
+//    t.restart();
+//    #endif
+//
+//    XRenderFreePicture(dpy, picture);
+//
+//    #ifdef ENABLEDEBUGMSG
+//    qDebug("Time elapsed XRenderFreePicture: %d ms", t.elapsed());
+//    t.restart();
+//    #endif
+//
+    
+    //    Composite Help: http://ktown.kde.org/~fredrik/composite_howto.html
 
     if (!m_windowPixmap)
     {
@@ -745,86 +839,25 @@ QPixmap thumbnail(Window m_frameId, int maxDimension)
     // on the screen, and the format of the pixel data
     XWindowAttributes attr;
 
-    #ifdef ENABLEDEBUGMSG
-    QTime t;
-    t.start();
-    #endif
-
     if( XGetWindowAttributes( dpy, m_frameId, &attr ) == 0)  return QPixmap();
 
-    #ifdef ENABLEDEBUGMSG
-    qDebug("Time elapsed XGetWindowAttributes: %d ms", t.elapsed());
-    t.restart();
-    #endif
-    
-    XRenderPictFormat *format = XRenderFindVisualFormat( dpy, attr.visual );
-    bool hasAlpha             = ( format->type == PictTypeDirect && format->direct.alphaMask );
     int x                     = attr.x;
     int y                     = attr.y;
     int width                 = attr.width;
     int height                = attr.height;
 
-    #ifdef ENABLEDEBUGMSG
-    qDebug("Time elapsed XRenderFindVisualFormat: %d ms", t.elapsed());
-    t.restart();
-    #endif
+    //grap picture
+    QPixmap originalPixmap(QPixmap::grabWindow(m_frameId,x,y,width,height));
 
-    // Create a Render picture so we can reference the window contents.
-    // We need to set the subwindow mode to IncludeInferiors, otherwise child widgets
-    // in the window won't be included when we draw it, which is not what we want.
-    XRenderPictureAttributes pa;
-    pa.subwindow_mode = IncludeInferiors; // Don't clip child widgets
-
-    Picture picture = XRenderCreatePicture( dpy, m_frameId, format, CPSubwindowMode, &pa );
-
-    #ifdef ENABLEDEBUGMSG
-    qDebug("Time elapsed XRenderCreatePicture: %d ms", t.elapsed());
-    t.restart();
-    #endif
-
-    //        double factor;
-    //        if (attr.width > attr.height)
-    //        {
-    //            factor = (double)maxDimension / (double)attr.width;
-    //        }
-    //        else
-    //        {
-    //            factor = (double)maxDimension / (double)attr.height;
-    //        }
-    //
-    //        int thumbnailWidth = (int)(attr.width * factor);
-    //        int thumbnailHeight = (int)(attr.height * factor);
 
     int thumbnailWidth = (int)(attr.width );
     int thumbnailHeight = (int)(attr.height);
 
     QPixmap thumbnail(thumbnailWidth, thumbnailHeight);
     thumbnail.fill(Qt::transparent);
-
-    //XRenderComposite(dpy,
-    //                     PictOpOver, // we're filtering, alpha values are probable
-    //                     picture, // src
-    //                     None, // mask
-    //                     thumbnail.x11PictureHandle(), // dst
-    //                     0, 0, // src offset
-    //                     0, 0, // mask offset
-    //                     0, 0, // dst offset
-    //                     thumbnailWidth, thumbnailHeight);
-
-    XRenderComposite( dpy, hasAlpha ? PictOpOver : PictOpSrc, picture, None,
-                    thumbnail.x11PictureHandle(), 0, 0, 0, 0, 0, 0, thumbnailWidth, thumbnailHeight );
-
-    #ifdef ENABLEDEBUGMSG
-    qDebug("Time elapsed XRenderComposite: %d ms", t.elapsed());
-    t.restart();
-    #endif
-
-    XRenderFreePicture(dpy, picture);
-
-    #ifdef ENABLEDEBUGMSG
-    qDebug("Time elapsed XRenderFreePicture: %d ms", t.elapsed());
-    t.restart();
-    #endif
+    QSize thumbnailSize(thumbnailWidth, thumbnailHeight);
+    thumbnail = originalPixmap.scaled(thumbnailSize, Qt::KeepAspectRatio,
+                                                     Qt::SmoothTransformation);
     
     return thumbnail;
 }
