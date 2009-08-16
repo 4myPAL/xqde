@@ -14,3 +14,8 @@ libxqdebase
 
 #Remove temp files
 .*~
+
+#Remove object files
+trunk/moc_*.*
+trunk/*.o
+trunk/ui_*.*

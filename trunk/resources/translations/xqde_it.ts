@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="1.1" language="it_CH">
-<defaultcodec></defaultcodec>
+<!DOCTYPE TS>
+<TS version="2.0" language="it_CH">
 <context>
     <name>XQDEIcon</name>
     <message>
@@ -9,26 +9,33 @@
     </message>
     <message>
         <source>Keep in dock</source>
-        <translation>Mantienei della dock</translation>
+        <translation>Mantieni nella dock</translation>
     </message>
     <message>
         <source>Remove on exit</source>
-        <translation>Rimuovi in uscita</translation>
+        <translation>Rimuovi dalla dock</translation>
     </message>
     <message>
         <source>Configure</source>
-        <translation>Configurazione icona</translation>
+        <translation>Configura</translation>
     </message>
     <message>
         <source>Global configuration</source>
-        <translation>Configurazione globale</translation>
+        <translation>Configurazioni globali</translation>
+    </message>
+</context>
+<context>
+    <name>XQDESysTray</name>
+    <message>
+        <source>&amp;Quit</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>XQDEUIConfigurator</name>
     <message>
         <source>XQDE configuration tool</source>
-        <translation>Tool di configurazione XQDE</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>About</source>
@@ -48,7 +55,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Segoe Media Center&apos;; font-size:10pt;&quot;&gt;- desktop environment (when ready)&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Segoe Media Center&apos;; font-size:10pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Segoe Media Center&apos;; font-size:10pt;&quot;&gt;XQDE depends on:&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Segoe Media Center&apos;; font-size:10pt;&quot;&gt;- Trolltech Qt 4.2.x&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Segoe Media Center&apos;; font-size:10pt;&quot;&gt;- Trolltech Qt 4.5.x&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Segoe Media Center&apos;; font-size:10pt;&quot;&gt;- X11&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Segoe Media Center&apos;; font-size:10pt;&quot;&gt;no more other libraries.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Segoe Media Center&apos;; font-size:10pt;&quot;&gt;- Composite extensions (AIGLX or XGL, either with a composite manager)&lt;/span&gt;&lt;/p&gt;
@@ -60,6 +67,22 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Design</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vertical</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Normal size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Big size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Horizontal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -80,22 +103,6 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Horizontal</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Vertical</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Normal size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Big size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -211,7 +218,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>XQDE 0.0.1 is a XIA Projects 2007 product xqde@xiaprojects.com</source>
+        <source>XQDE is a XIA Projects 2009 product xqde@xiaprojects.com</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
