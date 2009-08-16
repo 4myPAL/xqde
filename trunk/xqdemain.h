@@ -35,7 +35,7 @@ public:
     ~XQDEMain();
 	void xReset();
 public slots:
-void Basket_As_Changed(int,XQDEIcon*,void*);
+//void Basket_As_Changed(int,XQDEIcon*,void*);
 
 protected:
 	virtual int xmlLoad();

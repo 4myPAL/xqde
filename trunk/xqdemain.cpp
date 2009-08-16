@@ -14,6 +14,8 @@
 #include <QStringList>
 #include <QFile>
 #include <QtXml/QDomDocument>
+#include <QSystemTrayIcon>
+#include <QMessageBox>
 
 // need to be moved to proxy
 #include "xqdeconfigurator.h"
@@ -26,6 +28,7 @@
 #include "xqdesensor_taskmanager.h"
 #include "xqdebasket.h"
 #include "xqdeproxy.h"
+#include "xqdesystray.h"
 
 
 
@@ -92,13 +95,21 @@ void XQDEMain::xReset()
 	// TaskManager
         TaskManager=new XQDESensor_TaskManager(root);
 //	//
-///*
-//	XQDESensor_SystemTray *SystemTray=new XQDESensor_SystemTray(root);
-//	SystemTray->setRect(200,200,800,500);
-//	SystemTray->xReset();
-//	SystemTray->xRepaint();
-//	SystemTray->show();
-//*/
+/////*
+//        XQDESensor_SystemTray *SystemTray=new XQDESensor_SystemTray();
+//        SystemTray->setRect(200,200,800,500);
+////        SystemTray->xReset();
+////        SystemTray->xRepaint();
+//        SystemTray->show();
+////*/
+
+        //System Tray for XQDE
+//        XQDESysTray *sys = new XQDESysTray(root);
+//                SysTray = new XQDESysTray();
+        // xTray
+//	QObject *m_tray=XEObject::xFindObject("xTray");
+//	if(m_tray!=NULL)connect(m_tray,SIGNAL(quitSelected()),this,SLOT(QueryClose()));
+
 	// Desktop Widget
 	XQDEBase *xqde=new XQDEBase(root);
 //	if(!SystemTray)qWarning("Heavy error reported");
@@ -143,10 +154,10 @@ void XQDEMain::xReset()
 }
 
 
-
-void XQDEMain::Basket_As_Changed(int ,XQDEIcon*,void*)
-{
-}
+//
+//void XQDEMain::Basket_As_Changed(int ,XQDEIcon*,void*)
+//{
+//}
 
 void storeConfiguration()
 {
@@ -159,7 +170,6 @@ else
 {
 localPathDir=DataPath;
 }
-
 		qWarning("Home: %s",localPathDir.toAscii().data());
 		QDir *XQDEqd=new QDir(localPathDir);
 		XQDEqd->mkpath(".xqde");
