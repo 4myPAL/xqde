@@ -22,9 +22,13 @@
 class XQUniqueApplication : public QApplication
 {
 Q_OBJECT
+
 public:
+
     XQUniqueApplication(Display * display, int & argc, char ** argv, Qt::HANDLE visual = 0, Qt::HANDLE colormap = 0 );
     ~XQUniqueApplication();
+    bool isAppRunning;
+
 protected:
 	//class QDBusConnectionInterface *bus;
 	QString SERVICE_NAME;
