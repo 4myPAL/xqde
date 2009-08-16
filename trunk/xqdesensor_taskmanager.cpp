@@ -1187,8 +1187,8 @@ void XQDESensor_TaskManager::postAddClient(Window window)
         //qWarning("about P4_%d_",(int)window);
 	NETIcon taskIcon=info.icon(DesktopEnvironment->GUI.sizeIconsMax,DesktopEnvironment->GUI.sizeIconsMax);
 	QImage taskQIcon;
-	taskQIcon=QImage(1,1,QImage::Format_ARGB32);
-	taskQIcon.fill(Qt::transparent);
+        taskQIcon=QImage(0,0,QImage::Format_ARGB32);
+//	taskQIcon.fill(Qt::transparent);
         //qWarning("about P5_%d_",(int)window);
 	if(taskIcon.data!=0)
 	{
