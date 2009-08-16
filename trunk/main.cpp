@@ -81,13 +81,13 @@ int main(int argc, char *argv[])
             return 0;
         }
 
-        if (!QSystemTrayIcon::isSystemTrayAvailable()) {
-        QMessageBox::critical(0, QObject::tr("Systray"),
-                              QObject::tr("I couldn't detect any system tray "
-                                          "on this system."));
-        return 1;
-        }
-        app->setQuitOnLastWindowClosed(false);
+//        if (!QSystemTrayIcon::isSystemTrayAvailable()) {
+//        QMessageBox::critical(0, QObject::tr("Systray"),
+//                              QObject::tr("I couldn't detect any system tray "
+//                                          "on this system."));
+//        return 1;
+//        }
+//        app->setQuitOnLastWindowClosed(false);
 
         app->setApplicationName("xqde");
         app->setOrganizationDomain ("www.xiaprojects.com");
