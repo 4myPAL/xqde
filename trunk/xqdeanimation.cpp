@@ -246,6 +246,7 @@ void XQDEAnimation::stepAgain()
                         #ifndef RESIZEVIAXRENDER
                         image=icon->image()->copy();
                         XQDE_ImageSetIntensity(image,currentFade);
+                        icon->xSetImage(image);
                         #else
                         image=icon->image();
                         imageImage=image->toImage();
@@ -310,6 +311,7 @@ void XQDEAnimation::stepAgain()
                         icon->move(icon->detachedRect.x+MainWindow->x(),icon->detachedRect.y+MainWindow->y());
                         //ToDo: non usare show per mostrare icona, resta sopra alle finestre
                         icon->show();
+
                         }
                         break;
         }
