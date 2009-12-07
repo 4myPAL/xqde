@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>XQDEUIConfiguratorXML</class>
- <widget class="QDialog" name="XQDEUIConfiguratorXML" >
-  <property name="geometry" >
+ <widget class="QDialog" name="XQDEUIConfiguratorXML">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,140 +10,140 @@
     <height>329</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout">
    <item>
-    <widget class="QTabWidget" name="tabWidget" >
-     <property name="currentIndex" >
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="tab" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
        <string>Setup</string>
       </attribute>
-      <layout class="QVBoxLayout" >
+      <layout class="QVBoxLayout">
        <item>
-        <layout class="QGridLayout" >
-         <item row="0" column="0" >
-          <widget class="QLabel" name="label" >
-           <property name="text" >
+        <layout class="QGridLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label">
+           <property name="text">
             <string>Values Name</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1" >
-          <widget class="QLabel" name="label_3" >
-           <property name="text" >
+         <item row="0" column="1">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
             <string>Description</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="0" >
-          <widget class="QListWidget" name="list_names" />
+         <item row="1" column="0">
+          <widget class="QListWidget" name="list_names"/>
          </item>
-         <item row="1" column="1" >
-          <widget class="QTextEdit" name="var_description" />
+         <item row="1" column="1">
+          <widget class="QTextEdit" name="var_description"/>
          </item>
         </layout>
        </item>
        <item>
-        <widget class="QLabel" name="label_2" >
-         <property name="text" >
+        <widget class="QLabel" name="label_2">
+         <property name="text">
           <string>Value Data</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="var_value" />
+        <widget class="QLineEdit" name="var_value"/>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_2" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
        <string>About</string>
       </attribute>
-      <layout class="QVBoxLayout" >
+      <layout class="QVBoxLayout">
        <item>
-        <layout class="QGridLayout" >
-         <item row="0" column="0" >
-          <widget class="QLabel" name="label_4" >
-           <property name="text" >
+        <layout class="QGridLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_4">
+           <property name="text">
             <string>Name</string>
            </property>
-           <property name="alignment" >
+           <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="0" column="1" >
-          <widget class="QLineEdit" name="c_name" />
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="c_name"/>
          </item>
-         <item row="1" column="0" >
-          <widget class="QLabel" name="label_5" >
-           <property name="text" >
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
             <string>Author</string>
            </property>
-           <property name="alignment" >
+           <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="1" column="1" >
-          <widget class="QLineEdit" name="c_author" />
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="c_author"/>
          </item>
-         <item row="2" column="0" >
-          <widget class="QLabel" name="label_6" >
-           <property name="text" >
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_6">
+           <property name="text">
             <string>Version</string>
            </property>
-           <property name="alignment" >
+           <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="2" column="1" >
-          <widget class="QLineEdit" name="c_ver" />
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="c_ver"/>
          </item>
-         <item row="3" column="0" >
-          <widget class="QLabel" name="label_7" >
-           <property name="text" >
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
             <string>eMail</string>
            </property>
-           <property name="alignment" >
+           <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="3" column="1" >
-          <widget class="QLineEdit" name="c_email" />
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="c_email"/>
          </item>
-         <item row="4" column="0" >
-          <widget class="QLabel" name="label_8" >
-           <property name="text" >
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_8">
+           <property name="text">
             <string>Website</string>
            </property>
-           <property name="alignment" >
+           <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="4" column="1" >
-          <widget class="QLineEdit" name="c_web" />
+         <item row="4" column="1">
+          <widget class="QLineEdit" name="c_web"/>
          </item>
-         <item row="5" column="0" >
-          <widget class="QLabel" name="label_9" >
-           <property name="text" >
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_9">
+           <property name="text">
             <string>Autoupgrade url</string>
            </property>
-           <property name="alignment" >
+           <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="5" column="1" >
-          <widget class="QLineEdit" name="c_autoupdate" />
+         <item row="5" column="1">
+          <widget class="QLineEdit" name="c_autoupdate"/>
          </item>
         </layout>
        </item>
@@ -151,13 +152,13 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" >
+    <layout class="QHBoxLayout">
      <item>
       <spacer>
-       <property name="orientation" >
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>40</width>
          <height>20</height>
@@ -166,8 +167,8 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pOK" >
-       <property name="text" >
+      <widget class="QPushButton" name="pOK">
+       <property name="text">
         <string>OK</string>
        </property>
       </widget>

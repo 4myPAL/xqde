@@ -1,6 +1,34 @@
 <RCC>
-    <qresource prefix="/" >
+    <qresource prefix="/">
         <file>translations/xqde_it.ts</file>
         <file>images/xqde_logo.png</file>
+        <file>images/big.png</file>
+        <file>images/bttxt.png</file>
+        <file>images/configure.png</file>
+        <file>images/crossfade.png</file>
+        <file>images/diapositive.png</file>
+        <file>images/format_text_italic.png</file>
+        <file>images/global_configure.png</file>
+        <file>images/horizontal.png</file>
+        <file>images/insert_text.png</file>
+        <file>images/keepindock.png</file>
+        <file>images/new.png</file>
+        <file>images/normal.png</file>
+        <file>images/position.png</file>
+        <file>images/removeonexit.png</file>
+        <file>images/vertical.png</file>
+        <file>images/1downarrow.png</file>
+        <file>images/1leftarrow.png</file>
+        <file>images/1rightarrow.png</file>
+        <file>images/1uparrow.png</file>
+        <file>images/2downarrow.png</file>
+        <file>images/help_about.png</file>
+        <file>images/new1.png</file>
+        <file>images/configure2.png</file>
+        <file>images/customize.png</file>
+        <file>images/eraser.png</file>
+        <file>images/fin.png</file>
+        <file>images/fonts.png</file>
+        <file>images/format_stroke_color.png</file>
     </qresource>
 </RCC>
