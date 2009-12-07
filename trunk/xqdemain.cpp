@@ -91,7 +91,7 @@ void XQDEMain::xReset()
 	// WindowManagerInterface
 	WindowManagerInterface=new XQDEWindowManagerInterface(root);
 	//
-        Basket=new XQDEBasket;
+        Basket=new XQDEBasket(root);
 	// TaskManager
         TaskManager=new XQDESensor_TaskManager(root);
 //	//

@@ -733,6 +733,7 @@ QPixmap thumbnail(Window m_frameId, int maxDimension)
 
    // ######## other test ###########33
 
+    // ######## this WORK!!! ###########
 ////    Composite Help: http://ktown.kde.org/~fredrik/composite_howto.html
 //
 //    if (!m_windowPixmap)
@@ -1004,6 +1005,14 @@ XQDESensor_TaskManager::XQDESensor_TaskManager(XQDEClass *parent)
 full_properties, sizeof(full_properties)/sizeof(unsigned long), -1, false)
 {
 	m_windowPixmap=0;
+
+        ObjectName="com.xiaprojects.TaskManager";
+        ConfigurationData.append(new XQDEConfigurationPair("serverurl",""));
+        ConfigurationData.append(new XQDEConfigurationPair("email","xqde@xiaprojects.com"));
+        ConfigurationData.append(new XQDEConfigurationPair("author","Stefano Zingarini"));
+        ConfigurationData.append(new XQDEConfigurationPair("web","http://xqde.xiaprojects.com"));
+        ConfigurationData.append(new XQDEConfigurationPair("version","20090712"));
+        ConfigurationData.append(new XQDEConfigurationPair("autoupdate","http://xqde.xiaprojects.com/todo.php"));
 
 }
 

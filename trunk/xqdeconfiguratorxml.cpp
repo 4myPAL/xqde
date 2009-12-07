@@ -123,10 +123,13 @@ void XQDEConfiguratorXML::configureThisComponentViaXML(QObject *remoteObj)
 		c_autoupdate->setText(buf);
 		//
 		buf="";
-		emit GetNamedValue("ver", buf);
+                emit GetNamedValue("version", buf);
 		c_ver->setText(buf);
 
-		var_description->setText("");
+                buf="";
+                emit GetNamedValue("description", buf);
+                var_description->setText(buf);
+                //var_description->setText("");
 		var_value->setText("");
 		
 		

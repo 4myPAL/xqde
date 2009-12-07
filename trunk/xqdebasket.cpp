@@ -30,6 +30,13 @@ XQDEBasket *Basket;
 XQDEBasket::XQDEBasket(XQDEClass *parent)
  : XQDEClass(parent)
 {
+    ObjectName="com.xiaprojects.Basket";
+    ConfigurationData.append(new XQDEConfigurationPair("serverurl","http://xqde.xiaprojects.com"));
+    ConfigurationData.append(new XQDEConfigurationPair("email","xqde@xiaprojects.com"));
+    ConfigurationData.append(new XQDEConfigurationPair("author","Stefano Zingarini"));
+    ConfigurationData.append(new XQDEConfigurationPair("web","http://xqde.xiaprojects.com"));
+    ConfigurationData.append(new XQDEConfigurationPair("version",""));
+    ConfigurationData.append(new XQDEConfigurationPair("autoupdate",""));
 }
 
 
