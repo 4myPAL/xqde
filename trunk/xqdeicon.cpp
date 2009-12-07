@@ -43,9 +43,8 @@ void XRenderResizeImage(QPixmap &Source,QPixmap &thumbnail,int mx, int my);
 
 XQDEIcon::XQDEIcon(QString logicName,QObject *parent, void *cData,QImage *defaultImg, QString strTitle, QString defaulticon): XQWidget(parent)
 {
-	#ifdef ENABLEDEBUGMSG
-	qWarning("XQDEIcon::XQDEIcon(QString logicName,QObject *parent, void *cData,QImage *defaultImg, QString strTitle, QString defaulticon): XQWidget(parent)");
-	#endif
+        qDebug("XQDEIcon::XQDEIcon(QString logicName,QObject *parent, void *cData,QImage *defaultImg, QString strTitle, QString defaulticon): XQWidget(parent)");
+
 	//MakeWindowOnTopPillow((void *)winId());
 	imageCachedDirty=0;
         isReflectionEnabled=2*18+2;
@@ -104,9 +103,7 @@ XQDEIcon::XQDEIcon(QString logicName,QObject *parent, void *cData,QImage *defaul
 	MouseDXClick->Action="";
 	actions->insert("XQDE_USER_ACTION_CLICKDX",MouseDXClick);
 	
-	#ifdef ENABLEDEBUGMSG
-	qWarning("XQDEIcon::XQDEIcon() end");
-	#endif
+        qDebug("XQDEIcon::XQDEIcon() end");
 	}
 
 
@@ -216,45 +213,38 @@ void XQDEIcon::userActionDefault(int a,int ,int )
 }
 void XQDEIcon::userAction(int a,int b,int c)
 {
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQDEIcon::userAction(int %d,int %d,int %d)",a,b,c);
-	#endif
+        qDebug("void XQDEIcon::userAction(int %d,int %d,int %d)",a,b,c);
+
 	if (receivers(SIGNAL(sguserAction(int,int,int,void *, XQDEIcon *))) > 0)
 	{
-	#ifdef ENABLEDEBUGMSG
-		qWarning("void XQDEIcon::userAction sending signals");
-	#endif
+                qDebug("void XQDEIcon::userAction sending signals");
+
 		emit sguserAction(a,b,c,clientData(),this);
 	}
 	else
 	{
-	#ifdef ENABLEDEBUGMSG
-		qWarning("void XQDEIcon::userAction default action");
-	#endif
+                qDebug("void XQDEIcon::userAction default action");
+
 		userActionDefault(a,b,c);
 	}
 }
 void XQDEIcon::xRepaintSmall()
 {
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQDEIcon::xRepaintSmall() %d", localImageWidthEffects.width());
-	#endif
+        qDebug("void XQDEIcon::xRepaintSmall() %d", localImageWidthEffects.width());
+
 	#ifndef RESIZEVIAXRENDER
 	imageCachedMini=localImageWidthEffects.scaled (DesktopEnvironment->GUI.handIconsMax,DesktopEnvironment->GUI.handIconsMax, Qt::KeepAspectRatio, Qt::SmoothTransformation );
 	#else
 	XRenderResizeImageGood(localImageWidthEffects,imageCachedMini,DesktopEnvironment->GUI.handIconsMax);
 	#endif
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQDEIcon::xRepaintSmall() %d", localImageWidthEffects.width());
-	#endif
+        qDebug("void XQDEIcon::xRepaintSmall() %d", localImageWidthEffects.width());
+
 	imageCachedMiniDirty=0;
 }
 
 void XQDEIcon::xRepaintDetached()
 {
-        #ifdef ENABLEDEBUGMSG
-        qWarning("void XQDEIcon::xRepaintDetached()");
-        #endif
+        qDebug("void XQDEIcon::xRepaintDetached()");
 
 	paintBuffer.fill(Qt::transparent);
         widgetpaint->begin(&paintBuffer);
@@ -270,13 +260,11 @@ void XQDEIcon::xRepaint()
 {
 
 	#ifndef RESIZEVIAXRENDER
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQDEIcon::xRepaint() Qt");
-	#endif
+        qDebug("void XQDEIcon::xRepaint() Qt");
+
 	#else
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQDEIcon::xRepaint() XRender");
-	#endif
+        qDebug("void XQDEIcon::xRepaint() XRender");
+
 	#endif
 	
         #ifndef RESIZEVIAXRENDER
@@ -291,9 +279,8 @@ void XQDEIcon::xRepaint()
 //	if(localThumbnail.width()>8) //check if a thumbnail is present
         if(!localThumbnail.isNull()) //check if a thumbnail is present
 	{
-                #ifdef ENABLEDEBUGMSG
-                        qWarning("void XQDEIcon::xRepaint() localThumbnail.width()=%d",localThumbnail.width());
-                #endif
+
+                qDebug("void XQDEIcon::xRepaint() localThumbnail.width()=%d",localThumbnail.width());
 		//QPainter p;
 		if(localThumbnail.width()!=DesktopEnvironment->GUI.sizeIconsMax||localThumbnail.height()!=DesktopEnvironment->GUI.sizeIconsMax)
 		{
@@ -313,18 +300,14 @@ void XQDEIcon::xRepaint()
                 widgetpaint->end();
 	}
 	
-        #ifdef ENABLEDEBUGMSG
-        qWarning("void XQDEIcon::xRepaint() %d %d A",localImage.width(), localIconImage.width());
-	#endif
+        qDebug("void XQDEIcon::xRepaint() %d %d A",localImage.width(), localIconImage.width());
+
 
 //	localImageWidthEffects=localImage.copy();
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQDEIcon::xRepaint() %d %d B",localImage.width(), localIconImage.width());
-	#endif
+        qDebug("void XQDEIcon::xRepaint() %d %d B",localImage.width(), localIconImage.width());
 	applyEffects();
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQDEIcon::xRepaint() %d %d C",localImage.width(), localIconImage.width());
-	#endif
+        qDebug("void XQDEIcon::xRepaint() %d %d C",localImage.width(), localIconImage.width());
+
 //        imageHotSpot.z=0;
 
 //	xRepaintSmall();
@@ -361,9 +344,8 @@ extern QString DataPath;
 
 void XQDEIcon::xReset()
 {
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQDEIcon::xReset() %s",localIcon.toUtf8().constData());
-	#endif
+        qDebug("void XQDEIcon::xReset() %s",localIcon.toUtf8().constData());
+
 
         // ricerca icona, 1) locale, 2) carica da Window Manager 3)imagine per removed icon
 	int bad=1;
@@ -389,22 +371,17 @@ void XQDEIcon::xReset()
                 {
                         if(!localIconImage.load(newImageFile))
                         {
-                                #ifdef ENABLEDEBUGMSG
                                 qWarning("Cannot find suitable icon");
-                                #endif
                         }
                 }
         }
 
-	#ifdef ENABLEDEBUGMSG
-        qWarning("void XQDEIcon::xReset() localIconImage.width()=%d to %ld", localIconImage.width(),DesktopEnvironment->GUI.sizeIconsMax);
-	#endif
-	qWarning("void XQDEIcon::xReset() localIconImage.width()=%d to %ld", localIconImage.width(),DesktopEnvironment->GUI.sizeIconsMax);
+        qDebug("void XQDEIcon::xReset() localIconImage.width()=%d to %ld", localIconImage.width(),DesktopEnvironment->GUI.sizeIconsMax);
+
         if(localIconImage.width()!=DesktopEnvironment->GUI.sizeIconsMax)
         {
-                #ifdef ENABLEDEBUGMSG
-                qWarning("void XQDEIcon::xReset() warning duty cicle %d to %ld", localIconImage.width(),DesktopEnvironment->GUI.sizeIconsMax);
-                #endif
+                qDebug("void XQDEIcon::xReset() warning duty cicle %d to %ld", localIconImage.width(),DesktopEnvironment->GUI.sizeIconsMax);
+
                 localIconImage=localIconImage.scaled(DesktopEnvironment->GUI.sizeIconsMax,DesktopEnvironment->GUI.sizeIconsMax,Qt::KeepAspectRatio,Qt::SmoothTransformation);
         }
 
@@ -446,9 +423,8 @@ void XQDEIcon::xSetIcon(const QString & newIcon)
 
 void XQDEIcon::xSetTitle(const QString &newIconTitle)
 {
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQDEIcon::xSetTitle(QString newIcon)");
-	#endif
+        qDebug("void XQDEIcon::xSetTitle(QString newIcon)");
+
         if(newIconTitle==localTitle)return;
         localTitle=newIconTitle;
 	overText->xSetText(localTitle);
@@ -475,9 +451,8 @@ void XQDEIcon::xConfigure()
 
 void XQDEIcon::redoEffects()
 {
-	#ifdef ENABLEDEBUGMSG
         qDebug("void XQDEIcon::redoEffects() %d %d",localImageWidthEffects.width(), localImage.width());
-        #endif
+
 	localImageWidthEffects=localImage.copy();
         //xRepaintSmall();
 
@@ -487,14 +462,10 @@ void XQDEIcon::redoEffects()
 
 void XQDEIcon::applyEffects()
 {
-        #ifdef ENABLEDEBUGMSG
-        qWarning("void XQDEIcon::applyEffects() count=%d", animations->count());
-        #endif
+        qDebug("void XQDEIcon::applyEffects() count=%d", animations->count());
         for(int i=0;i<animations->count();i++)
         {
-                #ifdef ENABLEDEBUGMSG
-                qWarning("void XQDEIcon::applyEffects() type=%d", animations->at(i)->getType());
-                #endif
+                qDebug("void XQDEIcon::applyEffects() type=%d", animations->at(i)->getType());
                 animations->at(i)->stepAgain();
         }
 }
@@ -573,9 +544,8 @@ void XQDEIcon::xSetSmoothZoom(int newZoom)
 {
         //qWarning("void XQDEIcon::xSetSmoothZoom(int newZoom)");
         if(newZoom==imageHotSpot.z)return;
-         #ifdef ENABLEDEBUGMSG
-                qWarning("void XQDEIcon::xSetSmoothZoom(%d) %d %d begin", newZoom,localImageWidthEffects.width(),imageCached.width());
-        #endif
+
+        qDebug("void XQDEIcon::xSetSmoothZoom(%d) %d %d begin", newZoom,localImageWidthEffects.width(),imageCached.width());
         imageCachedDirty=1;
         if(newZoom==DesktopEnvironment->GUI.handIconsMax && imageCachedMiniDirty==0)
         {
@@ -596,15 +566,14 @@ void XQDEIcon::xSetSmoothZoom(int newZoom)
                 #endif
                 }
         }
-        #ifdef ENABLEDEBUGMSG
-        qWarning("void XQDEIcon::xSetZoom(%d) %d %d end", newZoom,localImageWidthEffects.width(),imageCached.width());
-        #endif
+
+        qDebug("void XQDEIcon::xSetZoom(%d) %d %d end", newZoom,localImageWidthEffects.width(),imageCached.width());
+
         imageHotSpot.z=newZoom;
         if(isReflectionEnabled>0)
         {
-            #ifdef ENABLEDEBUGMSG
-                qWarning("void XQDEIcon::xSetZoom(...) reflection");
-            #endif
+            qDebug("void XQDEIcon::xSetZoom(...) reflection");
+
             #ifndef RESIZEVIAXRENDER
             imageCachedReflection=localImageWidthEffectsReflection.scaled(newZoom,isReflectionEnabled, Qt::IgnoreAspectRatio, Qt::FastTransformation );
              #else
@@ -700,9 +669,7 @@ void XQDEIcon::xSetImage(QPixmap &i)
             localImageWidthEffectsReflection=localImageWidthEffectsReflection.fromImage(pip);
             #endif
 
-            #ifdef ENABLEDEBUGMSG
-                qWarning("void XQDEIcon::xSetImage(...) reflection");
-            #endif
+            qDebug("void XQDEIcon::xSetImage(...) reflection");
 //            #ifndef RESIZEVIAXRENDER
 //            imageCachedReflection=localImageWidthEffectsReflection.scaled(newZoom,isReflectionEnabled, Qt::KeepAspectRatio, Qt::SmoothTransformation );
 //             #else
@@ -758,9 +725,8 @@ void XQDEIcon::setIconGeometry(int x,int y,int z)
 		imageHotSpot.z=0;
 
 		imageCachedArrowRect=imageHotSpot;
-                #ifdef ENABLEDEBUGMSG
-                qWarning("void XQDEIcon::setIconGeometry(%d,%d,%d) to (%d,%d,%d)",x,y,z,x+MainWindow->x(),y+MainWindow->y(),z);
-		#endif
+                qDebug("void XQDEIcon::setIconGeometry(%d,%d,%d) to (%d,%d,%d)",x,y,z,x+MainWindow->x(),y+MainWindow->y(),z);
+
 
 		emit setGeometry(clientData(),x+MainWindow->x(),y+MainWindow->y(),z);
 	}

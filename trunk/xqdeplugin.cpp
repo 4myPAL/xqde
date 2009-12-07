@@ -17,9 +17,7 @@ extern void GenericPluginNeedPolledEnable();
 XQDEPlugin::XQDEPlugin(QObject *parent)
  : QObject(parent)
 {
-	#ifdef ENABLEDEBUGMSG
-	qWarning("XQDEPlugin::XQDEPlugin(QObject *parent)");
-	#endif
+        qDebug("XQDEPlugin::XQDEPlugin(QObject *parent)");
 	//isDirty=0;
 	//isLocked=0;
 	//isDirtyText=0;
@@ -28,18 +26,15 @@ XQDEPlugin::XQDEPlugin(QObject *parent)
 
 XQDEPlugin::~XQDEPlugin()
 {
-                #ifdef ENABLEDEBUGMSG
 
-                qWarning("XQDEPlugin::~XQDEPlugin()");
-        #endif
+      qDebug("XQDEPlugin::~XQDEPlugin()");
+
 }
 
 void XQDEPlugin::attach(QObject *newI)
 {
-		#ifdef ENABLEDEBUGMSG
 
-	qWarning("void XQDEPlugin::attach(QObject *newI)");
-	#endif
+        qDebug("void XQDEPlugin::attach(QObject *newI)");
 	AttachedTo=newI;
 
 	disconnect(SIGNAL(xSetIconWM(QImage &)));
@@ -69,38 +64,31 @@ void XQDEPlugin::attach(QObject *newI)
 
 QObject * XQDEPlugin::Respawn(QObject *p)
 {
-	#ifdef ENABLEDEBUGMSG
 	
-	qWarning("QObject * XQDEPlugin::Respawn(QObject *p)");
-	#endif
+        qDebug("QObject * XQDEPlugin::Respawn(QObject *p)");
+
 	return (QObject *  )new XQDEPlugin(p);
 
 }
 
 void XQDEPlugin::Configure()
 {
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQDEPlugin::Configure()");
-	#endif
+        qDebug("void XQDEPlugin::Configure()");
+
 }
 
 void XQDEPlugin::restore(QDomNode *)
 {
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQDEPlugin::restore(QDomNode *)");
-#endif
+        qDebug("void XQDEPlugin::restore(QDomNode *)");
 }
 
 void XQDEPlugin::store(QDomNode *)
 {
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQDEPlugin::store(QDomNode *)");
-	#endif
+        qDebug("void XQDEPlugin::store(QDomNode *)");
+
 }
 
 void XQDEPlugin::ConfigurationChanged(void *,int)
 {
-	#ifdef ENABLEDEBUGMSG
-	qWarning("oid XQDEPlugin::ConfigurationChanged(void *,int)");
-	#endif
+        qDebug("oid XQDEPlugin::ConfigurationChanged(void *,int)");
 }

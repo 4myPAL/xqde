@@ -79,4 +79,4 @@ QT += network \
     xml \
     dbus
 RESOURCES += resources/libxqdebase.qrc
-#DEFINES += QT_NO_DEBUG_OUTPUT QT_NO_WARNING_OUTPUT
+DEFINES += QT_NO_DEBUG_OUTPUT

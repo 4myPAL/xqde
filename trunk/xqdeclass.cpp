@@ -30,9 +30,8 @@ QList<QObject *> XQDEClass::globalXQDEPlugins;
 XQDEClass::XQDEClass(QObject *lRoot) :QObject()
 {
         // setup my virtual Root-father wich I will use as Window parent or other issues
-        #ifdef ENABLEDEBUGMSG
-        qWarning("XQDEClass::XQDEClass(QObject *lRoot) :QObject()");
-        #endif
+        qDebug("XQDEClass::XQDEClass(QObject *lRoot) :QObject()");
+
         ObjectRoot=lRoot;
         ObjectName=QString("com.xiaprojects.XQDEClass.") + QString::number((long)this);
         // Reset my ID
@@ -45,9 +44,8 @@ XQDEClass::XQDEClass(QObject *lRoot) :QObject()
         // Register this new plugin on plugin list
         if(ObjectRoot!=NULL)
         {
-        #ifdef ENABLEDEBUGMSG
-                qWarning("XQDEClass::XQDEClass(QObject *lRoot) :QObject() registering...");
-                #endif
+                qDebug("XQDEClass::XQDEClass(QObject *lRoot) :QObject() registering...");
+
                 bool lIsConnected=connect(this, SIGNAL(sgPluginRegister(QObject *)),ObjectRoot,SLOT(PluginRegister(QObject *)));
                 if(lIsConnected){
                         sgPluginRegister(this);
@@ -71,45 +69,35 @@ XQDEClass::~XQDEClass()
 
 void XQDEClass::FreezeSave(const QString &DataPath)
 {
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQDEClass::FreezeSave(const QString &)");
-	#endif
+        qDebug("void XQDEClass::FreezeSave(const QString &)");
+
 	const QString MyStoreDataPathRelative="data";
 	QString localPathDir=DataPath;
 	if(localPathDir=="")
 	{
 		localPathDir=QDir::home().path();
 	}
-	#ifdef ENABLEDEBUGMSG
-		qWarning("Home: %s",localPathDir.toAscii().data());
-	#endif
+
+        qDebug("Home: %s",localPathDir.toAscii().data());
         QDir *XQDEqd=new QDir(localPathDir);
         XQDEqd->mkpath(".xqde");
         XQDEqd->cd(".xqde");
         localPathDir=XQDEqd->path();
 
-	#ifdef ENABLEDEBUGMSG
-		qWarning("Created:%s",localPathDir.toAscii().data());
-	#endif
+        qDebug("Created:%s",localPathDir.toAscii().data());
 
 	QDir *qd=new QDir(localPathDir);
 	if(!qd->mkpath(MyStoreDataPathRelative))
 	{
-	#ifdef ENABLEDEBUGMSG
 		qWarning("Error creating data path while storing XMLs data");
-	#endif
 	}
 	else
 	{
-	#ifdef ENABLEDEBUGMSG
 		qWarning("Created data xml data");
-	#endif
 	}
 	if(!qd->cd(MyStoreDataPathRelative))
 	{
-	#ifdef ENABLEDEBUGMSG
 		qWarning("Error CD data path while storing XMLs data");
-	#endif
 		return;	
 	}
 
@@ -120,9 +108,7 @@ void XQDEClass::FreezeSave(const QString &DataPath)
 	QDomDocument doc( "xiaprojects" );
 	if ( !xmlFile.open( QIODevice::WriteOnly ) )
 	{
-	#ifdef ENABLEDEBUGMSG
-		qWarning("Error writing xml");
-        #endif
+                qWarning("Error opening xml");
 		return;
 	}
 	QDomElement root=doc.createElement("xqde");
@@ -149,9 +135,8 @@ void XQDEClass::FreezeSave(const QString &DataPath)
         xmlFile.close();
 	// ***
 	// TODO: check garbage
-	#ifdef ENABLEDEBUGMSG
-	qWarning("End writing to %s",fileName.toUtf8().constData());
-	#endif
+        qDebug("End writing to %s",fileName.toUtf8().constData());
+
 	
 }
 
@@ -164,9 +149,7 @@ void XQDEClass::FreezeRestore(const QString &DataPath)
 		localPathDir=QDir::home().path();
 	}
 	QString fn=localPathDir+"/.xqde/"+MyStoreDataPathRelative+"/"+ObjectName + ".xml";
-	#ifdef ENABLEDEBUGMSG
-	qWarning("Importing data: %s",fn.toAscii().data());
-        #endif
+        qDebug("Importing data: %s",fn.toAscii().data());
 	import(fn);
 }
 
@@ -176,9 +159,7 @@ void XQDEClass::import(const QString &fileName)
 
 	if ( !xmlFile.open( QIODevice::ReadOnly ) )
 	{
-	#ifdef ENABLEDEBUGMSG
-		qWarning("Error reading xml");
-	#endif
+		qWarning("Error reading xml");	
 		return;
 	}
 	QDomDocument doc( "xiaprojects" );
@@ -204,27 +185,23 @@ void XQDEClass::import(const QString &fileName)
 			if(nn=="email")continue;
 			if(nn=="autoupdate")continue;
 				
-                        #ifdef ENABLEDEBUGMSG
-			qWarning("importing %s",nn.toUtf8().constData());
-                        #endif
+                        qDebug("importing %s",nn.toUtf8().constData());
+
 			QString nv=nl.at(i).toElement().attributes().item(a).nodeValue();
 			WriteNamedValue(nn,nv);
 		}
 	}
         xmlFile.close();
 
-	#ifdef ENABLEDEBUGMSG
-	qWarning("End reading");
-	#endif
+        qDebug("End reading");
+
 }
 
 
 // Interface to exchange data with remoteObj
 void XQDEClass::GetNamesList(QStringList &a)
 {
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQDEClass::GetNamesList(QStringList &a)");
-	#endif
+        qDebug("void XQDEClass::GetNamesList(QStringList &a)");
 	a.clear();
 	for(int i=0;i<ConfigurationData.count();i++)
 	{

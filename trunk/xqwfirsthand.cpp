@@ -148,9 +148,7 @@ void XQWFirstHand::slot_animationPolling()
 			{
 				XQDEAnimation *ani=icon->animations->at(k);
 				ani->step();
-                                #ifdef ENABLEDEBUGMSG
-				qWarning("%ld",(long)ani->icon);
-                                #endif
+                                qDebug("%ld",(long)ani->icon);
 				
 				int ThisIconMustBeDestroied=0;
 				if(ani->endAction!=NULL && ani->endAction->ActionType=="removeicon" && ani->endAction->ActionCounter>0)
@@ -160,9 +158,7 @@ void XQWFirstHand::slot_animationPolling()
 				
 				if(ani->icon==NULL)
 				{
-                                        #ifdef ENABLEDEBUGMSG
-					qWarning("Remove the animation if we are at end...");
-                                        #endif
+                                        qDebug("Remove the animation if we are at end...");
 					XQDEAnimation *ani=icon->animations->takeAt(k);
 					delete ani;
 					// TODO: garbage on actions!!
@@ -172,9 +168,7 @@ void XQWFirstHand::slot_animationPolling()
 				
 				if(ThisIconMustBeDestroied>0)
 				{
-                                        #ifdef ENABLEDEBUGMSG
-					qWarning("We need to remove the icon!!");
-                                        #endif
+                                        qDebug("We need to remove the icon!!");
 					Basket->items.takeAt(i);					
                                         Basket->sgeBasket_As_Changed(6, NULL, NULL);
                                         i--;
@@ -402,9 +396,7 @@ void XQWFirstHand::xMakeUp_BackgroundCoords()
 
 void XQWFirstHand::mouseReleaseEvent (QMouseEvent *e)
 {
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQWFirstHand::mouseReleaseEvent (QMouseEvent *e)");
-	#endif
+        qDebug("void XQWFirstHand::mouseReleaseEvent (QMouseEvent *e)");
 
 	//releaseMouse();
 	//onExit();
@@ -510,9 +502,7 @@ void XQWFirstHand::onEnter()
 void XQWFirstHand::onExit()
 {
         //nascondi XQwidget per testo
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQWFirstHand::onExit()");
-	#endif
+        qDebug("void XQWFirstHand::onExit()");
 	MakeWindowOnBottom((void*)winId());
         //Timer mouse Polling, to detect end edge
         mousePolling->start(250);
@@ -551,9 +541,7 @@ void XQWFirstHand::slot_mousePolling()
         if(isRaised)
         {
                 mousePolling->stop();
-                #ifdef ENABLEDEBUGMSG
-                qWarning("void XQWFirstHand::slot_mousePolling() stop");
-                #endif
+                qDebug("void XQWFirstHand::slot_mousePolling() stop");
                 return;
         }
 
@@ -564,9 +552,7 @@ void XQWFirstHand::slot_mousePolling()
         if(maskAutoRaise->contains(mouse))
         {
                 mousePolling->stop();
-                #ifdef ENABLEDEBUGMSG
-                qWarning("void XQWFirstHand::slot_mousePolling() onEnter!!!");
-                #endif
+                qDebug("void XQWFirstHand::slot_mousePolling() onEnter!!!");
                 onEnter();
         }
 
@@ -583,14 +569,10 @@ void XQWFirstHand::mouseMoveEventSWIcon(int,int,int,XQDEIcon *,int)
 
 void XQWFirstHand::dragEnterEvent(QDragEnterEvent *event)
 {
-        #ifdef ENABLEDEBUGMSG
-        qWarning("void XQWFirstHand::dragEnterEvent(QDragEnterEvent *event)");
-                #endif
+        qDebug("void XQWFirstHand::dragEnterEvent(QDragEnterEvent *event)");
         if (event)
         {
-                #ifdef ENABLEDEBUGMSG
-                qWarning("[%d][%d][%s]",event->pos().x(),event->pos().y(),event->mimeData()->formats().join("+").toAscii().data());
-                #endif
+                qDebug("[%d][%d][%s]",event->pos().x(),event->pos().y(),event->mimeData()->formats().join("+").toAscii().data());
                 //TODO: if the widget...
                 //QByteArray remotePluginName=event->mimeData()->data("text/plain");
                 //application/x-qabstractitemmodeldatalist
@@ -677,9 +659,7 @@ XQDEIconRect XQWFirstHand::iconCoordsByIndex(int)
 
 void XQWFirstHand::Basket_As_Changed(int action, XQDEIcon *newIcon, void *pW)
 {
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQWFirstHand::Basket_As_Changed(%d, %ld, %ld) in ",action, (long)newIcon, (long)pW);
-	#endif
+        qDebug("void XQWFirstHand::Basket_As_Changed(%d, %ld, %ld) in ",action, (long)newIcon, (long)pW);
 
 	int sx=0;
 	int sy=0;
@@ -867,9 +847,7 @@ extern QImage *XQDE_ImageCopyRop(const QImage &source, QImage &dest, uint sx, ui
 
 void XQWFirstHand::xRepaintSingleBackground(QPainter *,int ,int ,int )
 {
-	#ifdef ENABLEDEBUGMSG
-        qWarning("void XQWFirstHand::xRepaintSingleBackground(QPainter *pwidgetpaint,int sx,int sy,int sz)");
-	#endif
+        qDebug("void XQWFirstHand::xRepaintSingleBackground(QPainter *pwidgetpaint,int sx,int sy,int sz)");
 }
 
 void XQWFirstHand::xRepaintSingle(XQDEIcon *icon)
@@ -1003,9 +981,7 @@ extern void storeConfiguration();
 
 void XQWFirstHand::xConfigurationChanged()
 {
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQWFirstHand::xConfigurationChanged()");
-	#endif
+        qDebug("void XQWFirstHand::xConfigurationChanged()");
 
         xMakeCentered();
         xMakeCenteredfix(1);
@@ -1027,9 +1003,7 @@ void XQWFirstHand::xConfigurationChanged()
 
 void XQWFirstHand::xReset()
 {
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQWFirstHand::xReset()");
-	#endif
+        qDebug("void XQWFirstHand::xReset()");
         lastIcon=0;
         lastButtonStatus=-1;
         hasDragged=-1;
@@ -1113,9 +1087,7 @@ void XQWFirstHand::xMakeUp()
             xMakeUp_XMatrix[mouseinx]=(int)
                     double(ZMatrixDouble/2
                     -double(DesktopEnvironment->GUI.handIconsMax/2));
-            #ifdef ENABLEDEBUGMSG
-            qWarning("[%3d][%3d][%3d][%3d]",mouseinx,xMakeUp_ZMatrix[mouseinx],xMakeUp_YMatrix[mouseinx],xMakeUp_XMatrix[mouseinx]);
-            #endif
+            qDebug("[%3d][%3d][%3d][%3d]",mouseinx,xMakeUp_ZMatrix[mouseinx],xMakeUp_YMatrix[mouseinx],xMakeUp_XMatrix[mouseinx]);
     }
     // dynamic horizontal displacement
     xMakeUp_DMatrix= new int*[xMakeUp_sizeMatrix*2];
@@ -1162,9 +1134,7 @@ void XQWFirstHand::xMakeUp()
         xMakeUp_KMatrix[mouseinx]=int(ratiok * double(xMakeUp_sizeMatrix*2-mouseinx));
     }
 
-    #ifdef ENABLEDEBUGMSG
-    qWarning("xMakeUp() done %d",xMakeUp_sizeMatrix);
-    #endif
+    qDebug("xMakeUp() done %d",xMakeUp_sizeMatrix);
 }
 
 

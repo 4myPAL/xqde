@@ -65,53 +65,35 @@ protected:
         virtual void removeClient(Window window);
         virtual void addSystemTrayWin(Window window)
         {
-                #ifdef ENABLEDEBUGMSG
-                        qWarning("addSystemTrayWin");
-                #endif
+                qDebug("addSystemTrayWin");
                 Q_UNUSED(window);
         }
         virtual void removeSystemTrayWin(Window window) {
-                #ifdef ENABLEDEBUGMSG
                 qWarning("removeSystemTrayWin");
-                #endif
                 Q_UNUSED(window);
                 }
         virtual void changeNumberOfDesktops(int numberOfDesktops) {
-                #ifdef ENABLEDEBUGMSG
-                qWarning("changeNumberOfDesktops");
-                #endif
+                qDebug("changeNumberOfDesktops");
                 Q_UNUSED(numberOfDesktops); }
         virtual void changeDesktopGeometry(int desktop, const NETSize &geom) {
-                #ifdef ENABLEDEBUGMSG
-                qWarning("changeDesktopGeometry");
-                #endif
+                qDebug("changeDesktopGeometry");
                 Q_UNUSED(desktop); Q_UNUSED(geom); }
         virtual void changeDesktopViewport(int desktop, const NETPoint &viewport){
-                #ifdef ENABLEDEBUGMSG
-                qWarning("changeDesktopViewport");
-                #endif
+                qDebug("changeDesktopViewport");
                 Q_UNUSED(desktop); Q_UNUSED(viewport); }
         virtual void changeCurrentDesktop(int desktop){
-                #ifdef ENABLEDEBUGMSG
-                qWarning("changeCurrentDesktop");
-                #endif
+                qDebug("changeCurrentDesktop");
                 Q_UNUSED(desktop); }
         virtual void changeActiveWindow(Window window){
-                #ifdef ENABLEDEBUGMSG
-                qWarning("changeActiveWindow");
-                #endif
+                qDebug("changeActiveWindow");
                 Q_UNUSED(window); }
         virtual void closeWindow(Window window){
-                #ifdef ENABLEDEBUGMSG
-                qWarning("closeWindow");
-                #endif
+                qDebug("closeWindow");
                 Q_UNUSED(window);
 
                 }
         virtual void moveResize(Window window, int x_root, int y_root,unsigned long direction) {
-                #ifdef ENABLEDEBUGMSG
-                qWarning("moveResize");
-                #endif
+                qDebug("moveResize");
                 Q_UNUSED(window); Q_UNUSED(x_root); Q_UNUSED(y_root); Q_UNUSED(direction);
                 }
 

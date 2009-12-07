@@ -21,9 +21,7 @@
 XQDEPlugin_AnalogClock::XQDEPlugin_AnalogClock(QObject *p)
  : XQDEPlugin(p)
 {
-	#ifdef ENABLEDEBUGMSG
-	qWarning("XQDEPlugin_AnalogClock::XQDEPlugin_AnalogClock(QObject *p)");
-	#endif
+        qDebug("XQDEPlugin_AnalogClock::XQDEPlugin_AnalogClock(QObject *p)");
 	
 	PluginPollingRate=new QTimer();
 	connect(PluginPollingRate,SIGNAL(timeout()),SLOT(AnalogClockPolling()));
@@ -36,17 +34,13 @@ XQDEPlugin_AnalogClock::XQDEPlugin_AnalogClock(QObject *p)
 XQDEPlugin_AnalogClock::~XQDEPlugin_AnalogClock()
 {
         if(PluginPollingRate) delete PluginPollingRate;
-	#ifdef ENABLEDEBUGMSG
-	qWarning("XQDEPlugin_AnalogClock::~XQDEPlugin_AnalogClock()");
-	#endif
+        qDebug("XQDEPlugin_AnalogClock::~XQDEPlugin_AnalogClock()");
 }
 
 void XQDEPlugin_AnalogClock::AnalogClockPolling()
 {
 	PluginPollingRate->stop();
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQDEPlugin_AnalogClock::AnalogClockPolling()");
-	#endif
+        qDebug("void XQDEPlugin_AnalogClock::AnalogClockPolling()");
 	
 	XQDEPlugin_AnalogClockRepaint();
 	

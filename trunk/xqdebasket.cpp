@@ -46,9 +46,7 @@ void XQDEBasket::setTitleViaData(void *cData,QString &title, QObject *pf)
 }
 void XQDEBasket::setImageViaData(void *cData,QImage &i, QObject *pf)
 {
-        #ifdef ENABLEDEBUGMSG
-        qWarning("void XQDEBasket::setImageViaData");
-        #endif
+        qDebug("void XQDEBasket::setImageViaData");
 	XQDEIcon *ic=getViaData(cData,pf);
 	if(!ic)return;
 	ic->xSetIcon(i);
@@ -56,9 +54,7 @@ void XQDEBasket::setImageViaData(void *cData,QImage &i, QObject *pf)
 }
 void XQDEBasket::setImageViaData(void *cData,QImage &i)
 {
-        #ifdef ENABLEDEBUGMSG
-        qWarning("void XQDEBasket::setImageViaData");
-        #endif
+        qDebug("void XQDEBasket::setImageViaData");
 	XQDEIcon *ic=getViaData(cData);
 	if(!ic)return;
 	ic->xSetIcon(i);
@@ -120,15 +116,13 @@ XQDEIcon *XQDEBasket::getViaData(void *cData, QObject *pf)
 }
 void XQDEBasket::sgeBasket_As_Changed(int a,XQDEIcon* b,void* c)
 {
-        #ifdef ENABLEDEBUGMSG
-        qWarning("void XQDEBasket::sgeBasket_As_Changed(int a,XQDEIcon* b,void* c) start");
-        #endif
+        qDebug("void XQDEBasket::sgeBasket_As_Changed(int a,XQDEIcon* b,void* c) start");
+
 
         emit Basket_As_Changed(a,b,c);
 
-        #ifdef ENABLEDEBUGMSG
-        qWarning("void XQDEBasket::sgeBasket_As_Changed(int a,XQDEIcon* b,void* c) end");
-        #endif
+        qDebug("void XQDEBasket::sgeBasket_As_Changed(int a,XQDEIcon* b,void* c) end");
+
 }
 
 

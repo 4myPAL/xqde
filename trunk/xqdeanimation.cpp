@@ -57,18 +57,14 @@ void XQDEAnimation::resetCurrentStep()
 
 void XQDEAnimation::step()
 {
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQDEAnimation::step() %ld %d %ld %d",(long)test,currentStep,(long)endAction, maxCicle);
-	#endif
+        qDebug("void XQDEAnimation::step() %ld %d %ld %d",(long)test,currentStep,(long)endAction, maxCicle);
         if(test)    //usato per effetto balzo
 	{
             //Rimosso controllo per far continuare l'animazione fino alla fine
             //altrimenti si ferma dopo aver caricato la finestra
 //		if(test->doTest()>0)
 //		{
-                        #ifdef ENABLEDEBUGMSG
-			qWarning("void XQDEAnimation::step() A %d",currentStep);
-			#endif
+                        qDebug("void XQDEAnimation::step() A %d",currentStep);
 			if(currentStep>1)
 			{
 				currentStep--;
@@ -85,9 +81,7 @@ void XQDEAnimation::step()
 					currentStep--;
 				}
 			}
-                        #ifdef ENABLEDEBUGMSG
-			qWarning("void XQDEAnimation::step() X %d",currentStep);
-			#endif
+                        qDebug("void XQDEAnimation::step() X %d",currentStep);
                         icon->animationsNextFrameCounter++;
                         stepAgain();
 
@@ -141,9 +135,7 @@ void XQDEAnimation::step()
 	else
 	{
 		
-                #ifdef ENABLEDEBUGMSG
-                qWarning("void XQDEAnimation::step() C");
-                #endif
+                qDebug("void XQDEAnimation::step() C");
 		if(currentStep>1)
 		{
 			currentStep--;
@@ -152,9 +144,7 @@ void XQDEAnimation::step()
 		}
 		else
 		{
-                        #ifdef ENABLEDEBUGMSG
-			qWarning("void XQDEAnimation::step(end) %ld %d %ld",(long)test,currentStep,(long)endAction);
-			#endif
+                        qDebug("void XQDEAnimation::step(end) %ld %d %ld",(long)test,currentStep,(long)endAction);
 			stepAgain();
 			icon->redoEffects();
 			/*
@@ -300,9 +290,7 @@ void XQDEAnimation::stepAgain()
                         }
                         if(lastZ!=icon->detachedRect.z)
                         {
-                                #ifdef ENABLEDEBUGMSG
-                                qWarning("if(lastZ!=icon->detachedRect.z)");
-                                #endif
+                                qDebug("if(lastZ!=icon->detachedRect.z)");
                                 lastZ=icon->detachedRect.z;
                                 icon->setFixedSize(DesktopEnvironment->GUI.sizeIconsMax,DesktopEnvironment->GUI.sizeIconsMax);
                                 icon->xRepaintDetached();

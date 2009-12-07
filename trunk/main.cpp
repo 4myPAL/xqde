@@ -23,9 +23,7 @@ bool testARGB()
 	char *display = 0;
 	dpy = XOpenDisplay( display );
 	if ( !dpy ) {
-	#ifdef ENABLEDEBUGMSG
 		qWarning( "cannot connect to X server ");
-	#endif
 		return returned;
 	}
 	int screen = DefaultScreen( dpy );
@@ -77,7 +75,7 @@ int main(int argc, char *argv[])
 
 
         if(app->isAppRunning == true) {
-            qDebug() << "The application is alredy running!!";
+            qDebug() << "The application is already running!!";
             return 0;
         }
 

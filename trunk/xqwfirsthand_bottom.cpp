@@ -37,17 +37,14 @@
 XQWFirstHand_bottom::XQWFirstHand_bottom(QObject *lRoot, QWidget *parent)
  : XQWFirstHand(lRoot, parent)
 {
-	#ifdef ENABLEDEBUGMSG
-	qWarning("XQWFirstHand_bottom::XQWFirstHand_bottom(...)");
-		#endif
+        qDebug("XQWFirstHand_bottom::XQWFirstHand_bottom(...)");
         xMakeUpIsMirrored=0;
 }
 
 XQWFirstHand_bottom::~XQWFirstHand_bottom()
 {
-	#ifdef ENABLEDEBUGMSG
-qWarning("void XQWFirstHand_bottom::~XQWFirstHand_bottom()");
-		#endif
+        qDebug("void XQWFirstHand_bottom::~XQWFirstHand_bottom()");
+
 }
 
 void XQWFirstHand_bottom::xRepaintSingleBackground(QPainter *pp1_p,int sx,int sy,int sz)
@@ -77,18 +74,17 @@ void XQWFirstHand_bottom::xRepaintSingleBackground(QPainter *pp1_p,int sx,int sy
 
 void XQWFirstHand_bottom::xMakeCenteredfix(int doResize)
 {
-#ifdef ENABLEDEBUGMSG
-qWarning("XQWFirstHand_bottom::xMakeCenteredfix(%d)",doResize);
-qWarning("Screen about:");	
-qWarning("W:%d",QApplication::desktop()->availableGeometry().width());	
-qWarning("H:%d",QApplication::desktop()->availableGeometry().height());	
-qWarning("T:%d",QApplication::desktop()->availableGeometry().top());	
-qWarning("L:%d",QApplication::desktop()->availableGeometry().left());	
-qWarning("AX:%d",DesktopEnvironment->GUI.dockAlignDisplaceX);
-qWarning("AY:%d",DesktopEnvironment->GUI.dockAlignDisplaceY);
-qWarning("Max:%ld",DesktopEnvironment->GUI.sizeIconsMax);
-qWarning("Arrow:%d",xMakeUp_ArrowSize);
-#endif
+qDebug("XQWFirstHand_bottom::xMakeCenteredfix(%d)",doResize);
+qDebug("Screen about:");
+qDebug("W:%d",QApplication::desktop()->availableGeometry().width());
+qDebug("H:%d",QApplication::desktop()->availableGeometry().height());
+qDebug("T:%d",QApplication::desktop()->availableGeometry().top());
+qDebug("L:%d",QApplication::desktop()->availableGeometry().left());
+qDebug("AX:%d",DesktopEnvironment->GUI.dockAlignDisplaceX);
+qDebug("AY:%d",DesktopEnvironment->GUI.dockAlignDisplaceY);
+qDebug("Max:%ld",DesktopEnvironment->GUI.sizeIconsMax);
+qDebug("Arrow:%d",xMakeUp_ArrowSize);
+
 	
 	if(doResize>0)
 	{
@@ -117,9 +113,7 @@ qWarning("Arrow:%d",xMakeUp_ArrowSize);
 //                move(QApplication::desktop()->geometry().center().x() - myWidth/2, QApplication::desktop()->availableGeometry().bottom() - myHeight+DesktopEnvironment->GUI.dockAlignDisplaceY);
 
 	}
-                #ifdef ENABLEDEBUGMSG
-		qWarning("%dx%d", width(),height());
-                #endif
+                qDebug("%dx%d", width(),height());
 	topCornerCached[0]=topCorner[0].scaled(
 		DesktopEnvironment->GUI.handIconsMax+xMakeUp_ArrowSize*2,
 		DesktopEnvironment->GUI.handIconsMax+xMakeUp_ArrowSize*2,
@@ -157,16 +151,12 @@ qWarning("Arrow:%d",xMakeUp_ArrowSize);
 
 void XQWFirstHand_bottom::xReset()
 {
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQWFirstHand_bottom::xReset()");
-		#endif
+        qDebug("void XQWFirstHand_bottom::xReset()");
 	
 
 	QString imageFileName=DesktopEnvironment->Theme.pathImages+"background-left.png";
 
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQWFirstHand_bottom::xReset() loading: %s",imageFileName.toUtf8().constData());
-		#endif
+        qDebug("void XQWFirstHand_bottom::xReset() loading: %s",imageFileName.toUtf8().constData());
 
 	if(!topCorner[0].load(imageFileName))
 	{
@@ -218,9 +208,7 @@ void XQWFirstHand_bottom::xReset()
 	//xMakeUp_ArrowCoords.y=0;
 	xMakeUp_ArrowCoords.z=0;
 
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQWFirstHand_bottom::xReset() %dx%d MAX:%ld Min:%ld",width(),height(), DesktopEnvironment->GUI.sizeIconsMax,DesktopEnvironment->GUI.handIconsMax);
-	#endif
+        qDebug("void XQWFirstHand_bottom::xReset() %dx%d MAX:%ld Min:%ld",width(),height(), DesktopEnvironment->GUI.sizeIconsMax,DesktopEnvironment->GUI.handIconsMax);
 
 
 	XQWFirstHand::xReset();
@@ -229,17 +217,15 @@ void XQWFirstHand_bottom::xReset()
 
 void XQWFirstHand_bottom::purgeCacheFixMouse(int ,int &cursor_x,int &cursor_y, int &)
 {
-	#ifdef ENABLEDEBUGMSG
-        qWarning("void XQWFirstHand_bottom::purgeCacheFixMouse(,,%d,)",cursor_y);
-        #endif
+        qDebug("void XQWFirstHand_bottom::purgeCacheFixMouse(,,%d,)",cursor_y);
+
 	// bug 20071116
         //manitiene lo zoom quando mouse si sposta verticalmente
        if(cursor_y >= 0)
         {
               cursor_y = xDesignVirtualEscapeMatrix;
-        #ifdef ENABLEDEBUGMSG
-                qWarning("void XQWFirstHand_bottom::purgeCacheFixMouse(,,%d,) b",cursor_y);
-        #endif
+                qDebug("void XQWFirstHand_bottom::purgeCacheFixMouse(,,%d,) b",cursor_y);
+
 
         }
 
@@ -251,9 +237,8 @@ void XQWFirstHand_bottom::purgeCacheFixBorder(int iconNum,int &cursor_x,int &cur
 	//int kky=(xDesignVirtualEscapeMatrix-(xMakeUp_sizeMatrix*2));
         //Removed (21.02.09)
         //int kky=(0);
-	#ifdef ENABLEDEBUGMSG
-        qWarning("void XQWFirstHand_bottom::purgeCacheFixBorder(%d,%d,%d,%d) ay<=%d %d",iconNum,cursor_x,cursor_y, recallme ,xDesignVirtualEscapeMatrix,xMakeUp_sizeMatrix);
-		#endif
+        qDebug("void XQWFirstHand_bottom::purgeCacheFixBorder(%d,%d,%d,%d) ay<=%d %d",iconNum,cursor_x,cursor_y, recallme ,xDesignVirtualEscapeMatrix,xMakeUp_sizeMatrix);
+
 
         /*if(cursor_y<=kky)*/ // TODO: test
         //Bug Solved (21.02.09): smooth dock con mouse in uscita x e y dock
@@ -284,10 +269,6 @@ void XQWFirstHand_bottom::purgeCacheFixBorder(int iconNum,int &cursor_x,int &cur
                 {
                     cursor_x=(DesktopEnvironment->GUI.handIconsMax/2)+iconCoordsByIndex(activeIconsCounter-1).x;
                 }
-                
-                #ifdef ENABLEDEBUGMSG
-		qWarning("return");
-		#endif
 		return;
 	}
 
@@ -367,9 +348,7 @@ void XQWFirstHand_bottom::purgeCacheFixBorder(int iconNum,int &cursor_x,int &cur
 
 void XQWFirstHand_bottom::xMakeUp_BackgroundCoords()
 {
-	#ifdef ENABLEDEBUGMSG
-        qWarning("void XQWFirstHand_bottom::xMakeUp_BackgroundCoords()");
-        #endif
+        qDebug("void XQWFirstHand_bottom::xMakeUp_BackgroundCoords()");
 
         XQDEIcon *IconFirst=Basket->items.at(0);
         XQDEIcon *IconLast=Basket->items.at(activeIconsCounter-1);
@@ -494,9 +473,7 @@ int XQWFirstHand_bottom::iconIndexByCoords(int cursor_x, int cursor_y)
 
 void XQWFirstHand_bottom::xMakeCentered()
 {
-	#ifdef ENABLEDEBUGMSG
-	qWarning("void XQWFirstHand_bottom::xMakeCentered()");
-		#endif
+        qDebug("void XQWFirstHand_bottom::xMakeCentered()");
 	xMakeUp_Center.x=0;
 	xMakeUp_Center.y=0;
 	xMakeUp_Center.z=0;
@@ -508,9 +485,7 @@ void XQWFirstHand_bottom::xMakeCentered()
 	if(activeIconsCounter>0)
 	{
 		xMakeUp_MinSize=iconCoordsByIndex(activeIconsCounter+1).x-iconCoordsByIndex(0).x;
-                #ifdef ENABLEDEBUGMSG
-		qWarning("void XQWFirstHand_bottom::xMakeCentered() xMakeUp_MinSize=%d height=%d width=%d",xMakeUp_MinSize,height(), width());
-		#endif
+                qDebug("void XQWFirstHand_bottom::xMakeCentered() xMakeUp_MinSize=%d height=%d width=%d",xMakeUp_MinSize,height(), width());
 		
                 if(xMakeUp_MinSize > width())
 		{
@@ -519,9 +494,7 @@ void XQWFirstHand_bottom::xMakeCentered()
                                 xMakeUp_MinSize=iconCoordsByIndex(activeIconsCounter+1).x-iconCoordsByIndex(0).x;
                                 if(xMakeUp_MinSize < width())break;
                         }
-                        #ifdef ENABLEDEBUGMSG
-                        qWarning("Docker will be resized (1)!!-from:%d to:%d",DesktopEnvironment->GUI.sizeIconsNormal,DesktopEnvironment->GUI.handIconsMax);
-                        #endif
+                        qDebug("Docker will be resized (1)!!-from:%d to:%d",DesktopEnvironment->GUI.sizeIconsNormal,DesktopEnvironment->GUI.handIconsMax);
 		}
                 else if (DesktopEnvironment->GUI.sizeIconsNormal > DesktopEnvironment->GUI.handIconsMax)
 		{
@@ -537,9 +510,7 @@ void XQWFirstHand_bottom::xMakeCentered()
                                 xMakeUp_MinSize=iconCoordsByIndex(activeIconsCounter+1).x-iconCoordsByIndex(0).x;
                                 if(xMakeUp_MinSize >= width())break;
                         }
-                        #ifdef ENABLEDEBUGMSG
-                        qWarning("Docker will be resized (2)!!+from:%d to:%d",DesktopEnvironment->GUI.sizeIconsNormal,DesktopEnvironment->GUI.handIconsMax);
-                        #endif
+                        qDebug("Docker will be resized (2)!!+from:%d to:%d",DesktopEnvironment->GUI.sizeIconsNormal,DesktopEnvironment->GUI.handIconsMax);
 
 			//exit(1);
 
@@ -594,9 +565,7 @@ void XQWFirstHand_bottom::xMakeCentered()
 	if(oldHandSizeIconMax!=DesktopEnvironment->GUI.handIconsMax) xMakeCenteredfix();
 
 
-        #ifdef ENABLEDEBUGMSG
-        qWarning("Dock %d need: %d [%dx%d](%d-%d)=%d",activeIconsCounter,xMakeUp_MinSize,xMakeUp_Center.x,xMakeUp_Center.y,iconCoordsByIndex(activeIconsCounter-1).y,iconCoordsByIndex(0).y,xMakeUp_Center.y);
-        #endif
+        qDebug("Dock %d need: %d [%dx%d](%d-%d)=%d",activeIconsCounter,xMakeUp_MinSize,xMakeUp_Center.x,xMakeUp_Center.y,iconCoordsByIndex(activeIconsCounter-1).y,iconCoordsByIndex(0).y,xMakeUp_Center.y);
 
 
         for(int i=0;i<activeIconsCounter;i++)
