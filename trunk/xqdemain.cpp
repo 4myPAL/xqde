@@ -83,6 +83,7 @@ void XQDEMain::xReset()
 	// raise DesktopEnvironment
 	DesktopEnvironment=new XQDEEnvironment;
 	xmlLoad();
+
 	XQDERoot *root=new XQDERoot();
 
 	//
@@ -119,7 +120,9 @@ void XQDEMain::xReset()
 
         //ToDo use the configurator class for import export settings...
 	XQDEConfigurator *xcfg=new XQDEConfigurator(root);
+        xcfg->show();
 	if(!xcfg)qWarning("Heavy error reported");
+
 
 
         connect(Basket,SIGNAL(Basket_As_Changed(int,XQDEIcon*,void*)),this,SLOT(Basket_As_Changed(int,XQDEIcon*,void*)));
@@ -161,70 +164,76 @@ void XQDEMain::xReset()
 
 void storeConfiguration()
 {
-QString localPathDir="";
-if(DataPath=="")
-{
-localPathDir=QDir::home().path();
-}
-else
-{
-localPathDir=DataPath;
-}
-		qWarning("Home: %s",localPathDir.toAscii().data());
-		QDir *XQDEqd=new QDir(localPathDir);
-		XQDEqd->mkpath(".xqde");
-		XQDEqd->cd(".xqde");
-		localPathDir=XQDEqd->path();
-		qWarning("Created:%s",localPathDir.toAscii().data());
+    QString localPathDir="";
+    if(DataPath=="")
+    {
+	localPathDir=QDir::home().path();
+    }
+    else
+    {
+	localPathDir=DataPath;
+    }
+    qWarning("Home: %s",localPathDir.toAscii().data());
+    QDir *XQDEqd=new QDir(localPathDir);
+    XQDEqd->mkpath(".xqde");
+    XQDEqd->cd(".xqde");
+    localPathDir=XQDEqd->path();
+    qWarning("Created:%s",localPathDir.toAscii().data());
 
 
-	QFile xmlFile(localPathDir+"/xqde.xml");
+    QFile xmlFile(localPathDir+"/xqde.xml");
 
-	QDomDocument doc( "xiaprojects" );
-	if ( !xmlFile.open( QIODevice::WriteOnly ) )
-	{
-		qWarning("Error writing xml");
-		return;
-	}
-	QDomElement root=doc.createElement("xqde");
-	doc.appendChild(root);
+    QDomDocument doc( "xiaprojects" );
+    if ( !xmlFile.open( QIODevice::WriteOnly ) )
+    {
+	qWarning("Error writing xml");
+	return;
+    }
+    QDomElement root=doc.createElement("xqde");
+    doc.appendChild(root);
 
-	root.setAttribute("version","TODO");
-	root.setAttribute("file",localPathDir+"/xqde.xml");
-	
-	QDomElement xmlObjectGUI=doc.createElement("object");
-	root.appendChild(xmlObjectGUI);
-	xmlObjectGUI.setAttribute("class","XQDEEnvironmentGUI");
-	
-	DesktopEnvironment->GUI.store(&xmlObjectGUI);
-	// **** Common XML
-	QByteArray a=doc.toByteArray();
-	xmlFile.write(a);
-	xmlFile.flush();
-        xmlFile.close();
+    root.setAttribute("version","TODO");
+    root.setAttribute("file",localPathDir+"/xqde.xml");
+
+    QDomElement xmlObjectGUI=doc.createElement("object");
+    root.appendChild(xmlObjectGUI);
+    xmlObjectGUI.setAttribute("class","XQDEEnvironmentGUI");
+
+    DesktopEnvironment->GUI.store(&xmlObjectGUI);
+
+    QDomElement xmlObjectTheme=doc.createElement("object");
+    root.appendChild(xmlObjectTheme);
+    xmlObjectTheme.setAttribute("class","XQDEEnvironmentTheme");
+    DesktopEnvironment->Theme.store(&xmlObjectTheme);
+
+    // **** Common XML
+    QByteArray a=doc.toByteArray();
+    xmlFile.write(a);
+    xmlFile.flush();
+    xmlFile.close();
 
 }
 
 int XQDEMain::xmlLoad()
 {
-QString localPathDir="";
-if(DataPath=="")
-{
-localPathDir=QDir::home().path();
-}
-else
-{
-localPathDir=DataPath;
-}
+    QString localPathDir="";
+    if(DataPath=="")
+    {
+	localPathDir=QDir::home().path();
+    }
+    else
+    {
+	localPathDir=DataPath;
+    }
 
-	int k=0;
+    int k=0;
 
-		qWarning("Home: %s",localPathDir.toAscii().data());
-		QDir *XQDEqd=new QDir(localPathDir);
-		XQDEqd->mkpath(".xqde");
-		XQDEqd->cd(".xqde");
-		localPathDir=XQDEqd->path();
-		qWarning("Created:%s",localPathDir.toAscii().data());
+    qWarning("Home: %s",localPathDir.toAscii().data());
+    QDir *XQDEqd=new QDir(localPathDir);
+    XQDEqd->mkpath(".xqde");
+    XQDEqd->cd(".xqde");
+    localPathDir=XQDEqd->path();
+    qWarning("Created:%s",localPathDir.toAscii().data());
 
 
 	QFile xmlFile(localPathDir+"/xqde.xml");
@@ -259,6 +268,11 @@ localPathDir=DataPath;
 		{
 			QDomNode dome=nl.at(i);
 			DesktopEnvironment->GUI.restore(&dome);
+		}
+		if(addedclass=="XQDEEnvironmentTheme")
+		{
+			QDomNode dome=nl.at(i);
+			DesktopEnvironment->Theme.restore(&dome);
 		}
 	}
 	xmlFile.close();

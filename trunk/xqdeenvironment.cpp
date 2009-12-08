@@ -18,6 +18,7 @@
 #include <QStringList>
 #include <QDomElement>
 #include <QObject>
+#include <QDirIterator>
 
 #include "xqdeenvironment.h"
 #include "xqdeconfiguratorxml.h"
@@ -248,8 +249,8 @@ XQDEEnvironmentGUI::XQDEEnvironmentGUI()
         desktopFont.FontRed=36;
         desktopFont.FontGreen=36;
         desktopFont.FontBlue=36;
-        desktopFont.FontFamily="Times new roman";
-        desktopFont.FontSize=14;
+        desktopFont.FontFamily="DejaVu Sans";
+        desktopFont.FontSize=10;
         desktopFont.BackgroundPath="";
         desktopFont.Bold=false;
         desktopFont.Italic=false;
@@ -313,9 +314,19 @@ XQDEEnvironmentTheme::XQDEEnvironmentTheme():QObject(NULL)
 	IconsPaths=new QStringList();
 }
 
+void XQDEEnvironmentTheme::store(QDomNode *e)
+{
+e->toElement().setAttribute("ThemeName",Theme);
+}
+
+void XQDEEnvironmentTheme::restore(QDomNode *e)
+{
+Theme=e->toElement().attribute("ThemeName").toAscii().data();
+}
+
 void XQDEEnvironmentTheme::xReset()
 {
-	Theme="default";
+	//Theme="default";
 	pathImages=getPathImagesByTheme(Theme);
 	IconsPaths->clear();
 	if(DataPath!="")
@@ -403,7 +414,7 @@ QString XQDEEnvironmentTheme::findImage(QString logicName)
 	qWarning()<<logicName;
 	if(ifr.exists())
 	{
-                qWarning()<<"XQDEEnvironmentTheme::findImage(QString "<<logicName<<") = "<<logicName;
+                qDebug()<<"XQDEEnvironmentTheme::findImage(QString "<<logicName<<") = "<<logicName;
 		return logicName;
 	}
 	
@@ -438,10 +449,10 @@ QString XQDEEnvironmentTheme::findImage(QString logicName)
 	}
 	if(ifr.exists() && imgFileNameReal!=QString::null)
 	{
-                qWarning()<<"XQDEEnvironmentTheme::findImage(QString logicName) = "<<logicName;
+                qDebug()<<"XQDEEnvironmentTheme::findImage(QString logicName) = "<<logicName;
 		return imgFileNameReal;
 	}
-	qWarning()<<"XQDEEnvironmentTheme::findImage(QString "<<logicName<<") = "<<"!!!Nothing!!!";
+        qDebug()<<"XQDEEnvironmentTheme::findImage(QString "<<logicName<<") = "<<"!!!Nothing!!!";
 	emit XQDEEnvironmentTheme_findImage_miss(logicName);
 	
 		imgFileNameReal=QDir::home().path()+"/.xqde/icons";
@@ -452,4 +463,37 @@ QString XQDEEnvironmentTheme::findImage(QString logicName)
 		if(ifr.exists() && imgFileNameReal!=QString::null)return imgFileNameReal;
 
 	return "";
+}
+
+QStringList XQDEEnvironmentTheme::findThemesName()
+{
+    QStringList ThemesListName;
+    QString     directory_path="";
+
+    //Themes main directory path
+    directory_path=QDir::home().path()+"/.xqde/themes/";
+
+    // Then create an instance of our QDirIterator, which takes as parameters
+    // the directory, a QDir filter and an option flag which the QDirIterator is told
+    // to go on the subdirectories also.
+    // I have combined the QDir filters to list directory without special entries "." and ".."
+
+    QDirIterator directory_walker(directory_path, QDir::Dirs | QDir::NoDotAndDotDot); //| QDir::NoSymLinks
+
+    // QDirIterator object has a boolean method called hasNext() which returns true
+    // if the directory have more files, false otherwise and based on that information,
+    // we can write a while loop like the one below
+
+    while(directory_walker.hasNext())
+    {
+	// then we tell our directory_walker object to explicitly take next element until the loop finishes
+	directory_walker.next();
+
+	// This is a Theme directory save it
+	ThemesListName << directory_walker.fileName().toAscii().data();
+    }
+
+
+    return ThemesListName;
+
 }

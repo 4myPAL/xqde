@@ -57,6 +57,8 @@ XQDEConfigurator::XQDEConfigurator(XQDERoot *pr) : QDialog()
 	connect(listWidgets, SIGNAL(itemClicked(QListWidgetItem *)),SLOT(lw_itemClicked(QListWidgetItem *)));
 	connect(lw_addWidget, SIGNAL(clicked()),SLOT(lw_addWidgetClicked()));
 	connect(list_plugin_configure, SIGNAL(clicked()),SLOT(list_plugin_configureClicked()));
+
+	connect(background_theme, SIGNAL(activated(int)),SLOT(background_theme_activated(int)));
 	
 }
 
@@ -111,6 +113,9 @@ void XQDEConfigurator::xReset()
 			list_plugin->addItem(it);
 		}
 	}
+
+	//Find Themes Name and populate the list
+	background_theme->addItems(DesktopEnvironment->Theme.findThemesName());
 }
 
 void XQDEConfigurator::lw_addWidgetClicked()
@@ -266,4 +271,18 @@ void XQDEConfigurator::bigsize_valueChanged(int nv)
 
 void XQDEConfigurator::accept()
 {
+}
+
+void XQDEConfigurator::background_theme_activated(int nv)
+{
+    qDebug("theme changed now is: %s", background_theme->itemText(nv).toAscii().data());
+
+    DesktopEnvironment->Theme.Theme = background_theme->itemText(nv).toAscii().data();
+
+    //reload all images from theme
+    DesktopEnvironment->Theme.xReset();
+    //overiite existing image template with the new one
+    ((XQWFirstHand *)MainWindow)->xReset();
+    //Repaint all dock and save changes on xml file
+    ((XQWFirstHand *)MainWindow)->xConfigurationChanged();
 }

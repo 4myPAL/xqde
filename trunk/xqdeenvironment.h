@@ -42,20 +42,23 @@ struct XSCfgTextFont
 class XQDEEnvironmentTheme : public QObject
 	{
 		Q_OBJECT
-		public:
+	public:
 		XQDEEnvironmentTheme();
 		QString findImage(QString loginName);
+		QStringList findThemesName();
 		QString getPathImagesByTheme(QString ThisTheme, int UserLevel=0);
 		QString pathImages;
 		QString Theme;
 		QString Arrow;
 		QStringList *IconsPaths;
 		void xReset();
-		signals:
+		void restore(QDomNode *);
+		void store(QDomNode *);
+	signals:
 		void XQDEEnvironmentTheme_findImage_miss(QString);
 		void XQDEEnvironmentTheme_findResources_miss(QString, QString);
-		protected:
-			void checkDefaultResourcesConsistency();
+	protected:
+		void checkDefaultResourcesConsistency();
 	};
 
 class XQDEEnvironmentUserProfile:QObject
