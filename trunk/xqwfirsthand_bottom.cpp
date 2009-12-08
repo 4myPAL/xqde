@@ -450,11 +450,11 @@ void XQWFirstHand_bottom::mouseMoveEventSWIcon(int tx, int ty,int ,XQDEIcon *ico
 
 XQDEIconRect XQWFirstHand_bottom::iconCoordsByIndex(int c)
 {
-	//qWarning("XQWFirstHand_bottom::iconCoordsByIndex(%d)",c);
+	qDebug("XQWFirstHand_bottom::iconCoordsByIndex(%d)",c);
 
 	XQDEIconRect r;
 	r.y=xMakeUp_Center.y;
-	r.x=DesktopEnvironment->GUI.handIconsMax+c*DesktopEnvironment->GUI.handIconsMax+xMakeUp_Center.x;
+	r.x=DesktopEnvironment->GUI.handIconsMax+c*(DesktopEnvironment->GUI.handIconsMax+DesktopEnvironment->GUI.spaceIcons)+xMakeUp_Center.x;
         r.z=DesktopEnvironment->GUI.handIconsMax;
 	return r;
 }
@@ -463,9 +463,9 @@ int XQWFirstHand_bottom::iconIndexByCoords(int cursor_x, int cursor_y)
 {
         //return the icon where the mouse is over
         int iconIndexX = cursor_x - xMakeUp_Center.x;
-        iconIndexX = iconIndexX - DesktopEnvironment->GUI.handIconsMax;
-        iconIndexX = iconIndexX / DesktopEnvironment->GUI.handIconsMax;
-        //qWarning("int XQWFirstHand_bottom::iconIndexByCoords(int,int %d)=%d",scy,cy);
+	iconIndexX = iconIndexX - DesktopEnvironment->GUI.handIconsMax;
+	iconIndexX = iconIndexX / (DesktopEnvironment->GUI.handIconsMax + DesktopEnvironment->GUI.spaceIcons);
+	qDebug("int XQWFirstHand_bottom::iconIndexByCoords(int,int %d)=%d",cursor_x,cursor_y);
         return iconIndexX;
 }
 
@@ -524,7 +524,7 @@ void XQWFirstHand_bottom::xMakeCentered()
         //Other Bug: la dock si rimpicciolisce ma non si espande più
         //questo è succede perchè la funzione "DesktopEnvironment->GUI.sizeIconsNormal > DesktopEnvironment->GUI.handIconsMax"
         //non è mai soddisfatta
-        DesktopEnvironment->GUI.sizeIconsNormal = DesktopEnvironment->GUI.handIconsMax;
+//      DesktopEnvironment->GUI.sizeIconsNormal = DesktopEnvironment->GUI.handIconsMax;
 
 
         //New coordinate x and y for the dock

@@ -80,7 +80,7 @@ protected:
 
 	XQDEIconRect xMakeUp_ArrowCoords;
 	XQDEIconRect xMakeUp_Center;
-	int xMakeUp_Separation;
+	//int xMakeUp_Separation;
 	int xMakeUpIsMirrored;
 	//int xMakeUp_Raise;
 	int xMakeUp_sizeMatrix;

@@ -46,19 +46,22 @@ XQDEConfigurator::XQDEConfigurator(XQDERoot *pr) : QDialog()
 
 	qWarning("XQDEConfigurator::XQDEConfigurator() : QDialog() setupUi(this); end");
 
+	//Design panel
 	connect(bigsize, SIGNAL(valueChanged(int)),SLOT(bigsize_valueChanged(int)));
 	connect(normalsize, SIGNAL(valueChanged(int)),SLOT(normalsize_valueChanged(int)));
 	connect(dockposition, SIGNAL(activated( const QString &)),SLOT(dockposition_activated( const QString &)));
 	connect(dockPositionX, SIGNAL(valueChanged(int)),SLOT(dockPositionX_valueChanged(int)));
-	connect(dockPositionY, SIGNAL(valueChanged(int)),SLOT(dockPositionY_valueChanged(int)));
-	
+	connect(dockPositionY, SIGNAL(valueChanged(int)),SLOT(dockPositionY_valueChanged(int)));	
 	connect(changeOverTextFont, SIGNAL(clicked()),SLOT(changeOverTextFont_clicked()));
 	connect(changeOverTextColor, SIGNAL(clicked()),SLOT(changeOverTextColor_clicked()));
+	connect(space, SIGNAL(valueChanged(int)),SLOT(space_valueChanged(int)));
+
+	//Theme panel
+	connect(background_theme, SIGNAL(activated(int)),SLOT(background_theme_activated(int)));
+
 	connect(listWidgets, SIGNAL(itemClicked(QListWidgetItem *)),SLOT(lw_itemClicked(QListWidgetItem *)));
 	connect(lw_addWidget, SIGNAL(clicked()),SLOT(lw_addWidgetClicked()));
 	connect(list_plugin_configure, SIGNAL(clicked()),SLOT(list_plugin_configureClicked()));
-
-	connect(background_theme, SIGNAL(activated(int)),SLOT(background_theme_activated(int)));
 	
 }
 
@@ -83,6 +86,7 @@ void XQDEConfigurator::xReset()
 	qWarning("void XQDEConfigurator::xReset()");
 	bigsize->setValue(DesktopEnvironment->GUI.sizeIconsMax);
 	normalsize->setValue(DesktopEnvironment->GUI.sizeIconsNormal);
+	space->setValue(DesktopEnvironment->GUI.spaceIcons);
 	
 	dockposition->setCurrentIndex(DesktopEnvironment->GUI.dockAlign);
 	
@@ -285,4 +289,10 @@ void XQDEConfigurator::background_theme_activated(int nv)
     ((XQWFirstHand *)MainWindow)->xReset();
     //Repaint all dock and save changes on xml file
     ((XQWFirstHand *)MainWindow)->xConfigurationChanged();
+}
+
+void XQDEConfigurator::space_valueChanged(int nv)
+{
+	DesktopEnvironment->GUI.spaceIcons=nv;
+	((XQWFirstHand *)MainWindow)->xConfigurationChanged();
 }

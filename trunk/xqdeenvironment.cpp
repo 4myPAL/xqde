@@ -194,6 +194,7 @@ void XQDEEnvironmentGUI::store(QDomNode *e)
 e->toElement().setAttribute("handIconsMax",(int)handIconsMax);
 e->toElement().setAttribute("sizeIconsMax",(int)sizeIconsMax);
 e->toElement().setAttribute("sizeIconsNormal",(int)sizeIconsNormal);
+e->toElement().setAttribute("spaceIcons",(int)spaceIcons);
 e->toElement().setAttribute("task_GroupSimilarWindows",(int)task_GroupSimilarWindows);
 e->toElement().setAttribute("updateViaDND",(int)updateViaDND);
 e->toElement().setAttribute("desktopFont.FontRed",(int)desktopFont.FontRed);
@@ -218,6 +219,7 @@ void XQDEEnvironmentGUI::restore(QDomNode *e)
 handIconsMax=e->toElement().attribute("handIconsMax",QString::number(handIconsMax)).toInt();
 sizeIconsMax=e->toElement().attribute("sizeIconsMax",QString::number(sizeIconsMax)).toInt();
 sizeIconsNormal=e->toElement().attribute("sizeIconsNormal",QString::number(sizeIconsNormal)).toInt();
+spaceIcons=e->toElement().attribute("spaceIcons",QString::number(spaceIcons)).toInt();
 task_GroupSimilarWindows=e->toElement().attribute("task_GroupSimilarWindows",QString::number(task_GroupSimilarWindows)).toInt();
 updateViaDND=e->toElement().attribute("updateViaDND",QString::number(updateViaDND)).toInt();
 desktopFont.FontRed=e->toElement().attribute("desktopFont.FontRed",QString::number(desktopFont.FontRed)).toInt();
@@ -244,6 +246,7 @@ XQDEEnvironmentGUI::XQDEEnvironmentGUI()
         handIconsMax=32;
         sizeIconsMax=74;
         sizeIconsNormal=32;
+	spaceIcons=5;
         task_GroupSimilarWindows=0;
         updateViaDND=1;
         desktopFont.FontRed=36;

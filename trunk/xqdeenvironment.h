@@ -83,6 +83,7 @@ class XQDEEnvironmentGUI
 		long handIconsMax;
 		long sizeIconsMax;
 		long sizeIconsNormal;
+		long spaceIcons;
 		XSCfgTextFont desktopFont;
 		long task_GroupSimilarWindows;
 		long updateViaDND;

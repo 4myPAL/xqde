@@ -38,6 +38,7 @@ public slots:
     void list_plugin_configureClicked();
 
     void background_theme_activated(int);
+    void space_valueChanged(int);
 
 
 protected:
