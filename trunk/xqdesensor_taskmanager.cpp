@@ -1038,22 +1038,39 @@ void XQDESensor_TaskManager::slotupdateThumbnail()
 	updateThisThumbnail(lastActiveWindow);
 }
 
+QImage GetWMIcon(WId win, int width, int height)
+{
+	NETWinInfo info( qt_xdisplay(), win, qt_xrootwin(), NET::WMIcon );
+	NETIcon ni = info.icon( width , height);
+	if ( ni.data && ni.size.width > 0 && ni.size.height > 0 ) {
+	  QImage img( (uchar*) ni.data, (int) ni.size.width, (int) ni.size.height, QImage::Format_ARGB32 );
+	  if ( width > 0 && height > 0 &&img.size() != QSize( width, height ) && !img.isNull())
+	      img = img.scaled(width, height,Qt::KeepAspectRatio , Qt::SmoothTransformation);
+	  if ( !img.isNull() )
+	      return img;
+	}
+	return QImage();
+}
+
 void XQDESensor_TaskManager::updateThisThumbnail(Window lastActiveWindow)
 {
 	timer_slotupdateThumbnail->stop();
 
         //ricava immagine screen..
         //Bug FIX (10.04.09): disabilitata la funzione "updateWindowPixmap", con kwin non trova immagine finestra!
-        updateWindowPixmap(lastActiveWindow);
-        QImage pi=thumbnail(lastActiveWindow,DesktopEnvironment->GUI.sizeIconsMax).toImage();
+//        updateWindowPixmap(lastActiveWindow);
+//        QImage pi=thumbnail(lastActiveWindow,DesktopEnvironment->GUI.sizeIconsMax).toImage();
 
 	XQDEIcon *ic=Basket->getViaData((void *)lastActiveWindow,this);
 	if(!ic)return;
 	int needToSendSignal=0;
 	if(ic->enablePreview>0)
 	{
-		ic->xSetIcon(pi);
-		needToSendSignal++;
+	    updateWindowPixmap(lastActiveWindow);
+	    QImage pi=thumbnail(lastActiveWindow,DesktopEnvironment->GUI.sizeIconsMax).toImage();
+
+	    ic->xSetIcon(pi);
+	    needToSendSignal++;
 		
 	}
 
@@ -1067,23 +1084,42 @@ void XQDESensor_TaskManager::updateThisThumbnail(Window lastActiveWindow)
 
 	if(ic->enableIconFromWindow>0)
 	{
-		NETWinInfo infoIcon(qt_xdisplay(), lastActiveWindow, qt_xrootwin(),NET::WMIcon);
-		//qWarning("about P4_%d_",(int)lastActiveWindow);
-		NETIcon taskIcon=infoIcon.icon(DesktopEnvironment->GUI.sizeIconsMax,DesktopEnvironment->GUI.sizeIconsMax);
-		QImage taskQIcon;
-		//qWarning("about P5_%d_",(int)lastActiveWindow);
-		if(taskIcon.data!=0)
-		{
-		//qWarning("about P5A_%d_",(int)lastActiveWindow);
-			taskQIcon=QImage(taskIcon.size.width,taskIcon.size.height,QImage::Format_ARGB32);
-			taskQIcon.fill(Qt::transparent);
-			memcpy(	(unsigned char *)taskQIcon.bits(),
-				taskIcon.data,taskIcon.size.width*taskIcon.size.height*(1+1+1+1));
-		//qWarning("about P5B_%d_",(int)lastActiveWindow);
-                ic->xSetIconWM( taskQIcon);
+//		NETWinInfo infoIcon(qt_xdisplay(), lastActiveWindow, qt_xrootwin(),NET::WMIcon);
+//		//qWarning("about P4_%d_",(int)lastActiveWindow);
+//		NETIcon taskIcon=infoIcon.icon(DesktopEnvironment->GUI.sizeIconsMax,DesktopEnvironment->GUI.sizeIconsMax);
+//		QImage taskQIcon;
+//		//qWarning("about P5_%d_",(int)lastActiveWindow);
+//		if(taskIcon.data!=0)
+//		{
+//		//qWarning("about P5A_%d_",(int)lastActiveWindow);
+//			taskQIcon=QImage(taskIcon.size.width,taskIcon.size.height,QImage::Format_ARGB32);
+//			taskQIcon.fill(Qt::transparent);
+//			memcpy(	(unsigned char *)taskQIcon.bits(),
+//				taskIcon.data,taskIcon.size.width*taskIcon.size.height*(1+1+1+1));
+//		//qWarning("about P5B_%d_",(int)lastActiveWindow);
+//                ic->xSetIconWM( taskQIcon);
 		
+//		NETWinInfo info( qt_xdisplay(), lastActiveWindow, qt_xrootwin(), NET::WMIcon );
+//		NETIcon ni = info.icon( DesktopEnvironment->GUI.sizeIconsMax , DesktopEnvironment->GUI.sizeIconsMax);
+//		if ( ni.data && ni.size.width > 0 && ni.size.height > 0 ) {
+//		  QImage img( (uchar*) ni.data, (int) ni.size.width, (int) ni.size.height, QImage::Format_ARGB32 );
+//		  if ( DesktopEnvironment->GUI.sizeIconsMax > 0 && DesktopEnvironment->GUI.sizeIconsMax > 0 &&img.size() != QSize( DesktopEnvironment->GUI.sizeIconsMax, DesktopEnvironment->GUI.sizeIconsMax ) && !img.isNull())
+//		      img = img.scaled(DesktopEnvironment->GUI.sizeIconsMax , DesktopEnvironment->GUI.sizeIconsMax,Qt::KeepAspectRatio , Qt::SmoothTransformation);
+//		  if ( !img.isNull() )
+//		      ic->xSetIconWM(img);
+//		      needToSendSignal++;
+//		}
+
+		QImage taskQIcon = GetWMIcon(lastActiveWindow, DesktopEnvironment->GUI.sizeIconsMax , DesktopEnvironment->GUI.sizeIconsMax );
+		if(!taskQIcon.isNull())	{
+		ic->xSetIconWM(taskQIcon);
+
+//		ic->xSetIconWM(taskQIcon);
+//
+//
 		needToSendSignal++;
-		}
+	    }
+//		}
         }
 	if(needToSendSignal>0)
 	{
@@ -1225,24 +1261,9 @@ void XQDESensor_TaskManager::postAddClient(Window window)
 	QString windowClassClass=QString::fromUtf8(info.windowClassClass());
 	//froAscii(), fromLatin1(), fromUtf8(), and fromLocal8Bit()
 	QString title=QString::fromUtf8(info.name(),-1);
+	//get the Icon of the active window
+	QImage taskQIcon = GetWMIcon(window, DesktopEnvironment->GUI.sizeIconsMax , DesktopEnvironment->GUI.sizeIconsMax );
 
-        //qWarning("about P4_%d_",(int)window);
-	NETIcon taskIcon=info.icon(DesktopEnvironment->GUI.sizeIconsMax,DesktopEnvironment->GUI.sizeIconsMax);
-	QImage taskQIcon;
-        taskQIcon=QImage(0,0,QImage::Format_ARGB32);
-//	taskQIcon.fill(Qt::transparent);
-        //qWarning("about P5_%d_",(int)window);
-	if(taskIcon.data!=0)
-	{
-                //qWarning("about P5A_%d_",(int)window);
-		taskQIcon=QImage(taskIcon.size.width,taskIcon.size.height,QImage::Format_ARGB32);
-                taskQIcon.fill(Qt::transparent);
-		memcpy(
-			(unsigned char *)taskQIcon.bits(),
-			taskIcon.data,taskIcon.size.width*taskIcon.size.height*(1+1+1+1));
-                //qWarning("about P5B_%d_",(int)window);
-	}
-	
 	int WindowPid=info.pid();
 	
 
