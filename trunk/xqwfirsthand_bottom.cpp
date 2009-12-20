@@ -352,8 +352,8 @@ void XQWFirstHand_bottom::xMakeUp_BackgroundCoords()
 
         XQDEIcon *IconFirst=Basket->items.at(0);
         XQDEIcon *IconLast=Basket->items.at(activeIconsCounter-1);
-        topBackgroundCoords[0]=IconFirst->imageCachedRect.x;
-	topBackgroundCoords[1]=xMakeUp_ArrowCoords.y-xMakeUp_ArrowSize;
+	topBackgroundCoords[0]=IconFirst->imageCachedRect.x;
+	topBackgroundCoords[1]=xMakeUp_ArrowCoords.y-xMakeUp_ArrowSize+1; //ToDo why +1?? no idea
         topBackgroundSize[0]=IconLast->imageCachedRect.x-IconFirst->imageCachedRect.x+IconLast->imageCachedRect.z;
 	topBackgroundSize[1]=xMakeUp_ArrowSize*2+DesktopEnvironment->GUI.handIconsMax;
 
@@ -559,7 +559,7 @@ void XQWFirstHand_bottom::xMakeCentered()
         //Bug Fix now on resize background is on the right y position
         //(25.04.09)
         xMakeUp_ArrowCoords.x=0;
-        xMakeUp_ArrowCoords.y=DesktopEnvironment->GUI.sizeIconsMax-DesktopEnvironment->GUI.handIconsMax;
+	xMakeUp_ArrowCoords.y=DesktopEnvironment->GUI.sizeIconsMax-DesktopEnvironment->GUI.handIconsMax;
         xMakeUp_ArrowCoords.z=0;
 
 	if(oldHandSizeIconMax!=DesktopEnvironment->GUI.handIconsMax) xMakeCenteredfix();

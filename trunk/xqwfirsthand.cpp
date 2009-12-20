@@ -44,8 +44,6 @@ XQWFirstHand::XQWFirstHand(QObject *lRoot, QWidget *parent)
  : XQWidget(lRoot, parent)
 {
         xInterpolationValue=1;
-        //space between icons during zoom
-        xMakeUp_Separation=0;
 	//xMakeUp_ArrowSize=8;
 	//xMakeUp_Raise=0;
 	xMakeUp_sizeMatrix=0;
@@ -109,7 +107,8 @@ XQWFirstHand::XQWFirstHand(QObject *lRoot, QWidget *parent)
 
         // start dock on bottom and show on all desktops
         // added (10.04.09)
-        MakeWindowOnBottom((void*)winId());
+	MakeWindowOnBottom((void*)winId());
+
 }
 
 XQWFirstHand::~XQWFirstHand()
@@ -488,22 +487,36 @@ void XQWFirstHand::wheelEvent(QWheelEvent *e)
 void XQWFirstHand::onEnter()
 {
         //mostra XQwidget per testo
-        MakeWindowOnTop((void*)winId());
+     MakeWindowOnTop((void*)winId());
 //        Removed to fix bug and reimplemented in purgeCacheFixBorder function
 //        Bug fix: usando setVisible qui, viene mostrato prima il testo
 //        vecchio e solo dopo quello nuovo, questo causa uno sfarfallio
 //        Global_XQPillow->setVisible(true);
 //	qApp->syncX();
-        MakeWindowOnTop((void*)Global_XQPillow->winId());
+     MakeWindowOnTop((void*)Global_XQPillow->winId());
 //	qApp->syncX();
 //	MakeWindowOnTop((void*)Global_XQPillow->winId());
+
+        //setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
+//        Qt::WindowFlags flags = windowFlags();
+        //flags ^= Qt::WindowStaysOnBottomHint;
+//        flags |= Qt::WindowStaysOnTopHint;
+//        setWindowFlags(flags);
+//        show();
+        Global_XQPillow->setVisible(true);
+        //Global_XQPillow->setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
 }
 
 void XQWFirstHand::onExit()
 {
         //nascondi XQwidget per testo
         qDebug("void XQWFirstHand::onExit()");
-	MakeWindowOnBottom((void*)winId());
+        MakeWindowOnBottom((void*)winId());
+//        Qt::WindowFlags flags = windowFlags();
+//        flags ^= Qt::WindowStaysOnTopHint;
+//        flags |= Qt::WindowStaysOnBottomHint;
+//        setWindowFlags(flags);
+//        show();
         //Timer mouse Polling, to detect end edge
         mousePolling->start(250);
         Global_XQPillow->setVisible(false);
@@ -746,7 +759,7 @@ void XQWFirstHand::xRepaint()
 		widgetpaint->drawImage(topCornerCoords[0][0],topCornerCoords[0][1],topCornerCached[0]);
                 //draw center background
 		widgetpaint->drawImage(
-                        topBackgroundCoords[0],
+			topBackgroundCoords[0],
                         topBackgroundCoords[1],
                         topBackgroundCached[0],0,0,
                         topBackgroundSize[0],
@@ -871,22 +884,23 @@ void XQWFirstHand::xRepaintSingle(XQDEIcon *icon)
 
                 widgetpaint->begin(&paintBuffer);
        //         widgetpaint->setCompositionMode(QPainter::CompositionMode_SourceOver);
-                //Erase image area
-     //           widgetpaint->fillRect(sx,sy,sz,sz,Qt::transparent);
+		//Erase image area before repaint
+//                widgetpaint->fillRect(sx,sy,sz,sz,Qt::transparent);
 //                widgetpaint->eraseRect(sx,sy,sz,sz);
                 //Repaint background
     //            xRepaintSingleBackground(widgetpaint,sx,sy,sz);
 
 
                 widgetpaint->setCompositionMode(QPainter::CompositionMode_Source);
-//                widgetpaint->fillRect(sx,sy,sz,sz, Qt::transparent);
+		//Erase image background area before repaint
+//		widgetpaint->fillRect(sx,sy,sz,sz, Qt::red);
 
                 //repaint backgound behind icon
 //                xRepaintSingleBackground(widgetpaint,sx,sy,sz);
 
                 //repaint backgound behind icon, with full dock height
                 widgetpaint->drawImage(
-                        sx,                                 //icon x coordinate
+			sx,                                 //icon x coordinate
                         topBackgroundCoords[1],             //dock top y coordinate
                         topBackgroundCached[0],             //dock background image
                         0,                                  //no deplacement x or y
@@ -894,9 +908,12 @@ void XQWFirstHand::xRepaintSingle(XQDEIcon *icon)
                         sz,                                 //repaint width
                         topBackgroundSize[1]                //repaint height
                         );
+		
                 //erase remaing area before draw icon (Bug fix: 19.04.09)
-                //bug fix: now work OK (26.04.09
-                widgetpaint->fillRect(sx,DesktopEnvironment->GUI.dockAlignDisplaceY, sz, DesktopEnvironment->GUI.dockAlignDisplaceY + topBackgroundCoords[1], Qt::transparent);
+		//if the icon is "small" (inside the dock) not repaint the background
+		//if is outside clear the area
+		if(sz > topBackgroundSize[1])
+		    widgetpaint->fillRect(sx,sy, sz, sz-topBackgroundSize[1]+xMakeUp_ArrowSize, Qt::transparent);
 
                 //Start drawing images on top of source(background)
                 widgetpaint->setCompositionMode(QPainter::CompositionMode_SourceOver);
@@ -983,6 +1000,7 @@ void XQWFirstHand::xConfigurationChanged()
 {
         qDebug("void XQWFirstHand::xConfigurationChanged()");
 
+	//xReset();// reset images, load new theme
         xMakeCentered();
         xMakeCenteredfix(1);
 
@@ -1053,7 +1071,7 @@ void XQWFirstHand::xMakeUp()
         xDesignVirtualEscapeMatrix=(DesktopEnvironment->GUI.handIconsMax/2)+xMakeUp_ArrowSize;
     }
 
-    xMakeUp_sizeMatrix=(DesktopEnvironment->GUI.handIconsMax + xMakeUp_Separation)*2;
+    xMakeUp_sizeMatrix=(DesktopEnvironment->GUI.handIconsMax + DesktopEnvironment->GUI.spaceIcons)*2;
 
     ratio=double(DesktopEnvironment->GUI.sizeIconsMax-DesktopEnvironment->GUI.handIconsMax) / double(xMakeUp_sizeMatrix*2);
 
@@ -1091,7 +1109,7 @@ void XQWFirstHand::xMakeUp()
     }
     // dynamic horizontal displacement
     xMakeUp_DMatrix= new int*[xMakeUp_sizeMatrix*2];
-    int contaIcone=(xMakeUp_sizeMatrix*2)/(DesktopEnvironment->GUI.handIconsMax+xMakeUp_Separation);
+    int contaIcone=(xMakeUp_sizeMatrix*2)/(DesktopEnvironment->GUI.handIconsMax+DesktopEnvironment->GUI.spaceIcons);
 
     double dMax=(double(DesktopEnvironment->GUI.sizeIconsMax)-double(ratio*0))/2;
     double dMin=dMax;
@@ -1100,7 +1118,7 @@ void XQWFirstHand::xMakeUp()
 
     for(int contaIcona=0;contaIcona<contaIcone;contaIcona++)
     {
-        XIcona=(xMakeUp_sizeMatrix*2)-contaIcona*(DesktopEnvironment->GUI.handIconsMax + xMakeUp_Separation);
+	XIcona=(xMakeUp_sizeMatrix*2)-contaIcona*(DesktopEnvironment->GUI.handIconsMax + DesktopEnvironment->GUI.spaceIcons);
         dMin+=(double(DesktopEnvironment->GUI.sizeIconsMax)-double(ratio*XIcona));
 
     }
