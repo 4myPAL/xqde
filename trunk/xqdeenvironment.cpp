@@ -320,17 +320,21 @@ XQDEEnvironmentTheme::XQDEEnvironmentTheme():QObject(NULL)
 void XQDEEnvironmentTheme::store(QSettings *settings)
 {
 settings->setValue("ThemeName",Theme);
+settings->setValue("IconsPaths", *IconsPaths);
 }
 
 void XQDEEnvironmentTheme::restore(QSettings *settings)
 {
-settings->value("ThemeName", "default");
+    Theme = settings->value("ThemeName", "default").toString().toAscii();
+    *IconsPaths = settings->value("IconsPaths").toStringList();
 }
 
 void XQDEEnvironmentTheme::xReset()
 {
-	//Theme="default";
-	pathImages=getPathImagesByTheme(Theme);
+    //Theme="default";
+    pathImages=getPathImagesByTheme(Theme);
+
+    if(IconsPaths->count() == 0){
 	IconsPaths->clear();
 	if(DataPath!="")
 	{
@@ -355,7 +359,7 @@ void XQDEEnvironmentTheme::xReset()
 		//IconsPaths->append("/usr/share/xqde/icons");
 	}
 
-
+    }
 
 	//IconsPaths->append(Theme);
 	Arrow="arrow.png";

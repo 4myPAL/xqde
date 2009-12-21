@@ -23,7 +23,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
@@ -441,7 +441,7 @@ p, li { white-space: pre-wrap; }
           <bool>true</bool>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab_6">
           <attribute name="title">
@@ -451,7 +451,7 @@ p, li { white-space: pre-wrap; }
            <item>
             <layout class="QHBoxLayout">
              <item>
-              <widget class="QPushButton" name="ic_path_add">
+              <widget class="QPushButton" name="icon_path_add">
                <property name="text">
                 <string>Add</string>
                </property>
@@ -462,7 +462,7 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="ic_path_remove">
+              <widget class="QPushButton" name="icon_path_remove">
                <property name="text">
                 <string>Remove</string>
                </property>
@@ -473,7 +473,7 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="ic_path_up">
+              <widget class="QPushButton" name="icon_path_up">
                <property name="text">
                 <string>Up</string>
                </property>
@@ -484,7 +484,7 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="ic_path_down">
+              <widget class="QPushButton" name="icon_path_down">
                <property name="text">
                 <string>Down</string>
                </property>
@@ -497,7 +497,7 @@ p, li { white-space: pre-wrap; }
             </layout>
            </item>
            <item>
-            <widget class="QListView" name="listView"/>
+            <widget class="QListView" name="IconPathList"/>
            </item>
           </layout>
          </widget>
@@ -823,11 +823,11 @@ p, li { white-space: pre-wrap; }
   <tabstop>changeOverTextColor</tabstop>
   <tabstop>autofit</tabstop>
   <tabstop>tabWidget_2</tabstop>
-  <tabstop>ic_path_add</tabstop>
-  <tabstop>ic_path_remove</tabstop>
-  <tabstop>ic_path_up</tabstop>
-  <tabstop>ic_path_down</tabstop>
-  <tabstop>listView</tabstop>
+  <tabstop>icon_path_add</tabstop>
+  <tabstop>icon_path_remove</tabstop>
+  <tabstop>icon_path_up</tabstop>
+  <tabstop>icon_path_down</tabstop>
+  <tabstop>IconPathList</tabstop>
   <tabstop>mod_minimized</tabstop>
   <tabstop>mod_multiwindow</tabstop>
   <tabstop>mod_tray</tabstop>

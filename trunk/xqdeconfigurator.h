@@ -13,6 +13,7 @@
 #define XQDECONFIGURATOR_H
 
 #include <QDialog>
+#include <QStringListModel>
 
 #include "ui_XQDEUIConfigurator.h"
 
@@ -37,12 +38,18 @@ public slots:
     void dockPositionY_valueChanged(int);
     void list_plugin_configureClicked();
 
+    void icon_path_add_clicked();
+    void icon_path_remove_clicked();
+    void icon_path_up_clicked();
+    void icon_path_down_clicked();
+
     void background_theme_activated(int);
     void space_valueChanged(int);
 
 
 protected:
     class XQDERoot *prr;
+    QStringListModel *IconPathListmodel;
 };
 
 extern QWidget *GlobalConfigurator;

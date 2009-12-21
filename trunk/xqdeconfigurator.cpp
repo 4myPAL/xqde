@@ -18,6 +18,8 @@
 #include <QDrag>
 #include <QMimeData>
 #include <QDesktopWidget>
+//#include <QStringListModel>
+#include <QFileDialog>
 
 #include "xqdeproxy.h"
 #include "xqdebasket.h"
@@ -57,6 +59,13 @@ XQDEConfigurator::XQDEConfigurator(XQDERoot *pr) : QDialog()
 	connect(space, SIGNAL(valueChanged(int)),SLOT(space_valueChanged(int)));
 
 	//Theme panel
+	//IconPathsListView
+	connect(icon_path_add, SIGNAL(clicked()),SLOT(icon_path_add_clicked()));
+	connect(icon_path_remove, SIGNAL(clicked()),SLOT(icon_path_remove_clicked()));
+	connect(icon_path_up, SIGNAL(clicked()),SLOT(icon_path_up_clicked()));
+	connect(icon_path_down, SIGNAL(clicked()),SLOT(icon_path_down_clicked()));
+
+	//background
 	connect(background_theme, SIGNAL(activated(int)),SLOT(background_theme_activated(int)));
 
 	connect(listWidgets, SIGNAL(itemClicked(QListWidgetItem *)),SLOT(lw_itemClicked(QListWidgetItem *)));
@@ -120,6 +129,14 @@ void XQDEConfigurator::xReset()
 
 	//Find Themes Name and populate the list
 	background_theme->addItems(DesktopEnvironment->Theme.findThemesName());
+
+	//Prepare model for IconPathList
+	IconPathListmodel = new QStringListModel();
+	IconPathListmodel->setStringList(*DesktopEnvironment->Theme.IconsPaths);
+
+
+	IconPathList->setModel(IconPathListmodel);
+	IconPathList->setEditTriggers(QAbstractItemView::AnyKeyPressed | QAbstractItemView::DoubleClicked);
 }
 
 void XQDEConfigurator::lw_addWidgetClicked()
@@ -295,4 +312,73 @@ void XQDEConfigurator::space_valueChanged(int nv)
 {
 	DesktopEnvironment->GUI.spaceIcons=nv;
 	((XQWFirstHand *)MainWindow)->xConfigurationChanged();
+}
+
+void XQDEConfigurator::icon_path_add_clicked ()
+{
+    int row = 0; //first row   //IconPathList->currentIndex().row();
+    QModelIndex index = IconPathListmodel->index(row);
+
+    QString directory = QFileDialog::getExistingDirectory(this,
+				    tr("Find Icon Path"), QDir::currentPath());
+
+    if (!directory.isEmpty()) {
+	IconPathListmodel->insertRows(row,1);
+	IconPathListmodel->setData(index, directory);
+
+	IconPathList->setCurrentIndex(index);
+
+	DesktopEnvironment->Theme.IconsPaths->append(directory);
+
+	((XQWFirstHand *)MainWindow)->xConfigurationChanged();
+	}
+}
+
+void XQDEConfigurator::icon_path_remove_clicked ()
+{
+    int row = IconPathList->currentIndex().row();
+    if (row < 0) return;
+    IconPathListmodel->removeRows(IconPathList->currentIndex().row(),1);
+
+    DesktopEnvironment->Theme.IconsPaths->removeAt(IconPathList->currentIndex().row()+1);
+
+    ((XQWFirstHand *)MainWindow)->xConfigurationChanged();
+}
+
+void XQDEConfigurator::icon_path_up_clicked ()
+{
+    int row = IconPathList->currentIndex().row();
+    if(row == 0) return;
+    QVariant dataBefore = IconPathListmodel->data(IconPathList->currentIndex().sibling(row-1,0),0);
+    QVariant dataAfter = IconPathListmodel->data(IconPathList->currentIndex().sibling(row,0),0);
+    IconPathListmodel->setData(IconPathList->currentIndex().sibling(row-1,0), dataAfter);
+    IconPathListmodel->setData(IconPathList->currentIndex().sibling(row,0), dataBefore);
+
+    IconPathList->currentIndex().sibling(row-1,0);
+    IconPathList->setCurrentIndex(IconPathListmodel->index(row-1));
+
+    DesktopEnvironment->Theme.IconsPaths->clear();
+    for(int i=0; i < IconPathListmodel->rowCount(); i++)
+	DesktopEnvironment->Theme.IconsPaths->append(IconPathListmodel->data(IconPathList->currentIndex().sibling(i,0),0).toString().toAscii());
+
+    ((XQWFirstHand *)MainWindow)->xConfigurationChanged();
+}
+
+void XQDEConfigurator::icon_path_down_clicked ()
+{
+    int row = IconPathList->currentIndex().row();
+    if(row >= IconPathListmodel->rowCount()-1) return;
+    QVariant dataBefore = IconPathListmodel->data(IconPathList->currentIndex().sibling(row+1,0),0);
+    QVariant dataAfter = IconPathListmodel->data(IconPathList->currentIndex().sibling(row,0),0);
+    IconPathListmodel->setData(IconPathList->currentIndex().sibling(row+1,0), dataAfter);
+    IconPathListmodel->setData(IconPathList->currentIndex().sibling(row,0), dataBefore);
+
+    IconPathList->currentIndex().sibling(row+1,0);
+    IconPathList->setCurrentIndex(IconPathListmodel->index(row+1));
+
+    DesktopEnvironment->Theme.IconsPaths->clear();
+    for(int i=0; i < IconPathListmodel->rowCount(); i++)
+	DesktopEnvironment->Theme.IconsPaths->append(IconPathListmodel->data(IconPathList->currentIndex().sibling(i,0),0).toString().toAscii());
+
+    ((XQWFirstHand *)MainWindow)->xConfigurationChanged();
 }
