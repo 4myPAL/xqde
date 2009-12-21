@@ -17,7 +17,7 @@
 //#include <QString>
 //#include <QStringList>
 class QStringList;
-class QDomNode;
+class QSettings;
 
 
 struct XSCfgTextFont
@@ -52,8 +52,8 @@ class XQDEEnvironmentTheme : public QObject
 		QString Arrow;
 		QStringList *IconsPaths;
 		void xReset();
-		void restore(QDomNode *);
-		void store(QDomNode *);
+		void restore(QSettings *);
+		void store(QSettings *);
 	signals:
 		void XQDEEnvironmentTheme_findImage_miss(QString);
 		void XQDEEnvironmentTheme_findResources_miss(QString, QString);
@@ -88,8 +88,8 @@ class XQDEEnvironmentGUI
 		long task_GroupSimilarWindows;
 		long updateViaDND;
 		long dockAlign;
-		void restore(QDomNode *);
-		void store(QDomNode *);
+		void restore(QSettings *);
+		void store(QSettings *);
 		int dockAlignDisplaceX;
 		int dockAlignDisplaceY;
 		int task_GroupByPID;

@@ -16,6 +16,7 @@
 #include <QtXml/QDomDocument>
 #include <QSystemTrayIcon>
 #include <QMessageBox>
+#include <QSettings>
 
 // need to be moved to proxy
 #include "xqdeconfigurator.h"
@@ -120,7 +121,7 @@ void XQDEMain::xReset()
 
         //ToDo use the configurator class for import export settings...
 	XQDEConfigurator *xcfg=new XQDEConfigurator(root);
-        xcfg->show();
+	//xcfg->show();
 	if(!xcfg)qWarning("Heavy error reported");
 
 
@@ -164,14 +165,60 @@ void XQDEMain::xReset()
 
 void storeConfiguration()
 {
+//    QString localPathDir="";
+//    if(DataPath=="")
+//    {
+//	localPathDir=QDir::home().path();
+//    }
+//    else
+//    {
+//	localPathDir=DataPath;
+//    }
+//    qWarning("Home: %s",localPathDir.toAscii().data());
+//    QDir *XQDEqd=new QDir(localPathDir);
+//    XQDEqd->mkpath(".xqde");
+//    XQDEqd->cd(".xqde");
+//    localPathDir=XQDEqd->path();
+//    qWarning("Created:%s",localPathDir.toAscii().data());
+//
+//
+//    QFile xmlFile(localPathDir+"/xqde.xml");
+//
+//    QDomDocument doc( "xiaprojects" );
+//    if ( !xmlFile.open( QIODevice::WriteOnly ) )
+//    {
+//	qWarning("Error writing xml");
+//	return;
+//    }
+//    QDomElement root=doc.createElement("xqde");
+//    doc.appendChild(root);
+//
+//    root.setAttribute("version","TODO");
+//    root.setAttribute("file",localPathDir+"/xqde.xml");
+//
+//    QDomElement xmlObjectGUI=doc.createElement("object");
+//    root.appendChild(xmlObjectGUI);
+//    xmlObjectGUI.setAttribute("class","XQDEEnvironmentGUI");
+//
+//    DesktopEnvironment->GUI.store(&xmlObjectGUI);
+//
+//    QDomElement xmlObjectTheme=doc.createElement("object");
+//    root.appendChild(xmlObjectTheme);
+//    xmlObjectTheme.setAttribute("class","XQDEEnvironmentTheme");
+//    DesktopEnvironment->Theme.store(&xmlObjectTheme);
+//
+//    // **** Common XML
+//    QByteArray a=doc.toByteArray();
+//    xmlFile.write(a);
+//    xmlFile.flush();
+//    xmlFile.close();
+
     QString localPathDir="";
-    if(DataPath=="")
-    {
-	localPathDir=QDir::home().path();
+    if(DataPath=="") {
+    	localPathDir=QDir::home().path();
     }
-    else
-    {
-	localPathDir=DataPath;
+    else {
+    	localPathDir=DataPath;
     }
     qWarning("Home: %s",localPathDir.toAscii().data());
     QDir *XQDEqd=new QDir(localPathDir);
@@ -180,54 +227,89 @@ void storeConfiguration()
     localPathDir=XQDEqd->path();
     qWarning("Created:%s",localPathDir.toAscii().data());
 
+    QSettings settings(localPathDir+"/xqde.conf", QSettings::NativeFormat);
+    settings.beginGroup("XQDEEnvironmentGUI");
+    DesktopEnvironment->GUI.store(&settings);
+    settings.endGroup();
 
-    QFile xmlFile(localPathDir+"/xqde.xml");
-
-    QDomDocument doc( "xiaprojects" );
-    if ( !xmlFile.open( QIODevice::WriteOnly ) )
-    {
-	qWarning("Error writing xml");
-	return;
-    }
-    QDomElement root=doc.createElement("xqde");
-    doc.appendChild(root);
-
-    root.setAttribute("version","TODO");
-    root.setAttribute("file",localPathDir+"/xqde.xml");
-
-    QDomElement xmlObjectGUI=doc.createElement("object");
-    root.appendChild(xmlObjectGUI);
-    xmlObjectGUI.setAttribute("class","XQDEEnvironmentGUI");
-
-    DesktopEnvironment->GUI.store(&xmlObjectGUI);
-
-    QDomElement xmlObjectTheme=doc.createElement("object");
-    root.appendChild(xmlObjectTheme);
-    xmlObjectTheme.setAttribute("class","XQDEEnvironmentTheme");
-    DesktopEnvironment->Theme.store(&xmlObjectTheme);
-
-    // **** Common XML
-    QByteArray a=doc.toByteArray();
-    xmlFile.write(a);
-    xmlFile.flush();
-    xmlFile.close();
+    settings.beginGroup("XQDEEnvironmentTheme");
+    DesktopEnvironment->Theme.store(&settings);
+    settings.endGroup();
 
 }
 
 int XQDEMain::xmlLoad()
 {
+//    QString localPathDir="";
+//    if(DataPath=="")
+//    {
+//	localPathDir=QDir::home().path();
+//    }
+//    else
+//    {
+//	localPathDir=DataPath;
+//    }
+//
+//    int k=0;
+//
+//    qWarning("Home: %s",localPathDir.toAscii().data());
+//    QDir *XQDEqd=new QDir(localPathDir);
+//    XQDEqd->mkpath(".xqde");
+//    XQDEqd->cd(".xqde");
+//    localPathDir=XQDEqd->path();
+//    qWarning("Created:%s",localPathDir.toAscii().data());
+//
+//
+//	QFile xmlFile(localPathDir+"/xqde.xml");
+//
+//	if ( !xmlFile.open( QIODevice::ReadOnly ) )
+//	{
+//		qWarning("Error reading xml");
+//		return 0;
+//	}
+//	QDomDocument doc( "xiaprojects" );
+//	doc.setContent(&xmlFile);
+//	QDomNodeList nl=doc.elementsByTagName("object");
+//	if(nl.count()<1)return 0;
+//	for(int i=0;i<nl.count();i++)
+//	{
+//		QString addedclass=nl.at(i).toElement().attribute("class","XQDEMain");
+//		if(addedclass=="XQDEMain")
+//		{
+//			QString xml_item_type=nl.at(i).toElement().attribute("type","");
+//			if(xml_item_type=="")continue;
+//			if(xml_item_type=="module")
+//			{
+//                                k++;
+//				// adding some modules! (internal classes)
+//			}
+//			if(xml_item_type=="lib")
+//			{
+//				// adding some external .so
+//			}
+//		}
+//		if(addedclass=="XQDEEnvironmentGUI")
+//		{
+//			QDomNode dome=nl.at(i);
+//			DesktopEnvironment->GUI.restore(&dome);
+//		}
+//		if(addedclass=="XQDEEnvironmentTheme")
+//		{
+//			QDomNode dome=nl.at(i);
+//			DesktopEnvironment->Theme.restore(&dome);
+//		}
+//	}
+//	xmlFile.close();
+//	return k;
+
+
     QString localPathDir="";
-    if(DataPath=="")
-    {
-	localPathDir=QDir::home().path();
+    if(DataPath=="") {
+    	localPathDir=QDir::home().path();
     }
-    else
-    {
-	localPathDir=DataPath;
+    else {
+    	localPathDir=DataPath;
     }
-
-    int k=0;
-
     qWarning("Home: %s",localPathDir.toAscii().data());
     QDir *XQDEqd=new QDir(localPathDir);
     XQDEqd->mkpath(".xqde");
@@ -235,48 +317,15 @@ int XQDEMain::xmlLoad()
     localPathDir=XQDEqd->path();
     qWarning("Created:%s",localPathDir.toAscii().data());
 
+    QSettings settings(localPathDir+"/xqde.conf", QSettings::NativeFormat);
+    settings.beginGroup("XQDEEnvironmentGUI");
+    DesktopEnvironment->GUI.restore(&settings);
+    settings.endGroup();
 
-	QFile xmlFile(localPathDir+"/xqde.xml");
-
-	if ( !xmlFile.open( QIODevice::ReadOnly ) )
-	{
-		qWarning("Error reading xml");
-		return 0;
-	}
-	QDomDocument doc( "xiaprojects" );
-	doc.setContent(&xmlFile);
-	QDomNodeList nl=doc.elementsByTagName("object");
-	if(nl.count()<1)return 0;
-	for(int i=0;i<nl.count();i++)
-	{
-		QString addedclass=nl.at(i).toElement().attribute("class","XQDEMain");
-		if(addedclass=="XQDEMain")
-		{
-			QString xml_item_type=nl.at(i).toElement().attribute("type","");
-			if(xml_item_type=="")continue;
-			if(xml_item_type=="module")
-			{
-                                k++;
-				// adding some modules! (internal classes)
-			}
-			if(xml_item_type=="lib")
-			{
-				// adding some external .so
-			}
-		}
-		if(addedclass=="XQDEEnvironmentGUI")
-		{
-			QDomNode dome=nl.at(i);
-			DesktopEnvironment->GUI.restore(&dome);
-		}
-		if(addedclass=="XQDEEnvironmentTheme")
-		{
-			QDomNode dome=nl.at(i);
-			DesktopEnvironment->Theme.restore(&dome);
-		}
-	}
-	xmlFile.close();
-	return k;
+    settings.beginGroup("XQDEEnvironmentTheme");
+    DesktopEnvironment->Theme.restore(&settings);
+    settings.endGroup();
+    return 0;
 }
 
 

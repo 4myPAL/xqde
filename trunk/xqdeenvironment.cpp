@@ -19,6 +19,7 @@
 #include <QDomElement>
 #include <QObject>
 #include <QDirIterator>
+#include <QSettings>
 
 #include "xqdeenvironment.h"
 #include "xqdeconfiguratorxml.h"
@@ -189,56 +190,55 @@ QImage *XQDE_ImageRepeat(QImage &xImgSource,QImage &newImage, int rWidth,int rHe
 	return &newImage;
 }
 
-void XQDEEnvironmentGUI::store(QDomNode *e)
+void XQDEEnvironmentGUI::store(QSettings *settings)
 {
-e->toElement().setAttribute("handIconsMax",(int)handIconsMax);
-e->toElement().setAttribute("sizeIconsMax",(int)sizeIconsMax);
-e->toElement().setAttribute("sizeIconsNormal",(int)sizeIconsNormal);
-e->toElement().setAttribute("spaceIcons",(int)spaceIcons);
-e->toElement().setAttribute("task_GroupSimilarWindows",(int)task_GroupSimilarWindows);
-e->toElement().setAttribute("updateViaDND",(int)updateViaDND);
-e->toElement().setAttribute("desktopFont.FontRed",(int)desktopFont.FontRed);
-e->toElement().setAttribute("desktopFont.FontGreen",(int)desktopFont.FontGreen);
-e->toElement().setAttribute("desktopFont.FontBlue",(int)desktopFont.FontBlue);
-e->toElement().setAttribute("desktopFont.FontFamily",desktopFont.FontFamily);
-e->toElement().setAttribute("desktopFont.FontSize",(int)desktopFont.FontSize);
-e->toElement().setAttribute("desktopFont.BackgroundPath",desktopFont.BackgroundPath);
-e->toElement().setAttribute("desktopFont.OtherBinaryValue",(int)desktopFont.OtherBinaryValue);
-e->toElement().setAttribute("desktopFont.Weight",(int)desktopFont.Weight);
-e->toElement().setAttribute("desktopFont.Other",(int)desktopFont.Other);
-e->toElement().setAttribute("desktopFont.Alias",desktopFont.Alias);
-e->toElement().setAttribute("desktopFont.XPercentageDisplacement",(int)desktopFont.XPercentageDisplacement);
-e->toElement().setAttribute("desktopFont.YPercentageDisplacement",(int)desktopFont.YPercentageDisplacement);
-e->toElement().setAttribute("dockAlign",(int)dockAlign);
-e->toElement().setAttribute("dockAlignDisplaceX",(int)dockAlignDisplaceX);
-e->toElement().setAttribute("dockAlignDisplaceY",(int)dockAlignDisplaceY);
+    settings->setValue("handIconsMax",(int)handIconsMax);
+    settings->setValue("sizeIconsMax",(int)sizeIconsMax);
+    settings->setValue("sizeIconsNormal",(int)sizeIconsNormal);
+    settings->setValue("spaceIcons",(int)spaceIcons);
+    settings->setValue("task_GroupSimilarWindows",(int)task_GroupSimilarWindows);
+    settings->setValue("updateViaDND",(int)updateViaDND);
+    settings->setValue("desktopFont.FontRed",(int)desktopFont.FontRed);
+    settings->setValue("desktopFont.FontGreen",(int)desktopFont.FontGreen);
+    settings->setValue("desktopFont.FontBlue",(int)desktopFont.FontBlue);
+    settings->setValue("desktopFont.FontFamily",desktopFont.FontFamily);
+    settings->setValue("desktopFont.FontSize",(int)desktopFont.FontSize);
+    settings->setValue("desktopFont.BackgroundPath",desktopFont.BackgroundPath);
+    settings->setValue("desktopFont.OtherBinaryValue",(int)desktopFont.OtherBinaryValue);
+    settings->setValue("desktopFont.Weight",(int)desktopFont.Weight);
+    settings->setValue("desktopFont.Other",(int)desktopFont.Other);
+    settings->setValue("desktopFont.Alias",desktopFont.Alias);
+    settings->setValue("desktopFont.XPercentageDisplacement",(int)desktopFont.XPercentageDisplacement);
+    settings->setValue("desktopFont.YPercentageDisplacement",(int)desktopFont.YPercentageDisplacement);
+    settings->setValue("dockAlign",(int)dockAlign);
+    settings->setValue("dockAlignDisplaceX",(int)dockAlignDisplaceX);
+    settings->setValue("dockAlignDisplaceY",(int)dockAlignDisplaceY);
 }
 
-void XQDEEnvironmentGUI::restore(QDomNode *e)
+void XQDEEnvironmentGUI::restore(QSettings *settings)
 {
-handIconsMax=e->toElement().attribute("handIconsMax",QString::number(handIconsMax)).toInt();
-sizeIconsMax=e->toElement().attribute("sizeIconsMax",QString::number(sizeIconsMax)).toInt();
-sizeIconsNormal=e->toElement().attribute("sizeIconsNormal",QString::number(sizeIconsNormal)).toInt();
-spaceIcons=e->toElement().attribute("spaceIcons",QString::number(spaceIcons)).toInt();
-task_GroupSimilarWindows=e->toElement().attribute("task_GroupSimilarWindows",QString::number(task_GroupSimilarWindows)).toInt();
-updateViaDND=e->toElement().attribute("updateViaDND",QString::number(updateViaDND)).toInt();
-desktopFont.FontRed=e->toElement().attribute("desktopFont.FontRed",QString::number(desktopFont.FontRed)).toInt();
-desktopFont.FontGreen=e->toElement().attribute("desktopFont.FontGreen",QString::number(desktopFont.FontGreen)).toInt();
-desktopFont.FontBlue=e->toElement().attribute("desktopFont.FontBlue",QString::number(desktopFont.FontBlue)).toInt();
-desktopFont.FontSize=e->toElement().attribute("desktopFont.FontSize",QString::number(desktopFont.FontSize)).toInt();
-desktopFont.OtherBinaryValue=e->toElement().attribute("desktopFont.OtherBinaryValue",QString::number(desktopFont.OtherBinaryValue)).toInt();
-desktopFont.Weight=e->toElement().attribute("desktopFont.Weight",QString::number(desktopFont.Weight)).toInt();
-desktopFont.Other=e->toElement().attribute("desktopFont.Other",QString::number(desktopFont.Other)).toInt();
-desktopFont.XPercentageDisplacement=e->toElement().attribute("desktopFont.XPercentageDisplacement",QString::number(desktopFont.XPercentageDisplacement)).toInt();
-desktopFont.YPercentageDisplacement=e->toElement().attribute("desktopFont.YPercentageDisplacement",QString::number(desktopFont.YPercentageDisplacement)).toInt();
-dockAlign=e->toElement().attribute("dockAlign",QString::number(dockAlign)).toInt();
-dockAlignDisplaceX=e->toElement().attribute("dockAlignDisplaceX",QString::number(dockAlignDisplaceX)).toInt();
-dockAlignDisplaceY=e->toElement().attribute("dockAlignDisplaceY",QString::number(dockAlignDisplaceY)).toInt();
-//xxxx=e->toElement().attribute("xxxx",QString::number(xxx)).toInt();
+    handIconsMax=settings->value("handIconsMax",QString::number(handIconsMax)).toInt();
+    sizeIconsMax=settings->value("sizeIconsMax",QString::number(sizeIconsMax)).toInt();
+    sizeIconsNormal=settings->value("sizeIconsNormal",QString::number(sizeIconsNormal)).toInt();
+    spaceIcons=settings->value("spaceIcons",QString::number(spaceIcons)).toInt();
+    task_GroupSimilarWindows=settings->value("task_GroupSimilarWindows",QString::number(task_GroupSimilarWindows)).toInt();
+    updateViaDND=settings->value("updateViaDND",QString::number(updateViaDND)).toInt();
+    desktopFont.FontRed=settings->value("desktopFont.FontRed",QString::number(desktopFont.FontRed)).toInt();
+    desktopFont.FontGreen=settings->value("desktopFont.FontGreen",QString::number(desktopFont.FontGreen)).toInt();
+    desktopFont.FontBlue=settings->value("desktopFont.FontBlue",QString::number(desktopFont.FontBlue)).toInt();
+    desktopFont.FontSize=settings->value("desktopFont.FontSize",QString::number(desktopFont.FontSize)).toInt();
+    desktopFont.OtherBinaryValue=settings->value("desktopFont.OtherBinaryValue",QString::number(desktopFont.OtherBinaryValue)).toInt();
+    desktopFont.Weight=settings->value("desktopFont.Weight",QString::number(desktopFont.Weight)).toInt();
+    desktopFont.Other=settings->value("desktopFont.Other",QString::number(desktopFont.Other)).toInt();
+    desktopFont.XPercentageDisplacement=settings->value("desktopFont.XPercentageDisplacement",QString::number(desktopFont.XPercentageDisplacement)).toInt();
+    desktopFont.YPercentageDisplacement=settings->value("desktopFont.YPercentageDisplacement",QString::number(desktopFont.YPercentageDisplacement)).toInt();
+    dockAlign=settings->value("dockAlign",QString::number(dockAlign)).toInt();
+    dockAlignDisplaceX=settings->value("dockAlignDisplaceX",QString::number(dockAlignDisplaceX)).toInt();
+    dockAlignDisplaceY=settings->value("dockAlignDisplaceY",QString::number(dockAlignDisplaceY)).toInt();
 
-desktopFont.FontFamily=e->toElement().attribute("desktopFont.FontFamily",desktopFont.FontFamily);
-desktopFont.BackgroundPath=e->toElement().attribute("desktopFont.BackgroundPath",desktopFont.BackgroundPath);
-desktopFont.Alias=e->toElement().attribute("desktopFont.Alias",desktopFont.Alias);
+    desktopFont.FontFamily=settings->value("desktopFont.FontFamily",desktopFont.FontFamily).toString().toAscii();
+    desktopFont.BackgroundPath=settings->value("desktopFont.BackgroundPath",desktopFont.BackgroundPath).toString().toAscii();
+    desktopFont.Alias=settings->value("desktopFont.Alias",desktopFont.Alias).toString().toAscii();
 }
 
 XQDEEnvironmentGUI::XQDEEnvironmentGUI()
@@ -317,14 +317,14 @@ XQDEEnvironmentTheme::XQDEEnvironmentTheme():QObject(NULL)
 	IconsPaths=new QStringList();
 }
 
-void XQDEEnvironmentTheme::store(QDomNode *e)
+void XQDEEnvironmentTheme::store(QSettings *settings)
 {
-e->toElement().setAttribute("ThemeName",Theme);
+settings->setValue("ThemeName",Theme);
 }
 
-void XQDEEnvironmentTheme::restore(QDomNode *e)
+void XQDEEnvironmentTheme::restore(QSettings *settings)
 {
-Theme=e->toElement().attribute("ThemeName").toAscii().data();
+settings->value("ThemeName", "default");
 }
 
 void XQDEEnvironmentTheme::xReset()
