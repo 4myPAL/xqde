@@ -316,14 +316,14 @@ void XQDEConfigurator::space_valueChanged(int nv)
 
 void XQDEConfigurator::icon_path_add_clicked ()
 {
-    int row = 0; //first row   //IconPathList->currentIndex().row();
-    QModelIndex index = IconPathListmodel->index(row);
+    int row = IconPathListmodel->rowCount(); //last row
 
     QString directory = QFileDialog::getExistingDirectory(this,
 				    tr("Find Icon Path"), QDir::currentPath());
 
     if (!directory.isEmpty()) {
 	IconPathListmodel->insertRows(row,1);
+	QModelIndex index = IconPathListmodel->index(row);
 	IconPathListmodel->setData(index, directory);
 
 	IconPathList->setCurrentIndex(index);
