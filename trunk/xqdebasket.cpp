@@ -106,7 +106,7 @@ XQDEIcon *XQDEBasket::getViaPID(long pid)
 }
 XQDEIcon *XQDEBasket::getViaData(void *cData, QObject *pf)
 {
-        qWarning("XQDEBasket::getViaData()");
+        qDebug("XQDEBasket::getViaData()");
 	for(int i=0;i<items.size();i++)
 	{
 		XQDEIcon *newItem=items.at(i);
@@ -124,7 +124,6 @@ XQDEIcon *XQDEBasket::getViaData(void *cData, QObject *pf)
 void XQDEBasket::sgeBasket_As_Changed(int a,XQDEIcon* b,void* c)
 {
         qDebug("void XQDEBasket::sgeBasket_As_Changed(int a,XQDEIcon* b,void* c) start");
-
 
         emit Basket_As_Changed(a,b,c);
 

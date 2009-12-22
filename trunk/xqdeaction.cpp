@@ -44,10 +44,10 @@ void XQDEAction::enableActionAgain()
 
 void XQDEAction::doit()
 {
-	qWarning("void XQDEAction::doit()");
+        qDebug("void XQDEAction::doit()");
 	if(ActionType=="exec" && isEnabled>0)
 	{
-		qWarning("XQDEAction::doit() Starting:%s",Action.toAscii().data());
+                qDebug("XQDEAction::doit() Starting:%s",Action.toAscii().data());
 		QProcess::startDetached(Action);
 		ActionCounter++;
 		isEnabled=0;
@@ -72,7 +72,7 @@ void XQDEAction::doit()
 	}
 	if(ActionType=="removeicon")
 	{
-                qWarning("XQDEAction::doit() removeicon:%ld (%d)",(long)Pointer,Basket->items.size());
+                qDebug("XQDEAction::doit() removeicon:%ld (%d)",(long)Pointer,Basket->items.size());
 		ActionCounter++;
 		/*
 		for(int i=0;i<Basket->items.size();i++)
@@ -94,7 +94,7 @@ void XQDEAction::doit()
 		}
 		*/
 	}
-	qWarning("void XQDEAction::doit() end");
+        qDebug("void XQDEAction::doit() end");
 }
 
 
