@@ -60,9 +60,9 @@ int main(int argc, char *argv[])
         Q_INIT_RESOURCE(libxqdebase);
 	XQDEMain *app=NULL;
 	SetNullOnAllPointers();
-        qDebug("XQDE Version %s This is a alpha testing only!",XQDESRCDATE);
-        qDebug("You can mail Stefano to xqde@xiaprojects.com");
-        qDebug("Updates can be found on http://xqde.xiaprojects.com");
+        qWarning("XQDE Version %s This is a alpha testing only!",XQDESRCDATE);
+        qWarning("You can mail Stefano to xqde@xiaprojects.com");
+        qWarning("Updates can be found on https://sourceforge.net/projects/xqde/");
 
         if(testARGB()==true){
 		qWarning("XQDE Will use Composite Extensions!");
@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 
 
         if(app->isAppRunning == true) {
-            qDebug() << "The application is already running!!";
+            qWarning() << "The application is already running!!";
             return 0;
         }
 

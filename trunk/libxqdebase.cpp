@@ -24,13 +24,13 @@
 //
 //#include <QX11Info>
 
-#define qt_xdisplay() QX11Info::display ()
-#define qt_xrootwin() QX11Info::appRootWindow()
+//#define qt_xdisplay() QX11Info::display ()
+//#define qt_xrootwin() QX11Info::appRootWindow()
 
 
 void XQDEBase::xReset()
 {
-	qWarning("XQDEBase::xReset() begin %ld",DesktopEnvironment->GUI.dockAlign);
+        qDebug("XQDEBase::xReset() begin %ld",DesktopEnvironment->GUI.dockAlign);
 	//exit(1);
 	XQWFirstHand	*firstHand=NULL;
 	switch(DesktopEnvironment->GUI.dockAlign)
@@ -60,13 +60,13 @@ void XQDEBase::xReset()
 	XQPillow *mPillow=new XQPillow(firstHand,2);
 	mPillow->xReset();
 	mPillow->xRepaint();
-        qWarning("XQDEBase::xReset() end");
+        qDebug("XQDEBase::xReset() end");
 }
 
 
 XQDEBase::XQDEBase(XQDEClass *p):XQWidget(p,NULL)
 {
-qWarning("XQDEBase::XQDEBase()");
+qDebug("XQDEBase::XQDEBase()");
 
 
 	return;
