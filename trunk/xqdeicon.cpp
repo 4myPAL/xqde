@@ -352,32 +352,33 @@ void XQDEIcon::xReset()
 	QString newImageFile=DesktopEnvironment->Theme.findImage(localIcon);
 	if(newImageFile!="")
 	{
-		if(localIconImage.load(newImageFile))bad=0;
+		if(localIconImage.load(newImageFile)) bad=0;
 	}
 	if(bad > 0 && enableIconFromWindow>0 && localIconImageWM.width()>8)
         {
                 localIconImage=localIconImageWM;
                 //Temp HACK (24.02.09) to resolve bug when app. are closed (is a "cache")
-                localIconImage.save(QDir::homePath() + "/.xqde/icons/"+localIcon, "PNG");
+		//localIconImage.save(QDir::homePath() + "/.xqde/icons/"+localIcon, "PNG");
 		bad=0;
 	}
-        if(bad>0)
+	if(bad>0)
         {
                 //Todo: skip findImage if removeimage action is active
                 //Bug: some applications show the correct icon in remove animation
                 //      other show the unknown icon....
-                newImageFile=DesktopEnvironment->Theme.findImage("unknown");
-                if(newImageFile!="")
-                {
-                        if(!localIconImage.load(newImageFile))
-                        {
-                                qWarning("Cannot find suitable icon");
-                        }
-                }
+		newImageFile=DesktopEnvironment->Theme.findImage("unknown");
+		if(newImageFile!="")
+		{
+			if(!localIconImage.load(newImageFile))
+			{
+				qWarning("Cannot find suitable icon");
+			}
+		}
         }
 
         qDebug("void XQDEIcon::xReset() localIconImage.width()=%d to %ld", localIconImage.width(),DesktopEnvironment->GUI.sizeIconsMax);
 
+	//check if the size of the icon is correct
         if(localIconImage.width()!=DesktopEnvironment->GUI.sizeIconsMax)
         {
                 qDebug("void XQDEIcon::xReset() warning duty cicle %d to %ld", localIconImage.width(),DesktopEnvironment->GUI.sizeIconsMax);
@@ -649,8 +650,9 @@ void XQDEIcon::xSetImage(QImage &i)
 void XQDEIcon::xSetImage(QPixmap &i)
 #endif
 {
-        //copy new image
-	localImageWidthEffects=i;        
+    //copy new image
+    if(i.isNull()) localImageWidthEffects.fill(Qt::transparent);
+    else localImageWidthEffects=i.copy();
         
         if(isReflectionEnabled>0)
         {
