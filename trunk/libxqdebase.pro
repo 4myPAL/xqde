@@ -38,7 +38,8 @@ HEADERS += libxqdebase.h \
     import_netwm.h \
     xqdedevice.h \
     xqdewindowmanagerinterface.h \
-    xqdesystray.h
+    xqdesystray.h \
+    xqdeinterface.h
 SOURCES += libxqdebase.cpp \
     main.cpp \
     xqdeclass.cpp \
@@ -79,4 +80,5 @@ QT += network \
     xml \
     dbus
 RESOURCES += resources/libxqdebase.qrc
-#DEFINES += QT_NO_DEBUG_OUTPUT
+DEFINES += QT_NO_DEBUG_OUTPUT
+#QT_NO_WARNING_OUTPUT
