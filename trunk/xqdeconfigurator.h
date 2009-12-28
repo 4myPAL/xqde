@@ -46,6 +46,9 @@ public slots:
     void background_theme_activated(int);
     void space_valueChanged(int);
 
+    void ani_new_activated(int);
+    void ani_remove_activated(int);
+    void ani_lanch_activated(int);
 
 protected:
     class XQDERoot *prr;

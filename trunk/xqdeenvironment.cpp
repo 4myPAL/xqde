@@ -307,6 +307,20 @@ void XQDEEnvironmentUserProfile::configureComponent(QObject *remoteObj)
 	emit configureThisComponentViaXML(remoteObj);
 }
 
+void XQDEEnvironmentUserProfile::store(QSettings *settings)
+{
+settings->setValue("Animation_New", animation_new);
+settings->setValue("Animation_Remove", animation_remove);
+settings->setValue("Animation_Lanch", animation_lanch);
+}
+
+void XQDEEnvironmentUserProfile::restore(QSettings *settings)
+{
+    animation_new    = settings->value("Animation_New", 3).toInt();
+    animation_remove = settings->value("Animation_Remove", 2).toInt();
+    animation_lanch  = settings->value("Animation_Lanch", 4).toInt();
+}
+
 
 extern QString DataPath;
 extern QString EXEPath;

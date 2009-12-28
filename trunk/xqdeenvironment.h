@@ -64,8 +64,13 @@ class XQDEEnvironmentTheme : public QObject
 class XQDEEnvironmentUserProfile:QObject
 	{
 		Q_OBJECT
-		public:
+	public:
 		XQDEEnvironmentUserProfile();
+		void restore(QSettings *);
+		void store(QSettings *);
+		int animation_new;
+		int animation_remove;
+		int animation_lanch;
 		public slots:
 			void configureComponent(QObject *);
 		signals:

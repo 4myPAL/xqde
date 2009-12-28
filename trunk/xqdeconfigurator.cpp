@@ -27,6 +27,7 @@
 #include "xqdeconfigurator.h"
 #include "xqdeenvironment.h"
 #include "xqwfirsthand.h"
+#include "xqdeanimation.h"
 
 QWidget *GlobalConfigurator;
 
@@ -64,6 +65,11 @@ XQDEConfigurator::XQDEConfigurator(XQDERoot *pr) : QDialog()
 	connect(icon_path_remove, SIGNAL(clicked()),SLOT(icon_path_remove_clicked()));
 	connect(icon_path_up, SIGNAL(clicked()),SLOT(icon_path_up_clicked()));
 	connect(icon_path_down, SIGNAL(clicked()),SLOT(icon_path_down_clicked()));
+
+	//Animations
+	connect(ani_new, SIGNAL(activated(int)),SLOT(ani_new_activated(int)));
+	connect(ani_remove, SIGNAL(activated(int)),SLOT(ani_remove_activated(int)));
+	connect(ani_lanch, SIGNAL(activated(int)),SLOT(ani_lanch_activated(int)));
 
 	//background
 	connect(background_theme, SIGNAL(activated(int)),SLOT(background_theme_activated(int)));
@@ -129,14 +135,26 @@ void XQDEConfigurator::xReset()
 
 	//Find Themes Name and populate the list
 	background_theme->addItems(DesktopEnvironment->Theme.findThemesName());
+//	background_theme->setCurrentIndex(DesktopEnvironment->Theme.Theme);
 
 	//Prepare model for IconPathList
 	IconPathListmodel = new QStringListModel();
 	IconPathListmodel->setStringList(*DesktopEnvironment->Theme.IconsPaths);
 
-
 	IconPathList->setModel(IconPathListmodel);
 	IconPathList->setEditTriggers(QAbstractItemView::AnyKeyPressed | QAbstractItemView::DoubleClicked);
+
+	//Find Animations Types and populate the list and select item
+	ani_new->addItems(((XQDEAnimation *)MainWindow)->getAnimationTypes());
+	ani_new->setCurrentIndex(DesktopEnvironment->UserProfile.animation_new);
+	ani_remove->addItems(((XQDEAnimation *)MainWindow)->getAnimationTypes());
+	ani_remove->setCurrentIndex(DesktopEnvironment->UserProfile.animation_remove);
+	ani_lanch->addItems(((XQDEAnimation *)MainWindow)->getAnimationTypes());
+	ani_lanch->setCurrentIndex(DesktopEnvironment->UserProfile.animation_lanch);
+
+	//ToDo implemten other dock effects
+	ani_dock->addItem("parabolic");
+
 }
 
 void XQDEConfigurator::lw_addWidgetClicked()
@@ -147,6 +165,9 @@ void XQDEConfigurator::lw_addWidgetClicked()
 	//const char *ptc=pt.toUtf8().constData();
 	//qWarning("%s",ptc);
 	
+//	foreach(XQDEPlugin *widget, XQDEMain::widgets);
+
+
 	void *ClassWidget=proxy->newInstanceOf(pt);
 	if(ClassWidget!=0)
 	{
@@ -169,24 +190,24 @@ void XQDEConfigurator::lw_itemClicked(QListWidgetItem *i)
 	QString plainText = i->text();
 	classNameWidget->setText(plainText);
 
-	/*
 
-QMimeData *mimeData = new QMimeData;
-mimeData->setText(plainText);
-QDrag *drag = new QDrag(this);
-drag->setMimeData(mimeData);
-drag->start(Qt::CopyAction | Qt::MoveAction);
-*/
-	
-	
-	
+//
+//QMimeData *mimeData = new QMimeData;
+//mimeData->setText(plainText);
+//QDrag *drag = new QDrag(this);
+//drag->setMimeData(mimeData);
+//drag->start(Qt::CopyAction | Qt::MoveAction);
+//
+//
+
+
 /*
 event->pos() - rect().topLeft()
      Qt::DropAction dropAction = drag->start(Qt::CopyAction | Qt::MoveAction);
 
      if (dropAction == Qt::MoveAction) {
-         close();
-         update();
+	 close();
+	 update();
      }
 */
 }
@@ -379,6 +400,27 @@ void XQDEConfigurator::icon_path_down_clicked ()
     DesktopEnvironment->Theme.IconsPaths->clear();
     for(int i=0; i < IconPathListmodel->rowCount(); i++)
 	DesktopEnvironment->Theme.IconsPaths->append(IconPathListmodel->data(IconPathList->currentIndex().sibling(i,0),0).toString().toAscii());
+
+    ((XQWFirstHand *)MainWindow)->xConfigurationChanged();
+}
+
+void XQDEConfigurator::ani_new_activated(int nv){
+
+    DesktopEnvironment->UserProfile.animation_new = nv;
+
+    ((XQWFirstHand *)MainWindow)->xConfigurationChanged();
+}
+
+void XQDEConfigurator::ani_remove_activated(int nv){
+
+    DesktopEnvironment->UserProfile.animation_remove = nv;
+
+    ((XQWFirstHand *)MainWindow)->xConfigurationChanged();
+}
+
+void XQDEConfigurator::ani_lanch_activated(int nv){
+
+    DesktopEnvironment->UserProfile.animation_lanch = nv;
 
     ((XQWFirstHand *)MainWindow)->xConfigurationChanged();
 }
