@@ -33,17 +33,18 @@
 #include "xqdeenvironment.h"
 
 
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
+//#include <X11/Xlib.h>
+//#include <X11/Xutil.h>
 #include <X11/extensions/Xcomposite.h>
-#include <X11/extensions/Xfixes.h>
+#include <X11/extensions/Xdamage.h>
 #include <X11/extensions/Xrender.h>
+#include <X11/extensions/Xfixes.h>
 #include <X11/extensions/shape.h>
 
 
 
 const int TSKPOLLINGRATE=5000;
-const int WINPOLLINGRATE=100;
+const int WINPOLLINGRATE=1000;
 
 XQDESensor_TaskManager *TaskManager;
 Pixmap m_windowPixmap;
@@ -733,90 +734,8 @@ QPixmap thumbnail(Window m_frameId, int maxDimension)
 
    // ######## other test ###########33
 
-    // ######## this WORK!!! ###########
-//    Composite Help: http://ktown.kde.org/~fredrik/composite_howto.html
-
-    if (!m_windowPixmap)
-    {
-       return QPixmap();
-    }
-
-    Display *dpy = qt_xdisplay();
-    // We need to find out some things about the window, such as it's size, it's position
-    // on the screen, and the format of the pixel data
-    XWindowAttributes attr;
-
-    QTime t;
-    t.start();
-
-    if( XGetWindowAttributes( dpy, m_frameId, &attr ) == 0)  return QPixmap();
-
-    qDebug("Time elapsed XGetWindowAttributes: %d ms", t.elapsed());
-    t.restart();
-
-    XRenderPictFormat *format = XRenderFindVisualFormat( dpy, attr.visual );
-    bool hasAlpha             = ( format->type == PictTypeDirect && format->direct.alphaMask );
-    int x                     = attr.x;
-    int y                     = attr.y;
-    int width                 = attr.width;
-    int height                = attr.height;
-
-    qDebug("Time elapsed XRenderFindVisualFormat: %d ms", t.elapsed());
-    t.restart();
-
-    // Create a Render picture so we can reference the window contents.
-    // We need to set the subwindow mode to IncludeInferiors, otherwise child widgets
-    // in the window won't be included when we draw it, which is not what we want.
-    XRenderPictureAttributes pa;
-    pa.subwindow_mode = IncludeInferiors; // Don't clip child widgets
-
-    Picture picture = XRenderCreatePicture( dpy, m_frameId, format, CPSubwindowMode, &pa );
-
-    qDebug("Time elapsed XRenderCreatePicture: %d ms", t.elapsed());
-    t.restart();
-
-    //        double factor;
-    //        if (attr.width > attr.height)
-    //        {
-    //            factor = (double)maxDimension / (double)attr.width;
-    //        }
-    //        else
-    //        {
-    //            factor = (double)maxDimension / (double)attr.height;
-    //        }
-    //
-    //        int thumbnailWidth = (int)(attr.width * factor);
-    //        int thumbnailHeight = (int)(attr.height * factor);
-
-    int thumbnailWidth = (int)(attr.width );
-    int thumbnailHeight = (int)(attr.height);
-
-    QPixmap thumbnail(thumbnailWidth, thumbnailHeight);
-    thumbnail.fill(Qt::transparent);
-
-    //XRenderComposite(dpy,
-    //                     PictOpOver, // we're filtering, alpha values are probable
-    //                     picture, // src
-    //                     None, // mask
-    //                     thumbnail.x11PictureHandle(), // dst
-    //                     0, 0, // src offset
-    //                     0, 0, // mask offset
-    //                     0, 0, // dst offset
-    //                     thumbnailWidth, thumbnailHeight);
-
-    XRenderComposite( dpy, hasAlpha ? PictOpOver : PictOpSrc, picture, None,
-		    thumbnail.x11PictureHandle(), 0, 0, 0, 0, 0, 0, thumbnailWidth, thumbnailHeight );
-
-    qDebug("Time elapsed XRenderComposite: %d ms", t.elapsed());
-    t.restart();
-
-    XRenderFreePicture(dpy, picture);
-
-    qDebug("Time elapsed XRenderFreePicture: %d ms", t.elapsed());
-    t.restart();
-
-    
-//    //    Composite Help: http://ktown.kde.org/~fredrik/composite_howto.html
+//    // ######## this WORK!!! ###########
+////    Composite Help: http://ktown.kde.org/~fredrik/composite_howto.html
 //
 //    if (!m_windowPixmap)
 //    {
@@ -828,15 +747,105 @@ QPixmap thumbnail(Window m_frameId, int maxDimension)
 //    // on the screen, and the format of the pixel data
 //    XWindowAttributes attr;
 //
+//    QTime t;
+//    t.start();
+//
 //    if( XGetWindowAttributes( dpy, m_frameId, &attr ) == 0)  return QPixmap();
 //
+//    qDebug("Time elapsed XGetWindowAttributes: %d ms", t.elapsed());
+//    t.restart();
+//
+//    XRenderPictFormat *format = XRenderFindVisualFormat( dpy, attr.visual );
+//    bool hasAlpha             = ( format->type == PictTypeDirect && format->direct.alphaMask );
 //    int x                     = attr.x;
 //    int y                     = attr.y;
 //    int width                 = attr.width;
 //    int height                = attr.height;
 //
-//    //grap picture
-//    QPixmap originalPixmap(QPixmap::grabWindow(m_frameId,x,y,width,height));
+//    qDebug("Time elapsed XRenderFindVisualFormat: %d ms", t.elapsed());
+//    t.restart();
+//
+//    // Create a Render picture so we can reference the window contents.
+//    // We need to set the subwindow mode to IncludeInferiors, otherwise child widgets
+//    // in the window won't be included when we draw it, which is not what we want.
+//    XRenderPictureAttributes pa;
+//    pa.subwindow_mode = IncludeInferiors; // Don't clip child widgets
+//
+//    Picture picture = XRenderCreatePicture( dpy, m_frameId, format, CPSubwindowMode, &pa );
+//
+//    qDebug("Time elapsed XRenderCreatePicture: %d ms", t.elapsed());
+//    t.restart();
+//
+//    //        double factor;
+//    //        if (attr.width > attr.height)
+//    //        {
+//    //            factor = (double)maxDimension / (double)attr.width;
+//    //        }
+//    //        else
+//    //        {
+//    //            factor = (double)maxDimension / (double)attr.height;
+//    //        }
+//    //
+//    //        int thumbnailWidth = (int)(attr.width * factor);
+//    //        int thumbnailHeight = (int)(attr.height * factor);
+//
+//    int thumbnailWidth = (int)(attr.width );
+//    int thumbnailHeight = (int)(attr.height);
+//
+//    QPixmap thumbnail(thumbnailWidth, thumbnailHeight);
+//    thumbnail.fill(Qt::transparent);
+//
+//    //XRenderComposite(dpy,
+//    //                     PictOpOver, // we're filtering, alpha values are probable
+//    //                     picture, // src
+//    //                     None, // mask
+//    //                     thumbnail.x11PictureHandle(), // dst
+//    //                     0, 0, // src offset
+//    //                     0, 0, // mask offset
+//    //                     0, 0, // dst offset
+//    //                     thumbnailWidth, thumbnailHeight);
+//
+//    XRenderComposite( dpy, hasAlpha ? PictOpOver : PictOpSrc, picture, None,
+//		    thumbnail.x11PictureHandle(), 0, 0, 0, 0, 0, 0, thumbnailWidth, thumbnailHeight );
+//
+//    qDebug("Time elapsed XRenderComposite: %d ms", t.elapsed());
+//    t.restart();
+//
+//    XRenderFreePicture(dpy, picture);
+//
+//    qDebug("Time elapsed XRenderFreePicture: %d ms", t.elapsed());
+//    t.restart();
+
+    
+    //    Composite Help: http://ktown.kde.org/~fredrik/composite_howto.html
+
+//    if (!m_windowPixmap)
+//    {
+//       return QPixmap();
+//    }
+
+//    Display *dpy = qt_xdisplay();
+    // We need to find out some things about the window, such as it's size, it's position
+    // on the screen, and the format of the pixel data
+//    XWindowAttributes attr;
+
+    //!! XGetWindowAttributes is a synchronous call (it blocks) !!
+//    if( XGetWindowAttributes( dpy, m_frameId, &attr ) == 0)  return QPixmap();
+
+    XQDEIcon *ic=Basket->getViaData((void *)m_frameId);
+    if(!ic) return QPixmap();
+    QRect size = ic->getAttachedWindowsPosition();
+
+    int x                     = 0;
+    int y                     = 0;
+    int width                 = size.width();
+    int height                = size.height();
+
+    //grap picture
+    QPixmap originalPixmap(QPixmap::grabWindow(m_frameId,x,y,width,height));
+
+    return originalPixmap;
+
 //
 //
 //    int thumbnailWidth = (int)(attr.width );
@@ -846,9 +855,41 @@ QPixmap thumbnail(Window m_frameId, int maxDimension)
 //    thumbnail.fill(Qt::transparent);
 //    QSize thumbnailSize(thumbnailWidth, thumbnailHeight);
 //    thumbnail = originalPixmap.scaled(thumbnailSize, Qt::KeepAspectRatio,
-//                                                     Qt::SmoothTransformation);
+//						     Qt::SmoothTransformation);
 
-    return thumbnail;
+//    if (!m_windowPixmap)
+//    {
+//	return QPixmap();
+//    }
+//
+//    Display *dpy = qt_xdisplay();
+//    XWindowAttributes attr;
+//    if(XGetWindowAttributes(dpy, m_frameId, &attr) == 0)  return QPixmap();
+//    XRenderPictFormat *format = XRenderFindVisualFormat(dpy, attr.visual);
+//    bool hasAlpha             = ( format->type == PictTypeDirect && format->direct.alphaMask );
+//    int x                     = attr.x;
+//    int y                     = attr.y;
+//    int width                 = attr.width;
+//    int height                = attr.height;
+//    XRenderPictureAttributes pa;
+//    pa.subwindow_mode = IncludeInferiors; // Don't clip child widgets
+//
+//    Picture picture = XRenderCreatePicture(dpy, m_frameId,
+//					   format, CPSubwindowMode, &pa);
+//    XserverRegion region = XFixesCreateRegionFromWindow(dpy,
+//							m_frameId, WindowRegionBounding);
+//
+//    XFixesTranslateRegion(dpy, region, -x, -y);
+//    XFixesSetPictureClipRegion(dpy, picture, 0, 0, region);
+//    XFixesDestroyRegion(dpy, region);
+//    QPixmap dest(width, height);
+//    XRenderComposite(dpy, hasAlpha ? PictOpOver : PictOpSrc, picture, None,
+//		     dest.x11PictureHandle(), 0, 0, 0, 0, 0, 0, width, height);
+//
+//    return dest;
+
+
+//    return thumbnail;
 }
 
 
@@ -962,27 +1003,27 @@ void XRenderResizeImage(QPixmap &Source,QPixmap &thumbnail,int maxDimension)
 void updateWindowPixmap(Window m_frameId)
 {
         //ToDo ricerca problema questa funzione blocca il programma
-/*
-    if (!TaskManager::xCompositeEnabled() || !isOnCurrentDesktop() ||
-        isMinimized())
-    {
-        return;
-    }
-*/
-    if (m_windowPixmap)
-    {
-	qDebug("XFreePixmap");
-	XFreePixmap(qt_xdisplay(), m_windowPixmap);
-    }
-
-    //Bug fix: when no windows is active set m_windowPixmap = 0;
-    qDebug("Window m_frameId: %d",m_frameId);
-    if (m_frameId != 0){
-	m_windowPixmap = XCompositeNameWindowPixmap(qt_xdisplay(), m_frameId);
-//	Preventing the backing pixmap from being freed when the window is hidden/destroyed
-//	XSelectInput( qt_xdisplay(), m_frameId, StructureNotifyMask );
-    }
-    else m_windowPixmap = 0;
+///*
+//    if (!TaskManager::xCompositeEnabled() || !isOnCurrentDesktop() ||
+//        isMinimized())
+//    {
+//        return;
+//    }
+//*/
+//    if (m_windowPixmap)
+//    {
+//	qDebug("XFreePixmap");
+//	XFreePixmap(qt_xdisplay(), m_windowPixmap);
+//    }
+//
+//    //Bug fix: when no windows is active set m_windowPixmap = 0;
+//    qDebug("Window m_frameId: %d",m_frameId);
+//    if (m_frameId != 0){
+//	m_windowPixmap = XCompositeNameWindowPixmap(qt_xdisplay(), m_frameId);
+////	Preventing the backing pixmap from being freed when the window is hidden/destroyed
+////	XSelectInput( qt_xdisplay(), m_frameId, StructureNotifyMask );
+//    }
+//    else m_windowPixmap = NULL;
 
 }
 
@@ -996,7 +1037,7 @@ full_properties, sizeof(full_properties)/sizeof(unsigned long), -1, false)
 {
 	m_windowPixmap=0;
 
-        ObjectName="com.xiaprojects.TaskManager";
+	ObjectName="com.XQDE.TaskManager";
         ConfigurationData.append(new XQDEConfigurationPair("serverurl",""));
         ConfigurationData.append(new XQDEConfigurationPair("email","xqde@xiaprojects.com"));
         ConfigurationData.append(new XQDEConfigurationPair("author","Stefano Zingarini"));
@@ -1004,6 +1045,8 @@ full_properties, sizeof(full_properties)/sizeof(unsigned long), -1, false)
         ConfigurationData.append(new XQDEConfigurationPair("version","20090712"));
         ConfigurationData.append(new XQDEConfigurationPair("autoupdate","http://xqde.xiaprojects.com/todo.php"));
 
+	int damage_error; // The event base is important here
+	XDamageQueryExtension(QX11Info::display(), &m_damageEvent, &damage_error);
 }
 
 XQDESensor_TaskManager::~XQDESensor_TaskManager()
@@ -1056,7 +1099,7 @@ void XQDESensor_TaskManager::updateThisThumbnail(Window lastActiveWindow)
 	int needToSendSignal=0;
 	if(ic->enablePreview>0)
 	{
-	    updateWindowPixmap(lastActiveWindow);
+//	    updateWindowPixmap(lastActiveWindow);
 	    QImage pi=thumbnail(lastActiveWindow,DesktopEnvironment->GUI.sizeIconsMax).toImage();
 
 	    ic->xSetIcon(pi);
@@ -1270,6 +1313,8 @@ void XQDESensor_TaskManager::postAddClient(Window window)
 		{
 				iconPidded->clientsData()->append((void *)window);
 				Basket->sgeBasket_As_Changed(5,iconPidded,(void *)window);
+				//prepare the new icon to X11 damage events
+				prepareDamage(iconPidded, window);
 				return;
 		}
 		else
@@ -1292,6 +1337,8 @@ void XQDESensor_TaskManager::postAddClient(Window window)
 				icon->clientsData()->append((void *)window);
 				icon->pidsData()->append((void *)WindowPid);
 				Basket->sgeBasket_As_Changed(5,icon,(void *)window);
+				//prepare the icon to X11 damage events
+				prepareDamage(icon, window);
 				return;
 			}
 		}
@@ -1328,6 +1375,9 @@ void XQDESensor_TaskManager::postAddClient(Window window)
                     setGeometry((void *)window,icon->iconGeometry.x+MainWindow->x(),icon->iconGeometry.y+MainWindow->y(),icon->iconGeometry.z);
 
                     Basket->sgeBasket_As_Changed(5,icon,(void *)window);
+
+		    //prepare the icon to X11 damage events
+		    prepareDamage(icon, window);
                     return;
             }
         }
@@ -1372,6 +1422,9 @@ void XQDESensor_TaskManager::postAddClient(Window window)
 	addedIcon->xSetParent(this);
 	timer_slotPollingPID->start(TSKPOLLINGRATE);
 
+	//prepare the new icon to X11 damage events
+	prepareDamage(addedIcon, window);
+
 	/*
 	// debug WMData
 	//qWarning("*** New windows has being added: %d***",(int)window);
@@ -1413,6 +1466,31 @@ void XQDESensor_TaskManager::postAddClient(Window window)
 		hint.res_name);
 	}
 	*/
+}
+
+void XQDESensor_TaskManager::prepareDamage(XQDEIcon *iconToDamage, Window window)
+{
+    XCompositeRedirectSubwindows(QX11Info::display(),
+				 window,
+				 CompositeRedirectAutomatic);
+    XShapeSelectInput(QX11Info::display(), window, ShapeNotifyMask);
+    XSelectInput( QX11Info::display(), window, StructureNotifyMask ); //I'm interessed to get resize events for the windows
+    Damage damage = XDamageCreate(QX11Info::display(), window, XDamageReportNonEmpty);
+    Q_UNUSED(damage);
+
+    XWindowAttributes attr;
+
+    //!! XGetWindowAttributes is a synchronous call (it blocks) !!
+    XGetWindowAttributes( QX11Info::display(), window, &attr );
+
+    int x                     = attr.x;
+    int y                     = attr.y;
+    int width                 = attr.width;
+    int height                = attr.height;
+
+    //save the size of the windows to use in the feature
+//	QRect m_position = new QRect(x,y,width,height);
+    iconToDamage->setAttachedWindowsPosition(QRect(x,y,width,height));
 }
 
 void XQDESensor_TaskManager::slotAddClient()
@@ -1731,11 +1809,34 @@ bool XQDESensor_TaskManager::x11EventFilter( XEvent *event )
 {
 //qWarning("%10d %d",event->xany.window,windows.indexOf( event->xany.window ));
 
+//    XAnyEvent *ae = reinterpret_cast<XAnyEvent*>(event);
+//    if (ae->window == lastActiveWindow) {
+
+    if (event->type == m_damageEvent + XDamageNotify) {
+	XDamageNotifyEvent *e = reinterpret_cast<XDamageNotifyEvent*>(event);
+	XDamageSubtract(QX11Info::display(), e->damage, None, None);
+	if(!timer_slotupdateThumbnail->isActive()){
+	    lastActiveWindow=activeWindow();
+	    timer_slotupdateThumbnail->start(WINPOLLINGRATE);
+	}
+    }
+    else if (event->type == ConfigureNotify) {
+	    XConfigureEvent *e = &event->xconfigure;
+	    if(e->window == lastActiveWindow){
+		XQDEIcon *ic=Basket->getViaData((void *)lastActiveWindow,this);
+		if(ic) ic->setAttachedWindowsPosition(QRect(e->x, e->y, e->width, e->height));
+	    }
+	}
+//}
+
+
 //    qWarning() << event->xany.window << "  :  " << qt_xrootwin();
 	if (event->xany.window == qt_xrootwin() ) {
 		unsigned long m[ 5 ];
 		NETRootInfo::event( event, m, 5 );
 //		qWarning() << m[ PROTOCOLS ];
+
+
 		if (( m[ PROTOCOLS ] & CurrentDesktop ) ) qDebug("CurrentDesktop");
 		if (( m[ PROTOCOLS ] & ActiveWindow )  )
                 {

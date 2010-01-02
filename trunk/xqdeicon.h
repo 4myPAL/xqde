@@ -79,6 +79,9 @@ public:
 	QList <void *> *pidsData();
 	void *clientData();
 	void setIconGeometry(int x,int y,int z);
+	QRect getAttachedWindowsPosition() const;
+	void setAttachedWindowsPosition(QRect);
+	QRect m_position;
 
 
 

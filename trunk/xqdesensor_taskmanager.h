@@ -47,6 +47,9 @@ public slots:
 private:
         QPixmap originalPixmap;
         QSize thumbnailSize;
+	int m_damageEvent;
+	QRect m_position;
+	void prepareDamage(XQDEIcon *, Window);
 
 protected:
 	void Helper_RollDown(XQDEIcon *ic);

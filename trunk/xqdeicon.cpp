@@ -714,6 +714,16 @@ void *XQDEIcon::clientData()
 		return 0;
 	}
 
+QRect XQDEIcon::getAttachedWindowsPosition() const
+{
+    return m_position;
+}
+
+void XQDEIcon::setAttachedWindowsPosition(QRect newpos)
+{
+    m_position = newpos;
+}
+
 void XQDEIcon::setIconGeometry(int x,int y,int z)
 	{
 		iconGeometry.x=x;
@@ -739,3 +749,215 @@ void XQDEIcon::xConfigurator()
 {
 	GlobalConfigurator->show();
 }
+
+
+//void XEPlugin_Command::dropIcon(int icon,QDropEvent*event)
+//{
+//	QString basket;
+//	if(QTextDrag::decode (event, basket)==true)
+//	{
+//		if(icon<0)return;
+//		uint TargetIcon=icon;
+//		if(TargetIcon <ActiveConfiguration->ObjectsIcons.count())
+//		{
+//
+//#ifdef ENABLE_STATS
+////0.36 TODO!
+//ActiveConfiguration->ObjectsIcons.at(TargetIcon)->Statistics.onDropExec++;
+//#endif
+//
+//
+//
+//			//qWarning(QString("(%1)[%1][%1] %1").arg(ActiveConfiguration->ObjectsIcons.at(TargetIcon)->Info.Name).arg(event->pos().x()).arg(event->pos().y()).arg(basket));
+//
+//			if(0)
+//			{
+//				dropIconAddIcon(icon,event);
+//			}
+//			else
+//			{
+//	QString name;
+//	QStringList lst;
+//	QUriDrag::decodeLocalFiles(event, lst);
+//	name=lst[0];
+//	int pos=name.findRev(".desktop", -1);
+//	basket="";
+//	if(pos!=-1)
+//	{
+//		KSimpleConfig *desktopfile;
+//		desktopfile = new KSimpleConfig(lst[0], TRUE);
+//		desktopfile->setGroup("Desktop Entry");
+//		if(desktopfile->readEntry("Type")=="Link")
+//		{
+//			basket=desktopfile->readEntry("URL");
+//		}
+//		else if(desktopfile->readEntry("Type")=="Application")
+//		{
+//			dropIconAddIcon(icon,event);
+//			return;
+//		}
+//		else
+//		{
+//			basket=desktopfile->readEntry("Exec");
+//		}
+//
+//		delete(desktopfile);
+//	}
+//	else
+//	{
+//		pos=name.findRev("/", -1);
+//		if(pos!=-1)
+//		{
+//			name.remove(1, pos);
+//			name.remove("/", TRUE);
+//		}
+//		basket=lst[0];
+//
+//	}
+//			//qWarning(basket);
+//			if(ActiveConfiguration->ObjectsIcons.at(TargetIcon)->Actions.onDropExec=="")
+//			{
+//			ActiveConfiguration->ObjectsIcons.at(TargetIcon)->Actions.onDropExec=ActiveConfiguration->ObjectsIcons.at(TargetIcon)->Actions.onClickExec+" \"%1\"";
+//			}
+//			//qWarning(ActiveConfiguration->ObjectsIcons.at(TargetIcon)->Actions.onDropExec.arg(basket));
+//			KRun::runCommand(ActiveConfiguration->ObjectsIcons.at(TargetIcon)->Actions.onDropExec.arg(basket));
+//
+//			}
+//
+//		}
+//	}
+//
+//}
+//
+//
+///*!
+//    \fn XEPlugin_Command::dropIconAddIcon(int,XSGObjectIcon *)
+// */
+//void XEPlugin_Command::dropIconAddIcon(int TargetIcon,QDropEvent*event)
+//{
+//
+//	if(Configurator==NULL)return;
+//	XSGObjectIcon *addedCfg=Configurator->iconAdd();
+//
+////	XSGObjectIcon *addedCfg=new XSGObjectIcon;
+//
+//	QString className;
+//	QString fileName;
+//	QString groupName;
+//	QString onClickExec;
+//	QString overText;
+//	QString newImg;
+//
+//
+//	QString name;
+//	QStringList lst;
+//	QUriDrag::decodeLocalFiles(event, lst);
+//	name=lst[0];
+//	int pos=name.findRev(".desktop", -1);
+//	if(pos!=-1)
+//	{
+//		KSimpleConfig *desktopfile;
+//		desktopfile = new KSimpleConfig(lst[0], TRUE);
+//		desktopfile->setGroup("Desktop Entry");
+//		name=		desktopfile->readEntry("Name");
+//		onClickExec=	desktopfile->readEntry("Exec");
+//		newImg=		desktopfile->readEntry("Icon");
+//		overText=	desktopfile->readEntry("GenericName");
+//		if(overText=="")
+//		{
+//			overText=	desktopfile->readEntry("Comment");
+//		}
+//		groupName=		desktopfile->readEntry("Categories");
+//		delete(desktopfile);
+//	}
+//	else
+//	{
+//		pos=name.findRev("/", -1);
+//		if(pos!=-1)
+//		{
+//			name.remove(1, pos);
+//			name.remove("/", TRUE);
+//		}
+//
+//		onClickExec=lst[0];
+//		newImg=name;
+//		overText=name;
+//		groupName=name;
+//	}
+//
+//	if(name=="")
+//	{
+//		name=lst[0];
+//	}
+//	if(groupName=="")
+//	{
+//		groupName=name;
+//	}
+//	if(overText=="")
+//	{
+//		overText=name;
+//	}
+//
+//	if(ActiveConfiguration->ObjectsIcons.at(TargetIcon)->Info.className!="GSeparator")
+//	{
+//	groupName=ActiveConfiguration->ObjectsIcons.at(TargetIcon)->Info.Group;
+//	}
+//
+//	className="GIcon";
+//
+//	addedCfg->Tasks.PopupMenu=NULL;
+//	addedCfg->PluginPopupMenu=NULL;
+//
+//	addedCfg->Tasks.Proces.clear();
+//	addedCfg->Tasks.MiniTextShow=1;
+//	addedCfg->Info.className=className;
+//	addedCfg->Info.fileName=fileName;
+//	addedCfg->Info.Name=name;
+//	addedCfg->Info.Group=groupName;
+//	addedCfg->Actions.onClickExec=onClickExec;
+//	addedCfg->Actions.onDropExec=onClickExec+" \"%1\"";
+//	addedCfg->OverText=overText;
+//	addedCfg->Images.imgFileName=newImg;
+//	addedCfg->Images.imgFileArrow="arrow.png";
+//	addedCfg->Images.imgFileDrop="drop.png";
+//	addedCfg->Images.imgFileOverlay="";
+//
+//	addedCfg->Tasks.WindowTitle.append(overText);
+//	addedCfg->Tasks.TaskName.append(name);
+//	addedCfg->Tasks.ClassName.append(name);
+//
+//	addedCfg->Tasks.ShowThumbnail=0;
+//	addedCfg->Actions.iAnimationMask=0;
+//	addedCfg->Tasks.TaskInfo=NULL;
+//	addedCfg->TimeToLive=0;
+//
+//
+//	// check for existent icons
+//	for(uint i=0;i<ActiveConfiguration->RollingIcons.count();i++)
+//	{
+//		// we add only on rolling icons
+//		if(addedCfg->Info.Name==ActiveConfiguration->RollingIcons.at(i)->Info.Name)
+//		{
+//		/*
+//			// we only update the image:
+//			changeImageByName(addedCfg->Info.Name,addedCfg->Images.imgFileName);
+//		*/
+//			delete addedCfg;
+//			return;
+//		}
+//	}
+//
+//	ActiveConfiguration->RollingIcons.append(addedCfg);
+//
+//	for(uint i=0;i<ActiveConfiguration->ObjectsIcons.count();i++)
+//	{
+//		// we add only on rolling icons
+//		if(addedCfg->Info.Group==ActiveConfiguration->ObjectsIcons.at(i)->Info.Group)return;
+//	}
+//
+//	ActiveConfiguration->ObjectsIcons.append(addedCfg);
+//	xGDocker->xEventTaskAppend(ActiveConfiguration->ObjectsIcons.count()-1);
+//
+//
+//}
+
