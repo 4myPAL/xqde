@@ -21,7 +21,7 @@
 XQDEPlugin_WebHelper::XQDEPlugin_WebHelper(QObject *parent) : XQDEClass(parent)
 {
 	qWarning("XQDEPlugin_WebHelper::XQDEPlugin_WebHelper(QObject *parent) : QObject(parent)");
-	ObjectName="com.xiaprojects.WebHelper";
+	ObjectName="com.XQDE.WebHelper";
 	// loading configuration for xml
 	
 	// todo translations!!

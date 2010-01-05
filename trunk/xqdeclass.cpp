@@ -33,7 +33,7 @@ XQDEClass::XQDEClass(QObject *lRoot) :QObject()
         qDebug("XQDEClass::XQDEClass(QObject *lRoot) :QObject()");
 
         ObjectRoot=lRoot;
-        ObjectName=QString("com.xiaprojects.XQDEClass.") + QString::number((long)this);
+	ObjectName=QString("com.XQDE.XQDEClass.") + QString::number((long)this);
         // Reset my ID
 /*
         MyId.name="XQDEClass";
