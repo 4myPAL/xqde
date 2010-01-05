@@ -17,6 +17,8 @@
 #include <QSystemTrayIcon>
 #include <QMessageBox>
 #include <QSettings>
+#include <QAbstractEventDispatcher>
+
 
 // need to be moved to proxy
 #include "xqdeconfigurator.h"
@@ -30,16 +32,47 @@
 #include "xqdebasket.h"
 #include "xqdeproxy.h"
 #include "xqdesystray.h"
+#include "xqdewidgetinterface.h"
 
 
-
+QList<XQDEWidgetInterface *> widgets;
 
 QString DataPath;
 QString EXEPath;
 
+//this recive all events form X not only the event of the widget
+static bool customx11EventFilter(void *message)
+{
+    XEvent *event = reinterpret_cast<XEvent*>(message);
+    XAnyEvent *ae = reinterpret_cast<XAnyEvent*>(event);
+//    QHash<QX11Mirror*, Qt::HANDLE>::const_iterator itr;
+//    for (itr = s_mirrors.constBegin(); itr != s_mirrors.constEnd();
+//         ++itr) {
+//        if (itr.value() == ae->window) {
+//            itr.key()->x11Event(event);
+//        }
+//    }
+//    qWarning()<<"event"";
+    if(TaskManager!=NULL)return TaskManager->x11EventFilter(event);
+    else return false;
+//    return false;
+}
+
 
 XQDEMain::XQDEMain(Display * display, int & argc, char ** argv, Qt::HANDLE visual, Qt::HANDLE colormap): XQUniqueApplication(display, argc, argv, visual,colormap)
 {
+
+    setApplicationName("xqde");
+    setOrganizationDomain ("www.xiaprojects.com");
+    setOrganizationName("XIA Projects 2009");
+
+    //Loading a interface translation, ex: "xqde_it.qm"
+    QTranslator appTranslator;
+    QString translationFile = ":/translations/xqde_" + QLocale::system().name() + ".ts";
+    appTranslator.load(translationFile);
+    installTranslator(&appTranslator);
+    qWarning()<<"Loaded language is: "<<translationFile;
+
 	DataPath="";
 	PluginListWhichWillBeLoaded=new QStringList();
 	if(argc)
@@ -155,6 +188,7 @@ void XQDEMain::xReset()
         Basket->FreezeRestore(DataPath);
         xcfg->xReset();
 
+	QAbstractEventDispatcher::instance()->setEventFilter(customx11EventFilter);
 }
 
 
@@ -325,16 +359,19 @@ int XQDEMain::xmlLoad()
     settings.beginGroup("XQDEEnvironmentTheme");
     DesktopEnvironment->Theme.restore(&settings);
     settings.endGroup();
+
+    settings.beginGroup("XQDEEnvironmentUserProfile");
+    DesktopEnvironment->UserProfile.restore(&settings);
+    settings.endGroup();
     return 0;
 }
 
 
-bool XQDEMain::x11EventFilter( XEvent *ev )
-{
-	if(TaskManager!=NULL)return TaskManager->x11EventFilter(ev);
-	else return false;
-}
-
+//bool XQDEMain::x11EventFilter( XEvent *ev )
+//{
+//	if(TaskManager!=NULL)return TaskManager->x11EventFilter(ev);
+//	else return false;
+//}
 
 
 extern class XQPillow *Global_XQPillow;
