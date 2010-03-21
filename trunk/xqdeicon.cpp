@@ -14,6 +14,7 @@
 #include <QPainter>
 #include <QMenu>
 #include <QMap>
+#include <QBitmap>
 
 
 #include "xqdeicon.h"
@@ -21,7 +22,7 @@
 // will be remove
 #include "xqdebasket.h"
 #include "xqdeuiiconwindow.h"
-#include "xqdeenvironment.h"
+//#include "xqdeenvironment.h"
 #include "xqdeaction.h"
 #include "xqdeanimation.h"
 #include "xqtext.h"
@@ -367,7 +368,7 @@ void XQDEIcon::xReset()
                 //Bug: some applications show the correct icon in remove animation
                 //      other show the unknown icon....
 		newImageFile=DesktopEnvironment->Theme.findImage("unknown");
-		if(newImageFile!="")
+		if(newImageFile!="" && localIconImage.isNull()) //new! use a unknow image if no other images was loaded
 		{
 			if(!localIconImage.load(newImageFile))
 			{
