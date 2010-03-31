@@ -305,7 +305,7 @@ void XQWFirstHand_bottom::purgeCacheFixBorder(int iconNum,int &cursor_x,int &cur
 			cursor_x=(DesktopEnvironment->GUI.handIconsMax/2)+iconCoordsByIndex(activeIconsCounter-1).x;
 		}
 	}
-	
+
         // Mostra testo sopra icona selezionata (iconNum)
 	if(iconNum>=0 && iconNum<activeIconsCounter)
 	{
@@ -329,19 +329,25 @@ void XQWFirstHand_bottom::purgeCacheFixBorder(int iconNum,int &cursor_x,int &cur
 
 //                qWarning("width:%d ; h%d", textPixmap->size().width(), textPixmap->size().height());
                 //Bug Fix: stopping updates remove the boring flick under icons
-                Global_XQPillow->setUpdatesEnabled(false);
+//                Global_XQPillow->setUpdatesEnabled(false);
 
-                Global_XQPillow->xDrawText(textPixmap);
-                Global_XQPillow->update();
+//		if(Basket->items.at(iconNum)->logic()=="Separator") {
+////		    Global_XQPillow->xDrawText(NULL);
+//		    Global_XQPillow->move(QApplication::desktop()->availableGeometry().width() ,y()-Global_XQPillow->height());
+//		    return;
+//		}
+		
+		Global_XQPillow->xDrawText(textPixmap);
+		Global_XQPillow->update();
 
 
                 //Bug Fix: move after repaint, otherwise cause artifacts
                 Global_XQPillow->move((DesktopEnvironment->GUI.dockAlignDisplaceX + (Basket->items.at(iconNum)->imageHotSpot.x)) - (textRect->width()/2)
                                       ,y()-Global_XQPillow->height());
                 
-                Global_XQPillow->setVisible(true);
+//                Global_XQPillow->setVisible(true);
 
-                Global_XQPillow->setUpdatesEnabled(true);
+//                Global_XQPillow->setUpdatesEnabled(true);
 //		}
 	}
 }
@@ -384,7 +390,7 @@ void XQWFirstHand_bottom::mouseMoveEventSWIcon(int tx, int ty,int ,XQDEIcon *ico
     DiffIcon=DiffIconY+DiffIconX;
     //qWarning("%d %d %d %d %d",DiffIcon,DiffIconX,DiffIconY, icon->imageHotSpot.y, xDesignVirtualEscapeMatrix);
 
-
+    
     if(DiffIcon < xMakeUp_sizeMatrix *2)
     {
     // left align=invert x<->y

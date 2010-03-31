@@ -503,7 +503,7 @@ void XQWFirstHand::onEnter()
 //        flags |= Qt::WindowStaysOnTopHint;
 //        setWindowFlags(flags);
 //        show();
-        Global_XQPillow->setVisible(true);
+	Global_XQPillow->setVisible(true);
         //Global_XQPillow->setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
 }
 
@@ -519,7 +519,8 @@ void XQWFirstHand::onExit()
 //        show();
         //Timer mouse Polling, to detect end edge
         mousePolling->start(250);
-        Global_XQPillow->setVisible(false);
+	Global_XQPillow->setVisible(false);
+	Global_XQPillow->move(9999 , 9999);
 
 }
 
