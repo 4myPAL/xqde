@@ -4152,7 +4152,8 @@ fprintf(stderr, "NETWinInfo::update:(%ld) XGetWindowProperty WMKDESystemTrayWinF
 fprintf(stderr, "NETWinInfo::update:(%ld) XGetWindowProperty WMFrameExtents error\n",p->window);
 	}
 
-	if (!ok && XGetWindowProperty(p->display, p->window, kde_net_wm_frame_strut,
+	if (!ok){
+	if (XGetWindowProperty(p->display, p->window, kde_net_wm_frame_strut,
 			       0l, 4l, False, XA_CARDINAL, &type_ret, &format_ret,
 			       &nitems_ret, &unused, &data_ret) == Success) {
 	    if (type_ret == XA_CARDINAL && format_ret == 32 && nitems_ret == 4) {
@@ -4171,6 +4172,7 @@ fprintf(stderr, "NETWinInfo::update:(%ld) XGetWindowProperty WMFrameExtents erro
 	{
 fprintf(stderr, "NETWinInfo::update:(%ld) XGetWindowProperty kde_net_wm_frame_strut error\n",p->window);
 	}
+    }
 
     }
 
