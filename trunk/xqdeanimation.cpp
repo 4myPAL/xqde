@@ -37,6 +37,11 @@ XQDEAnimation::~XQDEAnimation()
 {
 }
 
+QStringList XQDEAnimation::getAnimationTypes()
+{
+    return QStringList() << "fade" << "unmagnify" << "magnify" << "fly";
+}
+
 const unsigned int N_MAX = 15; //80;
 const unsigned int MAX_HEIGHT = 64; //256;
 

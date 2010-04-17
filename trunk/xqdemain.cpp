@@ -17,6 +17,9 @@
 #include <QSystemTrayIcon>
 #include <QMessageBox>
 #include <QSettings>
+#include <QLocale>
+#include <QTranslator>
+#include <QDebug>
 #include <QAbstractEventDispatcher>
 
 
@@ -32,10 +35,10 @@
 #include "xqdebasket.h"
 #include "xqdeproxy.h"
 #include "xqdesystray.h"
-#include "xqdewidgetinterface.h"
+//#include "xqdewidgetinterface.h"
 
 
-QList<XQDEWidgetInterface *> widgets;
+//QList<XQDEWidgetInterface *> widgets;
 
 QString DataPath;
 QString EXEPath;

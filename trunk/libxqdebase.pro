@@ -75,7 +75,8 @@ SOURCES += libxqdebase.cpp \
     xqdesystray.cpp
 TRANSLATIONS = xqde_it.ts
 TEMPLATE = app
-LIBS += -lXcomposite
+LIBS += -lXcomposite\
+	-lXdamage
 QT += network \
     xml \
     dbus

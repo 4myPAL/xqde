@@ -39,7 +39,7 @@ public slots:
 
 protected:
 	virtual int xmlLoad();
-	bool x11EventFilter( XEvent * );
+//	bool x11EventFilter( XEvent * );
 	QStringList *PluginListWhichWillBeLoaded;
 };
 
