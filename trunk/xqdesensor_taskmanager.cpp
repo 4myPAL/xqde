@@ -832,19 +832,19 @@ QPixmap thumbnail(Window m_frameId, int maxDimension)
     //!! XGetWindowAttributes is a synchronous call (it blocks) !!
 //    if( XGetWindowAttributes( dpy, m_frameId, &attr ) == 0)  return QPixmap();
 
-    XQDEIcon *ic=Basket->getViaData((void *)m_frameId);
-    if(!ic) return QPixmap();
-    QRect size = ic->getAttachedWindowsPosition();
-
-    int x                     = 0;
-    int y                     = 0;
-    int width                 = size.width();
-    int height                = size.height();
-
-    //grap picture
-    QPixmap originalPixmap(QPixmap::grabWindow(m_frameId,x,y,width,height));
-
-    return originalPixmap;
+//    XQDEIcon *ic=Basket->getViaData((void *)m_frameId);
+//    if(!ic) return QPixmap();
+//    QRect size = ic->getAttachedWindowsPosition();
+//
+//    int x                     = 0;
+//    int y                     = 0;
+//    int width                 = size.width();
+//    int height                = size.height();
+//
+//    //grap picture
+//    QPixmap originalPixmap(QPixmap::grabWindow(m_frameId,x,y,width,height));
+//
+//    return originalPixmap;
 
 //
 //
@@ -861,7 +861,7 @@ QPixmap thumbnail(Window m_frameId, int maxDimension)
 //    {
 //	return QPixmap();
 //    }
-//
+
 //    Display *dpy = qt_xdisplay();
 //    XWindowAttributes attr;
 //    if(XGetWindowAttributes(dpy, m_frameId, &attr) == 0)  return QPixmap();
@@ -887,9 +887,61 @@ QPixmap thumbnail(Window m_frameId, int maxDimension)
 //		     dest.x11PictureHandle(), 0, 0, 0, 0, 0, 0, width, height);
 //
 //    return dest;
+//
 
 
-//    return thumbnail;
+
+    QPixmap thumbnail;
+
+    Display *display = QX11Info::display();
+    XWindowAttributes attributes;
+
+    XCompositeRedirectWindow(display, m_frameId, CompositeRedirectAutomatic);
+
+    if(XGetWindowAttributes(display, m_frameId, &attributes) == 0) return QPixmap();
+
+    XRenderPictFormat *format = XRenderFindVisualFormat(display, attributes.visual);
+
+    if (format)
+    {
+	bool hasAlpha  = (format->type == PictTypeDirect && format->direct.alphaMask);
+	int x = attributes.x;
+	int y = attributes.y;
+	int width = attributes.width;
+	int height = attributes.height;
+
+	XRenderPictureAttributes pictureAttributes;
+	pictureAttributes.subwindow_mode = IncludeInferiors;
+
+	Picture picture = XRenderCreatePicture(display, m_frameId, format, CPSubwindowMode, &pictureAttributes);
+
+//	XserverRegion region = XFixesCreateRegionFromWindow(display, m_frameId, WindowRegionBounding);
+//
+//	XFixesTranslateRegion(display, region, -x, -y);
+//	XFixesSetPictureClipRegion(display, picture, 0, 0, region);
+//	XFixesDestroyRegion(display, region);
+
+	XShapeSelectInput(display, m_frameId, ShapeNotifyMask);
+
+	thumbnail = QPixmap(width, height);
+	thumbnail.fill(Qt::transparent);
+
+	XRenderComposite(display, (hasAlpha?PictOpOver:PictOpSrc), picture, None, thumbnail.x11PictureHandle(), 0, 0, 0, 0, 0, 0, width, height);
+    }
+
+    if (!thumbnail.isNull())
+    {
+	if (thumbnail.width() > thumbnail.height())
+	{
+	    thumbnail = thumbnail.scaledToWidth(maxDimension, Qt::SmoothTransformation);
+	}
+	else
+	{
+	    thumbnail = thumbnail.scaledToHeight(maxDimension, Qt::SmoothTransformation);
+	}
+    }
+
+    return thumbnail;
 }
 
 
