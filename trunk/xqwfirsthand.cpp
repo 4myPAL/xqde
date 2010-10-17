@@ -102,12 +102,13 @@ XQWFirstHand::XQWFirstHand(QObject *lRoot, QWidget *parent)
                 info.setDesktop( NETWinInfo::OnAllDesktops);
         */
 
-        mousePolling=0;
-        animationPolling=0;
+	mousePolling=0;
+	animationPolling=0;
 
         // start dock on bottom and show on all desktops
         // added (10.04.09)
-	MakeWindowOnBottom((void*)winId());
+//	MakeWindowOnBottom((void*)winId());
+
 
 }
 
@@ -493,7 +494,7 @@ void XQWFirstHand::onEnter()
 //        vecchio e solo dopo quello nuovo, questo causa uno sfarfallio
 //        Global_XQPillow->setVisible(true);
 //	qApp->syncX();
-     MakeWindowOnTop((void*)Global_XQPillow->winId());
+//     MakeWindowOnTop((void*)Global_XQPillow->winId());
 //	qApp->syncX();
 //	MakeWindowOnTop((void*)Global_XQPillow->winId());
 
@@ -520,7 +521,7 @@ void XQWFirstHand::onExit()
         //Timer mouse Polling, to detect end edge
         mousePolling->start(250);
 	Global_XQPillow->setVisible(false);
-	Global_XQPillow->move(9999 , 9999);
+//	Global_XQPillow->move(9999 , 9999);
 
 }
 
@@ -1036,13 +1037,13 @@ void XQWFirstHand::xReset()
         {
                 mousePolling=new QTimer();
                 connect(mousePolling,SIGNAL(timeout()),this,SLOT(slot_mousePolling()));
+		mousePolling->start(250);
         }
         if(animationPolling==0)
         {
                 animationPolling=new QTimer();
                 connect(animationPolling,SIGNAL(timeout()),this,SLOT(slot_animationPolling()));
         }
-
 
 }
 
