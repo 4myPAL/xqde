@@ -686,7 +686,11 @@ void XQWFirstHand::Basket_As_Changed(int action, XQDEIcon *newIcon, void *pW)
 	{
 		case 0:	// remove
                         //If icon must be in dock dont remove it!
-                        if(newIcon->storeOnExit == 1) break;
+		    if(newIcon->storeOnExit == 1) {
+			xRepaintSingle(newIcon);
+			update(newIcon->imageCachedRect.x,newIcon->imageCachedRect.y,newIcon->imageCachedRect.z,newIcon->imageCachedRect.y+newIcon->imageCachedRect.z);
+			break;
+		    }
 
 			EndAction=new XQDEAction();
 			EndAction->ActionType="removeicon";
