@@ -37,7 +37,7 @@ QMap <QString,long> 		XQDEEnvironment::Longs;
 QMap <QString,QString> 		XQDEEnvironment::Strings;
 QMap <QString,QStringList> 	XQDEEnvironment::Lists;
 */
-XQDEEnvironment::XQDEEnvironment *DesktopEnvironment;
+XQDEEnvironment *DesktopEnvironment;
 
 
 QImage *XQDE_ImageSetIntensity(QImage &lavoro,double i)
