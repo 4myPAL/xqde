@@ -13,6 +13,7 @@
 #define XQDEICON_H
 
 #include "xqde.h"
+//#include <QGraphicsWidget>
 #include "xqwidget.h"
 #include "xqdeslotsensor.h"
 

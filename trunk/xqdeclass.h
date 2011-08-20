@@ -59,6 +59,8 @@ class XQDEClass: public QObject
 	
 	QList<XQDEClass *> ObjectTree;
 
+	void loadPluginsWidgets();
+
 	protected:
 		static QObject *globalXQDERoot;
 		static QObject *globalXQDEConfiguration;

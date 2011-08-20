@@ -43,7 +43,7 @@
 
 
 
-const int TSKPOLLINGRATE=5000;
+const int TSKPOLLINGRATE=1000;
 const int WINPOLLINGRATE=1000;
 
 XQDESensor_TaskManager *TaskManager;
@@ -112,23 +112,23 @@ NET::AllTypesMask
 
 void MakeWindowOnBottom(void *w)
 {
-        NETWinInfo info(qt_xdisplay(), (Window)w, qt_xrootwin(),NET::WMState);
-        info.setState(
-                NET::Override |
-                NET::Dock |
-                NET::KeepBelow |
-                NET::SkipTaskbar |
-                NET::SkipPager |
-                NET::Sticky,
-                NET::Override |
-                NET::Dock |
-                NET::KeepBelow |
-                NET::SkipTaskbar |
-                NET::SkipPager |
-                NET::Sticky
-        );
-        info.setWindowType( NET::Dock ); // don't show dock on exposé (10.04.09)
-        info.setDesktop( NETWinInfo::OnAllDesktops);
+	NETWinInfo info(qt_xdisplay(), (Window)w, qt_xrootwin(),NET::WMState);
+	info.setState(
+		NET::Override |
+		NET::Dock |
+		NET::KeepBelow |
+		NET::SkipTaskbar |
+		NET::SkipPager |
+		NET::Sticky,
+		NET::Override |
+		NET::Dock |
+		NET::KeepBelow |
+		NET::SkipTaskbar |
+		NET::SkipPager |
+		NET::Sticky
+	);
+	info.setWindowType( NET::Dock ); // don't show dock on exposé (10.04.09)
+	info.setDesktop( NETWinInfo::OnAllDesktops);
 }
 
 void MakeWindowOnTopPillow(void *w)
@@ -1356,6 +1356,7 @@ void XQDESensor_TaskManager::postAddClient(Window window)
         qWarning("safe position gained! %d (pid %d)",(int)window, WindowPid);
 	// now the window can be closed!
 	
+	timer_slotPollingPID->start(TSKPOLLINGRATE);
 
 	if(DesktopEnvironment->GUI.task_GroupByPID)
 	{
@@ -1418,11 +1419,12 @@ void XQDESensor_TaskManager::postAddClient(Window window)
                     connect(icon,SIGNAL(setGeometry(void *,int,int,int)),SLOT(setGeometry(void *,int,int,int)));
 
 
-                    disconnect(icon,SIGNAL(sguserAction(int,int,int,void *,XQDEIcon *)),this,SLOT(userAction(int,int,int,void *,XQDEIcon *)));
-                    connect(icon,SIGNAL(sguserAction(int,int,int,void *,XQDEIcon *)),this,SLOT(userAction(int,int,int,void *,XQDEIcon *)));
+		    //disconnect(icon,SIGNAL(sguserAction(int,int,int,void *,XQDEIcon *)),this,SLOT(userAction(int,int,int,void *,XQDEIcon *)));
+		    //connect(icon,SIGNAL(sguserAction(int,int,int,void *,XQDEIcon *)),this,SLOT(userAction(int,int,int,void *,XQDEIcon *)));
 
                     disconnect(icon,SIGNAL(fillPopup(QMenu *,XQDEIcon *)),this,SLOT(fillPopup(QMenu *,XQDEIcon *)));
                     connect(icon,SIGNAL(fillPopup(QMenu *,XQDEIcon *)),this,SLOT(fillPopup(QMenu *,XQDEIcon *)));
+
 
                     setGeometry((void *)window,icon->iconGeometry.x+MainWindow->x(),icon->iconGeometry.y+MainWindow->y(),icon->iconGeometry.z);
 
@@ -1472,7 +1474,7 @@ void XQDESensor_TaskManager::postAddClient(Window window)
 	//qWarning("New added icon is %ld and %d",(long)addedIcon,hadconnected);
 	
 	addedIcon->xSetParent(this);
-	timer_slotPollingPID->start(TSKPOLLINGRATE);
+	//timer_slotPollingPID->start(TSKPOLLINGRATE);
 
 	//prepare the new icon to X11 damage events
 	prepareDamage(addedIcon, window);
@@ -1760,13 +1762,14 @@ void XQDESensor_TaskManager::addClient(Window window)
 {
 	if(window==qt_xrootwin())return;
 	pendingWindows.append(window);
-	//qWarning("void XQDESensor_TaskManager::addClient(Window %d)[%d]", (int)window,pendingWindows.size());
+//	timer_slotAddClient->start();
+	qWarning("void XQDESensor_TaskManager::addClient(Window %d)[%d]", (int)window,pendingWindows.size());
 }
 
 
 void XQDESensor_TaskManager::removeClient(Window window)
 {
-	//qWarning("void XQDESensor_TaskManager::removeClient(%d)",(int)window);
+	qWarning("void XQDESensor_TaskManager::removeClient(%d)",(int)window);
 	int idx=pendingWindows.indexOf(window);	
 	if(idx>=0)pendingWindows.takeAt(idx);
 	idx=windowsMinimized.indexOf(window);
@@ -1867,6 +1870,67 @@ bool XQDESensor_TaskManager::x11EventFilter( XEvent *event )
     if (event->type == m_damageEvent + XDamageNotify) {
 	XDamageNotifyEvent *e = reinterpret_cast<XDamageNotifyEvent*>(event);
 	XDamageSubtract(QX11Info::display(), e->damage, None, None);
+//
+//
+//	XFixesSetPictureClipRegion(display, picture, 0, 0, region);
+//	XFixesDestroyRegion(display, region);
+//
+//	XShapeSelectInput(display, m_frameId, ShapeNotifyMask);
+
+/////////////////////
+
+//	Display *display = QX11Info::display();
+//	XWindowAttributes attributes;
+//
+//	//start
+//	XGetWindowAttributes(QX11Info::display(), activeWindow(), &attributes);
+//
+//	XRenderPictFormat *format = XRenderFindVisualFormat(QX11Info::display(), attributes.visual);
+//
+//	bool hasAlpha  = (format->type == PictTypeDirect && format->direct.alphaMask);
+//
+//	XRenderPictureAttributes pictureAttributes;
+
+//	Picture picture = XRenderCreatePicture(QX11Info::display(), activeWindow(), format, CPSubwindowMode, &pictureAttributes);
+//
+//
+//	// Create an empty region
+//	XserverRegion region = XFixesCreateRegion( QX11Info::display(), 0, 0 );
+//
+//	// Copy the damage region to region, subtracting it from the windows' damage
+//	XDamageSubtract( QX11Info::display(), e->damage, None, region );
+//
+//	// Offset the region with the windows' position
+//	XFixesTranslateRegion( QX11Info::display(), region, e->geometry.x, e->geometry.y );
+//
+//	// Set the region as the clip region for the picture
+//	XFixesSetPictureClipRegion( QX11Info::display(), picture, 0, 0, region );
+//
+//	// Free the region
+//	XFixesDestroyRegion( QX11Info::display(), region );
+//
+//
+//	QPixmap *local_thumbnail = new QPixmap(e->area.width, e->area.height);
+//	local_thumbnail->fill(Qt::transparent);
+
+//	XRenderComposite(display, (hasAlpha?PictOpOver:PictOpSrc), picture, None, local_thumbnail->x11PictureHandle(), 0, 0, 0, 0, 0, 0, e->area.width, e->area.height);
+//
+//
+//	XQDEIcon *ic=Basket->getViaData((void *)activeWindow(),this);
+//
+//	if(!ic){
+//	    if(ic->enablePreview>0)
+//	    {
+//		//	    updateWindowPixmap(lastActiveWindow);
+//		QImage pi=thumbnail(activeWindow(),DesktopEnvironment->GUI.sizeIconsMax).toImage();
+//
+//		ic->xSetIcon(pi);
+//		//	    needToSendSignal++;
+//	    }
+//	}
+
+
+
 	if(!timer_slotupdateThumbnail->isActive()){
 	    lastActiveWindow=activeWindow();
 	    timer_slotupdateThumbnail->start(WINPOLLINGRATE);

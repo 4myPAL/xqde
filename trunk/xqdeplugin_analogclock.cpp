@@ -18,6 +18,11 @@
 #include "xqdeplugin_analogclock.h"
 #include "xqdeenvironment.h"
 
+extern "C" QObject *xqdeplugin_register(QObject *parent)
+{
+	return new XQDEPlugin_AnalogClock(parent);
+}
+
 XQDEPlugin_AnalogClock::XQDEPlugin_AnalogClock(QObject *p)
  : XQDEPlugin(p)
 {

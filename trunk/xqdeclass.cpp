@@ -10,6 +10,7 @@
 //
 //
 
+#include <QtGui>
 #include <QDir>
 #include <QStringList>
 #include <QFile>

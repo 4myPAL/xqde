@@ -10,17 +10,22 @@
 //
 //
 #include "xqimageautozoom.h"
-#include <xqdeenvironment.h>
+#include "xqdeenvironment.h"
 #include <QMouseEvent>
+#include <QList>
 
-#include <xqdesensor_zoomengine.h>
+#include "xqdesensor_zoomengine.h"
+
+QList<XQDESensor_ZoomEngine*> MappedDevices;
 
 XQImageAutoZoom::XQImageAutoZoom(QObject *lRoot, QWidget *parent):XQImage(lRoot,parent)
 {
 	ZoomXY=NULL;
 //	MappedDevices.insert("Zoom",new XQDESensor_ZoomEngine);
+	XQDESensor_ZoomEngine *temp = new XQDESensor_ZoomEngine;
 //	ZoomXY=MappedDevices["Zoom"]->readMat(0,0,0);
-//qWarning("XQImageAutoZoom::XQImageAutoZoom() end");
+	ZoomXY=temp->readMat(0,0,0);
+	//qWarning("XQImageAutoZoom::XQImageAutoZoom() end");
 }
 
 
@@ -47,6 +52,10 @@ void XQImageAutoZoom::mousePressEvent(QMouseEvent *event)
 XQImage::mousePressEvent(event);
 }
 
+void XQImageAutoZoom::MoveEvent(QMouseEvent *e)
+{
+    emit mouseMoveEvent(e);
+}
 
 void XQImageAutoZoom::mouseMoveEvent(QMouseEvent *e)
 {
@@ -62,12 +71,12 @@ void XQImageAutoZoom::mouseMoveEvent(QMouseEvent *e)
 	int maxdif=DesktopEnvironment->GUI.sizeIconsMax-DesktopEnvironment->GUI.sizeIconsMin;
 	int nextSize=(width()-abs(pos0.x()-x));
 */
-	//qWarning("next");
+//	qWarning("next");
 	if(ZoomXY==NULL)return;
 
 	//qWarning("[%3d][%3d][%3d][%3d]1",0,pos0.x(),pos0.y(),width());
 	int nextSize=ZoomXY[dx][dy];
-	//qWarning("[%3d][%3d][%3d][%3d]2",nextSize,pos0.x(),pos0.y(),width());
+//	qWarning("[%3d][%3d][%3d][%3d]2",nextSize,pos0.x(),pos0.y(),width());
 
 	//buffer[Buffer_Image_Status]=Source_buffer[Buffer_Image_Status].copy();
 	//nextSize=;

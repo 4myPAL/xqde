@@ -17,7 +17,7 @@ class XQDEIcon;
 
 class XQDEAnimation{
 public:
-    XQDEAnimation(int type=0, XQDEIcon *icon=0,int endEffect=0, class XQDEAction *test=0,class XQDEAction *endAction=0);//,int ar=1);
+    XQDEAnimation(int type=0, XQDEIcon *icon=0,int endEffect=0, class XQDEAction *startaction=0,class XQDEAction *endAction=0);//,int ar=1);
 
     QStringList getAnimationTypes();
 
@@ -35,7 +35,7 @@ protected:
 	void resetCurrentStep();
 	int type;
 	int maxCicle;
-	class XQDEAction *test;
+	class XQDEAction *startaction;
 
 };
 

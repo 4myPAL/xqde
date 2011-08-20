@@ -77,7 +77,6 @@ XQDEConfigurator::XQDEConfigurator(XQDERoot *pr) : QDialog()
 	connect(listWidgets, SIGNAL(itemClicked(QListWidgetItem *)),SLOT(lw_itemClicked(QListWidgetItem *)));
 	connect(lw_addWidget, SIGNAL(clicked()),SLOT(lw_addWidgetClicked()));
 	connect(list_plugin_configure, SIGNAL(clicked()),SLOT(list_plugin_configureClicked()));
-	
 }
 
 XQDEConfigurator::~XQDEConfigurator()
@@ -115,7 +114,7 @@ void XQDEConfigurator::xReset()
 	
         listWidgets->clear();
         //ToDo rendere il caricamento dei plugin automatico
-        QListWidgetItem *it=new QListWidgetItem("Analog Clock", listWidgets);
+	QListWidgetItem *it=new QListWidgetItem("Analog_Clock", listWidgets);
         it->setIcon(QIcon(DesktopEnvironment->Theme.findImage("Analog Clock")));
         listWidgets->addItem(it);
 
@@ -146,11 +145,11 @@ void XQDEConfigurator::xReset()
 
 	//Find Animations Types and populate the list and select item
 	ani_new->addItems(((XQDEAnimation *)MainWindow)->getAnimationTypes());
-	ani_new->setCurrentIndex(DesktopEnvironment->UserProfile.animation_new);
+	ani_new->setCurrentIndex(DesktopEnvironment->UserProfile.animation_new-1);
 	ani_remove->addItems(((XQDEAnimation *)MainWindow)->getAnimationTypes());
-	ani_remove->setCurrentIndex(DesktopEnvironment->UserProfile.animation_remove);
+	ani_remove->setCurrentIndex(DesktopEnvironment->UserProfile.animation_remove-1);
 	ani_lanch->addItems(((XQDEAnimation *)MainWindow)->getAnimationTypes());
-	ani_lanch->setCurrentIndex(DesktopEnvironment->UserProfile.animation_lanch);
+	ani_lanch->setCurrentIndex(DesktopEnvironment->UserProfile.animation_lanch-1);
 
 	//ToDo implemten other dock effects
 	ani_dock->addItem("parabolic");
@@ -182,6 +181,18 @@ void XQDEConfigurator::lw_addWidgetClicked()
 
 void XQDEConfigurator::lw_itemClicked(QListWidgetItem *i)
 {
+    if(prr)
+    {
+	    qWarning("void XQDEConfigurator::xReset() root is ok");
+	    list_plugin->clear();
+	    for(int i=0;i<prr->Plugins()->count();i++)
+	    {
+		    XQDEClass *xci=(XQDEClass *)prr->Plugins()->at(i);
+		    qWarning("void XQDEConfigurator::xReset() adding plugin: %s",xci->ObjectName.toUtf8().constData());
+		    QListWidgetItem *it=new QListWidgetItem(xci->ObjectName, list_plugin);
+		    list_plugin->addItem(it);
+	    }
+    }
 	qWarning("void XQDEConfigurator::lw_itemClicked(QListWidgetItem *i)");
 	if(i==NULL)
 	{
@@ -413,14 +424,14 @@ void XQDEConfigurator::ani_new_activated(int nv){
 
 void XQDEConfigurator::ani_remove_activated(int nv){
 
-    DesktopEnvironment->UserProfile.animation_remove = nv;
+    DesktopEnvironment->UserProfile.animation_remove = nv+1;
 
     ((XQWFirstHand *)MainWindow)->xConfigurationChanged();
 }
 
 void XQDEConfigurator::ani_lanch_activated(int nv){
 
-    DesktopEnvironment->UserProfile.animation_lanch = nv;
+    DesktopEnvironment->UserProfile.animation_lanch = nv+1;
 
     ((XQWFirstHand *)MainWindow)->xConfigurationChanged();
 }

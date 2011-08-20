@@ -39,7 +39,10 @@ HEADERS += libxqdebase.h \
     xqdedevice.h \
     xqdewindowmanagerinterface.h \
     xqdesystray.h \
-    xqdeinterface.h
+    xqdeinterface.h \
+    xqdewidgetinterface.h \
+    xqimageautozoom.h \
+    xqdepuzzle.h
 SOURCES += libxqdebase.cpp \
     main.cpp \
     xqdeclass.cpp \
@@ -72,7 +75,9 @@ SOURCES += libxqdebase.cpp \
     import_netwm.cpp \
     xqdedevice.cpp \
     xqdewindowmanagerinterface.cpp \
-    xqdesystray.cpp
+    xqdesystray.cpp \
+    xqimageautozoom.cpp \
+    xqdepuzzle.cpp
 TRANSLATIONS = xqde_it.ts
 TEMPLATE = app
 LIBS += -lXcomposite\
@@ -82,4 +87,3 @@ QT += network \
     dbus
 RESOURCES += resources/libxqdebase.qrc
 DEFINES += QT_NO_DEBUG_OUTPUT
-#QT_NO_WARNING_OUTPUT

@@ -30,7 +30,7 @@ public:
     XQDEPlugin_AnalogClock(QObject *p);
 
     ~XQDEPlugin_AnalogClock();
-	virtual void attach(QObject *newI);
+	void attach(QObject *newI);
 protected:
 		QTimer *PluginPollingRate;
 public slots:

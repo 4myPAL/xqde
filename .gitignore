@@ -5,6 +5,9 @@ trunk/release
 trunk/*.txt~
 trunk/Makefile*
 trunk/*.pro.user
+trunk/*.so
+
+
 
 #Remove compiled files
 libxqdebase
@@ -13,9 +16,10 @@ libxqdebase
 .directory
 
 #Remove temp files
-.*~
+*.*~
 
 #Remove object files
-trunk/moc_*.*
-trunk/*.o
-trunk/ui_*.*
+moc_*.*
+*.o
+ui_*.*
+*.*so

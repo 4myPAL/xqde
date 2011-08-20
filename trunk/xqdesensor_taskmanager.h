@@ -65,7 +65,7 @@ protected:
 
         virtual void updateStackingOrder();
         virtual void addClient(Window window);
-        virtual void removeClient(Window window);
+	virtual void removeClient(Window window);
         virtual void addSystemTrayWin(Window window)
         {
                 qDebug("addSystemTrayWin");
@@ -87,9 +87,9 @@ protected:
         virtual void changeCurrentDesktop(int desktop){
                 qDebug("changeCurrentDesktop");
                 Q_UNUSED(desktop); }
-        virtual void changeActiveWindow(Window window){
-                qDebug("changeActiveWindow");
-                Q_UNUSED(window); }
+	virtual void changeActiveWindow(Window window){
+		qDebug("changeActiveWindow");
+		Q_UNUSED(window); }
         virtual void closeWindow(Window window){
                 qDebug("closeWindow");
                 Q_UNUSED(window);

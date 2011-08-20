@@ -16,6 +16,7 @@
 #include "xqwidget.h"
 #include "xqdeicon.h"
 //#include <qicon.h>
+#include <QGraphicsLinearLayout>
 
 
 class QMutex;
@@ -40,8 +41,12 @@ public:
 	virtual void repaintDock();
 	virtual void dragEnterEvent(QDragEnterEvent *event);
 	virtual void dropEvent(QDropEvent *event);
+	virtual void dragMoveEvent(QDragMoveEvent *event);
 	class QTimer *animationPolling;
+	virtual void mouseMoveEvent(QMouseEvent *e);
+
 protected:
+	QGraphicsLinearLayout *m_layout;
 	class QTimer *mousePolling;
 	virtual void mouseMoveEventSW(int x,int y,int force=0,int bt=0);
 	virtual void purgeCacheMovements();
@@ -50,7 +55,7 @@ protected:
 	virtual void wheelEvent(QWheelEvent *e);
 	virtual void mouseReleaseEvent (QMouseEvent *e);
 	virtual void mousePressEvent( QMouseEvent *e);
-	virtual void mouseMoveEvent(QMouseEvent *e);
+	//virtual void mouseMoveEvent(QMouseEvent *e);
 	virtual XQDEIconRect iconCoordsByIndex(int);
 	virtual void xMakeCentered();
 	virtual void onEnter();

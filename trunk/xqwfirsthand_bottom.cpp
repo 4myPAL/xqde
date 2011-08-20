@@ -223,7 +223,7 @@ void XQWFirstHand_bottom::purgeCacheFixMouse(int ,int &cursor_x,int &cursor_y, i
         //manitiene lo zoom quando mouse si sposta verticalmente
        if(cursor_y >= 0)
         {
-              cursor_y = xDesignVirtualEscapeMatrix;
+	      cursor_y = xDesignVirtualEscapeMatrix;
                 qDebug("void XQWFirstHand_bottom::purgeCacheFixMouse(,,%d,) b",cursor_y);
 
 
@@ -248,27 +248,28 @@ void XQWFirstHand_bottom::purgeCacheFixBorder(int iconNum,int &cursor_x,int &cur
             //della altezza della dock
 		if(isRaised)
 		{
-                        cursor_y=xLastY-(DesktopEnvironment->GUI.handIconsMax/4); //-20
+			cursor_y=xLastY-(DesktopEnvironment->GUI.handIconsMax/4); //-20
 			recallme=1;
 		}
 		else
 		{
 			releaseMouse();
-                        cursor_y=xLastY-(DesktopEnvironment->GUI.handIconsMax/4);
-			recallme=0;                        
+			cursor_y=xLastY-(DesktopEnvironment->GUI.handIconsMax/4);
+			recallme=0;
 		}
                 
+		//removed 05.04.10
                 //Bug Solved (22.02.09): now dock is always on center
-                //blocco movimento dock quando arrivo a met√† della prima o ultima icona
-                if(iconNum<0) 
-                {
-                    cursor_x=(DesktopEnvironment->GUI.handIconsMax/2)+iconCoordsByIndex(0).x;
-                }
-                
-                else if(iconNum>activeIconsCounter)
-                {
-                    cursor_x=(DesktopEnvironment->GUI.handIconsMax/2)+iconCoordsByIndex(activeIconsCounter-1).x;
-                }
+                //blocco movimento dock quando arrivo a met√  della prima o ultima icona
+//                if(iconNum<0)
+//                {
+//                    cursor_x=(DesktopEnvironment->GUI.handIconsMax/2)+iconCoordsByIndex(0).x;
+//                }
+//
+//                else if(iconNum>activeIconsCounter)
+//                {
+//                    cursor_x=(DesktopEnvironment->GUI.handIconsMax/2)+iconCoordsByIndex(activeIconsCounter-1).x;
+//                }
 		return;
 	}
 
@@ -289,16 +290,15 @@ void XQWFirstHand_bottom::purgeCacheFixBorder(int iconNum,int &cursor_x,int &cur
 //		recallme=0;
 //	}
 //	else
+	//blocco animazione parabola negli angoli esterni alla dock
 	if(iconNum<=0)// adaptive mouse horizontal
-	{
-		
+	{		
 		if(cursor_x<(DesktopEnvironment->GUI.handIconsMax/2)+iconCoordsByIndex(0).x)
 		{
 			cursor_x=(DesktopEnvironment->GUI.handIconsMax/2)+iconCoordsByIndex(0).x;
 		}
 	}
-	else
-	if(iconNum>=activeIconsCounter-1)// adaptive mouse horizontal
+	else if(iconNum>=activeIconsCounter-1)// adaptive mouse horizontal
 	{
 		if(cursor_x>(DesktopEnvironment->GUI.handIconsMax/2)+iconCoordsByIndex(activeIconsCounter-1).x)
 		{
@@ -371,6 +371,8 @@ void XQWFirstHand_bottom::xMakeUp_BackgroundCoords()
 
 void XQWFirstHand_bottom::mouseMoveEventSWIcon(int tx, int ty,int ,XQDEIcon *icon,int quality)
 {
+    //ricalcolo le coordinate x,y e z dell'icona in funzione di dove si trova il mouse
+    //questa funzione viene richiamata n-volte quante sono le icone
 	//qWarning("mouseMoveEventSWIcon(int %d, int %d,int ,%d)",tx,ty,(int)icon);
 
     int dx=0;
@@ -394,7 +396,7 @@ void XQWFirstHand_bottom::mouseMoveEventSWIcon(int tx, int ty,int ,XQDEIcon *ico
     if(DiffIcon < xMakeUp_sizeMatrix *2)
     {
     // left align=invert x<->y
-            if(dx>0)
+	    if(dx>0)
             {
                     AreMovingToLeft=xMakeUp_DMatrix[DiffIconX][DiffIconY];
             }
@@ -404,9 +406,13 @@ void XQWFirstHand_bottom::mouseMoveEventSWIcon(int tx, int ty,int ,XQDEIcon *ico
             }
 
             // left align=invert x<->y
-            icon->imageCachedRect.y = icon->iconGeometry.y - xMakeUp_YMatrix[DiffIcon];
+	    if (icon->logic().toAscii()!="Separator")
+		icon->imageCachedRect.y = icon->iconGeometry.y - xMakeUp_YMatrix[DiffIcon];
+	    
             icon->imageCachedRect.x = icon->iconGeometry.x - xMakeUp_XMatrix[DiffIcon] + AreMovingToLeft;
-            icon->imageCachedRect.z = xMakeUp_ZMatrix[DiffIcon];
+	    
+	    if (icon->logic().toAscii()!="Separator")
+		icon->imageCachedRect.z = xMakeUp_ZMatrix[DiffIcon];
 //            qWarning("%d %d %d",DiffIcon,xMakeUp_ZMatrix[DiffIcon],icon->imageCachedRect.z);
             if(quality==0)
             {
@@ -467,7 +473,7 @@ XQDEIconRect XQWFirstHand_bottom::iconCoordsByIndex(int c)
 
 int XQWFirstHand_bottom::iconIndexByCoords(int cursor_x, int cursor_y)
 {
-        //return the icon where the mouse is over
+	//return the icon number where the mouse is over
         int iconIndexX = cursor_x - xMakeUp_Center.x;
 	iconIndexX = iconIndexX - DesktopEnvironment->GUI.handIconsMax;
 	iconIndexX = iconIndexX / (DesktopEnvironment->GUI.handIconsMax + DesktopEnvironment->GUI.spaceIcons);

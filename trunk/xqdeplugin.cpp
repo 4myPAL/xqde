@@ -15,7 +15,7 @@
 extern void GenericPluginNeedPolledEnable();
 
 XQDEPlugin::XQDEPlugin(QObject *parent)
- : QObject(parent)
+
 {
         qDebug("XQDEPlugin::XQDEPlugin(QObject *parent)");
 	//isDirty=0;
@@ -64,8 +64,8 @@ void XQDEPlugin::attach(QObject *newI)
 
 QObject * XQDEPlugin::Respawn(QObject *p)
 {
-	
-        qDebug("QObject * XQDEPlugin::Respawn(QObject *p)");
+
+	qDebug("QObject * XQDEPlugin::Respawn(QObject *p)");
 
 	return (QObject *  )new XQDEPlugin(p);
 
@@ -73,22 +73,22 @@ QObject * XQDEPlugin::Respawn(QObject *p)
 
 void XQDEPlugin::Configure()
 {
-        qDebug("void XQDEPlugin::Configure()");
+	qDebug("void XQDEPlugin::Configure()");
 
 }
 
 void XQDEPlugin::restore(QDomNode *)
 {
-        qDebug("void XQDEPlugin::restore(QDomNode *)");
+	qDebug("void XQDEPlugin::restore(QDomNode *)");
 }
 
 void XQDEPlugin::store(QDomNode *)
 {
-        qDebug("void XQDEPlugin::store(QDomNode *)");
+	qDebug("void XQDEPlugin::store(QDomNode *)");
 
 }
 
 void XQDEPlugin::ConfigurationChanged(void *,int)
 {
-        qDebug("oid XQDEPlugin::ConfigurationChanged(void *,int)");
+	qDebug("void XQDEPlugin::ConfigurationChanged(void *,int)");
 }

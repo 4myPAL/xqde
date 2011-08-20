@@ -9,6 +9,7 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
+#include <QtGui>
 #include <QDataStream>
 #include <QDir>
 #include <QStringList>
@@ -35,10 +36,11 @@
 #include "xqdebasket.h"
 #include "xqdeproxy.h"
 #include "xqdesystray.h"
-//#include "xqdewidgetinterface.h"
+#include "xqdewidgetinterface.h"
+#include "xqwfirsthand.h"
 
 
-//QList<XQDEWidgetInterface *> widgets;
+QList<XQDEWidgetInterface *> widgets;
 
 QString DataPath;
 QString EXEPath;
@@ -47,6 +49,7 @@ QString EXEPath;
 static bool customx11EventFilter(void *message)
 {
     XEvent *event = reinterpret_cast<XEvent*>(message);
+    QEvent *qevent = reinterpret_cast<QEvent*>(message);
     XAnyEvent *ae = reinterpret_cast<XAnyEvent*>(event);
 //    QHash<QX11Mirror*, Qt::HANDLE>::const_iterator itr;
 //    for (itr = s_mirrors.constBegin(); itr != s_mirrors.constEnd();
@@ -56,6 +59,24 @@ static bool customx11EventFilter(void *message)
 //        }
 //    }
 //    qWarning()<<"event"";
+
+//#define KeyPress		2
+//#define KeyRelease		3
+//#define ButtonPress		4
+//#define ButtonRelease		5
+//#define MotionNotify		6
+//#define EnterNotify		7
+//#define LeaveNotify		8
+
+    //improuvements direct interface to xorg events
+    //Todo :check if mouse is over mask
+//    if(event->type == EnterNotify) qDebug("Enter Dock");
+//    if(event->type == LeaveNotify) qDebug("Exit Dock");
+
+//    if(qevent->type() == QEvent::MouseMove){
+//	XQWFirstHand.mouseMoveEvent(static_cast<QMouseEvent*>(qevent));
+//    }
+
     if(TaskManager!=NULL)return TaskManager->x11EventFilter(event);
     else return false;
 //    return false;
@@ -129,9 +150,9 @@ void XQDEMain::xReset()
 	// WindowManagerInterface
 	WindowManagerInterface=new XQDEWindowManagerInterface(root);
 	//
-        Basket=new XQDEBasket(root);
+	Basket=new XQDEBasket(root);
 	// TaskManager
-        TaskManager=new XQDESensor_TaskManager(root);
+	TaskManager=new XQDESensor_TaskManager(root);
 //	//
 /////*
 //        XQDESensor_SystemTray *SystemTray=new XQDESensor_SystemTray();
@@ -142,8 +163,8 @@ void XQDEMain::xReset()
 ////*/
 
         //System Tray for XQDE
-//        XQDESysTray *sys = new XQDESysTray(root);
-//                SysTray = new XQDESysTray();
+//	XQDESysTray *sys = new XQDESysTray(root);
+	SysTray = new XQDESysTray(root);
         // xTray
 //	QObject *m_tray=XEObject::xFindObject("xTray");
 //	if(m_tray!=NULL)connect(m_tray,SIGNAL(quitSelected()),this,SLOT(QueryClose()));
@@ -161,8 +182,8 @@ void XQDEMain::xReset()
 	if(!xcfg)qWarning("Heavy error reported");
 
 
-
-        connect(Basket,SIGNAL(Basket_As_Changed(int,XQDEIcon*,void*)),this,SLOT(Basket_As_Changed(int,XQDEIcon*,void*)));
+	//ToDO: controllare se serve
+	connect(Basket,SIGNAL(Basket_As_Changed(int,XQDEIcon*,void*)),this,SLOT(Basket_As_Changed(int,XQDEIcon*,void*)));
 	
         // load external plugins
         if(PluginListWhichWillBeLoaded)
@@ -183,15 +204,107 @@ void XQDEMain::xReset()
                 }
         }
 
+//	loadPluginsWidgets();
+
+	loadPlugins(root);
+
         DesktopEnvironment->Theme.xReset();
         xqde->xReset();
 
-        TaskManager->xReset();
+	TaskManager->xReset();
 
-        Basket->FreezeRestore(DataPath);
+	Basket->FreezeRestore(DataPath);
         xcfg->xReset();
 
 	QAbstractEventDispatcher::instance()->setEventFilter(customx11EventFilter);
+
+}
+
+QDir XQDEMain::directoryOf(const QString &subdir)
+{
+    QDir dir(QApplication::applicationDirPath());
+
+//#if defined(Q_OS_WIN)
+    if (dir.dirName().toLower() == "debug"
+	    || dir.dirName().toLower() == "release")
+	dir.cdUp();
+//#elif defined(Q_OS_MAC)
+//    if (dir.dirName() == "MacOS") {
+//	dir.cdUp();
+//	dir.cdUp();
+//	dir.cdUp();
+//    }
+//#endif
+    dir.cd(subdir);
+    return dir;
+}
+
+void XQDEMain::loadPluginsWidgets()
+{
+    QDir pluginsDir = directoryOf("plugins");
+    foreach (QString fileName, pluginsDir.entryList(QDir::Files)) {
+	QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
+	if (XQDEWidgetInterface *widget = qobject_cast<XQDEWidgetInterface *>(loader.instance()))
+	    widgets.append(widget);
+    }
+}
+
+
+typedef QObject *(*pPluginLoader)(QObject *);
+
+typedef int (*AvgFunction)(int, int);
+
+void XQDEMain::loadPlugins(XQDERoot *root)
+{
+    QDir pluginsDir = directoryOf("plugins");
+    foreach (QString fileName, pluginsDir.entryList(QDir::Files)) {
+	//look in the plugins folder and search for all files
+	//remove the .so extension before use QLibrary to load plugin
+//	fileName = fileName.left(fileName.length()-3); // remove ".so" 3xChar
+	fileName = pluginsDir.absolutePath() + "/" + fileName;
+	QLibrary myLib(fileName.toAscii());
+	if(myLib.isLibrary(fileName)) { //have a valid extension? (.so)
+
+//	    myLib.load();
+//	    if(myLib.isLoaded()) qWarning() << "loaded";
+//	    AvgFunction avg =
+//		     (AvgFunction) myLib.resolve("avg");
+//	    if (avg){
+//		 int temp = avg(5, 8);
+//	     }
+//	    qWarning() << myLib.errorString();
+//
+
+	    myLib.load();
+	    if(myLib.isLoaded()) qWarning() << "loaded";
+	    pPluginLoader xqdeplugin =
+		    (pPluginLoader) myLib.resolve("xqdeplugin_register");
+	    if (xqdeplugin){
+//		int temp = avg(5, 8);
+		QObject *LoadedPlugin= xqdeplugin(parent());
+//		if(PluginListWhichWillBeLoaded)PluginListWhichWillBeLoaded->append(PluginToLoad);
+//		if(LoadedPlugin!=NULL) root->PluginRegister(LoadedPlugin);
+	    }
+	    qWarning() << myLib.errorString();
+	    myLib.unload();
+//
+//	    typedef QObject* (*ptr)(QObject*);
+//	    ptr function = (ptr) myLib.resolve("xqdeplugin_register");
+////	    if(function!=NULL) root->PluginRegister(/*(QObject *)*/ function);
+////
+////	    qWarning() << function;
+//
+//	    pPluginLoader PluginLoader;
+//	    PluginLoader=(pPluginLoader)myLib.resolve("xqdeplugin_register");
+//	    if(myLib.isLoaded()) qWarning() << "loaded" << PluginLoader;
+//	    if(PluginLoader)
+//	    {
+//		QObject *LoadedModule=PluginLoader(parent());
+//		if(PluginLoader!=NULL) root->PluginRegister((void *) PluginLoader);
+	    }
+	else qWarning() << myLib.errorString();
+    }
+
 }
 
 
@@ -271,6 +384,10 @@ void storeConfiguration()
 
     settings.beginGroup("XQDEEnvironmentTheme");
     DesktopEnvironment->Theme.store(&settings);
+    settings.endGroup();
+
+    settings.beginGroup("XQDEEnvironmentUserProfile");
+    DesktopEnvironment->UserProfile.store(&settings);
     settings.endGroup();
 
 }
@@ -368,6 +485,29 @@ int XQDEMain::xmlLoad()
     settings.endGroup();
     return 0;
 }
+
+
+// protected f()
+//bool XQDEMain::eventFilter(QObject *obj, QEvent *ev)
+//{
+//    // (this) Active only if MainWindow installEventFitler is uncommented
+//    if ( obj == testWidget || obj == this ) {
+//	switch( ev->type() ){
+//	    case QEvent::Enter:
+//		qDebug( "Enter %s", obj->objectName() );
+//		break;
+//	    case QEvent::Leave:
+//		qDebug( "Leave %s", obj->objectName() );
+//		break;
+//	    default:
+//		// uncomment to log everything
+//		//logEntry( obj->objectName()+": "+tr( "%1" ).arg( ev->type() ) );
+//		break;
+//	}
+//    }
+//
+//    return QMainWindow::eventFilter( obj, ev );
+//}
 
 
 //bool XQDEMain::x11EventFilter( XEvent *ev )

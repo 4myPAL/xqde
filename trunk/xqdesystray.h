@@ -10,7 +10,7 @@
 #include "xqdeclass.h"
 
 
-class XQDESysTray : public QObject
+class XQDESysTray : public XQDEClass
 {
 public:
     XQDESysTray(XQDEClass *parent = 0);
@@ -28,6 +28,7 @@ private:
 
     QSystemTrayIcon *trayIcon;
     QMenu *trayIconMenu;
+
 };
 
 extern XQDESysTray *SysTray;

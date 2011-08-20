@@ -22,7 +22,7 @@ XQDEWindowManagerInterface::XQDEWindowManagerInterface *WindowManagerInterface;
 XQDEWindowManagerInterface::XQDEWindowManagerInterface(XQDEClass *parent)
  : XQDEClass(parent)
 {
-    ObjectName="com.XQDE.WindowsMangerInterface";
+    ObjectName="com.XQDE.WindowMangerInterface";
     ConfigurationData.append(new XQDEConfigurationPair("serverurl","http://xqde.xiaprojects.com"));
     ConfigurationData.append(new XQDEConfigurationPair("email","xqde@xiaprojects.com"));
     ConfigurationData.append(new XQDEConfigurationPair("author","Stefano Zingarini"));

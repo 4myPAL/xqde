@@ -261,6 +261,34 @@ XQDEIcon *XQDEBasket::AddtoBasketWidget(QObject *SensorManager,void *cData,XQDEP
 	QString logicName=QString::number((long int)WidgetClass);
 	XQDEIcon *newItem=new XQDEIcon(logicName,SensorManager,cData,0,Title,Title);
 	WidgetClass->attach(newItem);
+//
+////	SensorManager->attach(newItem);
+//	disconnect(SIGNAL(xSetIconWM(QImage &)));
+//	disconnect(SIGNAL(xSetTitle(const QString &)));
+//	disconnect(SIGNAL(xSetIcon(const QString &)));
+//	disconnect(SIGNAL(xSetParent(QObject *)));
+//	disconnect(SIGNAL(xReset()));
+//	disconnect(SIGNAL(xUpdateBroadcast()));
+//
+//
+//	if(SensorManager)
+//	{
+//
+//		connect(SensorManager,SIGNAL(xSetIconWM(QImage &)),newItem,SLOT(xSetIconWM(QImage &)));
+//		connect(SensorManager,SIGNAL(xSetTitle(const QString &)),newItem,SLOT(xSetTitle(const QString &)));
+//		connect(SensorManager,SIGNAL(xSetIcon(const QString &)),newItem,SLOT(xSetIcon(const QString &)));
+//		connect(SensorManager,SIGNAL(xSetParent(QObject *)),newItem,SLOT(xSetParent(QObject *)));
+//		connect(SensorManager,SIGNAL(xReset()),newItem,SLOT(xReset()));
+//		connect(SensorManager,SIGNAL(xUpdateBroadcast()),newItem,SLOT(xUpdateBroadcast()));
+//
+//		connect(this, SIGNAL(attach(QObject *)), SensorManager, SLOT(attach(QObject *)));
+////		emit attach(QObject *);
+//		//emit xSetTitle("prova");
+//	}
+
+
+
+
 	newItem->xReset();
 
 	
@@ -271,17 +299,16 @@ XQDEIcon *XQDEBasket::AddtoBasketWidget(QObject *SensorManager,void *cData,XQDEP
 	return newItem;
 }
 
-XQDEIcon *XQDEBasket::AddtoBasket(QObject *SensorManager,void *cData,QString logicName, QString, QString title, QImage *defaultIcon, QString defaultIconFile)
+XQDEIcon *XQDEBasket::AddtoBasket(QObject *SensorManager,void *cData,QString logicName, QString logicClass, QString title, QImage *defaultIcon, QString defaultIconFile)
 {
-	qWarning("XQDEBasket::AddtoBasket_Window()");
+	qDebug("XQDEBasket::AddtoBasket_Window()");
 	if(title==0 || title.length()<1)title=logicName;
 	XQDEIcon *newItem=new XQDEIcon(logicName,SensorManager,cData,defaultIcon,title,defaultIconFile);
 	newItem->xReset();
 	items.append(newItem);
-	qWarning("XQDEBasket::AddtoBasket_Window() emit");
+	qDebug("XQDEBasket::AddtoBasket_Window() emit");
 	emit Basket_As_Changed(1, newItem, NULL);
-	qWarning("XQDEBasket::AddtoBasket_Window() end");
-
+	qDebug("XQDEBasket::AddtoBasket_Window() end");
 
 	return newItem;
 }

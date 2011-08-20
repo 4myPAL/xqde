@@ -2,13 +2,23 @@
 #include "xqdesystray.h"
 #include "xqde.h"
 
+XQDESysTray *SysTray;
 
 XQDESysTray::XQDESysTray(XQDEClass *parent)
+    : XQDEClass(parent)
 {
+    ObjectName="com.XQDE.SysTray";
+    ConfigurationData.append(new XQDEConfigurationPair("serverurl",""));
+    ConfigurationData.append(new XQDEConfigurationPair("email",""));
+    ConfigurationData.append(new XQDEConfigurationPair("author","AlmAck"));
+    ConfigurationData.append(new XQDEConfigurationPair("web",""));
+    ConfigurationData.append(new XQDEConfigurationPair("version","20091225"));
+    ConfigurationData.append(new XQDEConfigurationPair("autoupdate",""));
+
     createActions();
     createTrayIcon();
 
-    setIcon(QIcon(":/resources/images/xqde_logo.png"));
+    setIcon(QIcon(":/images/xqde_logo.png"));
     trayIcon->show();
 
 }
@@ -35,13 +45,13 @@ void XQDESysTray::createActions()
 
 void XQDESysTray::createTrayIcon()
 {
-//    trayIconMenu = new QMenu(this);
+    trayIconMenu = new QMenu();
 //    trayIconMenu->addAction(minimizeAction);
 //    trayIconMenu->addAction(maximizeAction);
 //    trayIconMenu->addAction(restoreAction);
 //    trayIconMenu->addSeparator();
-//    trayIconMenu->addAction(quitAction);
+    trayIconMenu->addAction(quitAction);
 //
-//    trayIcon = new QSystemTrayIcon(this);
-//    trayIcon->setContextMenu(trayIconMenu);
+    trayIcon = new QSystemTrayIcon(this);
+    trayIcon->setContextMenu(trayIconMenu);
 }

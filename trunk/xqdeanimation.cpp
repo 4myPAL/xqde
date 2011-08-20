@@ -13,6 +13,17 @@
 #include <QImage>
 #include <QPixmap>
 #include <QPainter>
+#include <QObject>
+
+#include <QAbstractAnimation>
+#include <QStateMachine>
+#include <QAbstractTransition>
+#include <QPropertyAnimation>
+#include <QAnimationGroup>
+#include <QSequentialAnimationGroup>
+#include <QParallelAnimationGroup>
+
+#include <QGraphicsEffect>
 
 #include "xqdeanimation.h"
 #include "xqdeicon.h"
@@ -21,13 +32,21 @@
 
 QImage *XQDE_ImageSetIntensity(QImage &lavoro,double i);
 
-XQDEAnimation::XQDEAnimation(int type, XQDEIcon *icon,int endEffect,class XQDEAction *test, class XQDEAction *endAction)//, int ar)
+//static const char * const AnimationTypes[] = {
+//    QT_TR_NOOP("fade"),
+//    QT_TR_NOOP("magnify"),
+//    QT_TR_NOOP("unmagnify")
+//    QT_TR_NOOP("fly"),
+//    0
+//};
+
+XQDEAnimation::XQDEAnimation(int type, XQDEIcon *icon,int endEffect,class XQDEAction *startaction, class XQDEAction *endAction)//, int ar)
 {
 	//autoRemove=ar;
         this->type=type;
         this->icon=icon;
         this->endEffect=endEffect;
-        this->test=test;
+	this->startaction=startaction;
         this->endAction=endAction;
         maxCicle=4;
 	resetCurrentStep();
@@ -62,12 +81,12 @@ void XQDEAnimation::resetCurrentStep()
 
 void XQDEAnimation::step()
 {
-        qDebug("void XQDEAnimation::step() %ld %d %ld %d",(long)test,currentStep,(long)endAction, maxCicle);
-        if(test)    //usato per effetto balzo
+	qDebug("void XQDEAnimation::step() %ld %d %ld %d",(long)startaction,currentStep,(long)endAction, maxCicle);
+	if(startaction)    //usato per effetto balzo
 	{
             //Rimosso controllo per far continuare l'animazione fino alla fine
             //altrimenti si ferma dopo aver caricato la finestra
-//		if(test->doTest()>0)
+//		if(startaction->doaction()>0)
 //		{
                         qDebug("void XQDEAnimation::step() A %d",currentStep);
 			if(currentStep>1)
@@ -149,7 +168,7 @@ void XQDEAnimation::step()
 		}
 		else
 		{
-                        qDebug("void XQDEAnimation::step(end) %ld %d %ld",(long)test,currentStep,(long)endAction);
+			qDebug("void XQDEAnimation::step(end) %ld %d %ld",(long)startaction,currentStep,(long)endAction);
 			stepAgain();
 			icon->redoEffects();
 			/*
@@ -217,7 +236,6 @@ void XQDE_ImageResizeWithBorder(QPixmap &cleanSource, QPixmap &image, QPixmap &B
 		}
 	}
 }
-void MakeWindowOnTopPillow(void *);
 
 void XQDEAnimation::stepAgain()
 {
@@ -239,11 +257,11 @@ void XQDEAnimation::stepAgain()
                         currentFade=((1.0-((double)endEffect/10))/(double)10)*currentStep+((double)endEffect/10);
 
                         #ifndef RESIZEVIAXRENDER
-                        image=icon->image()->copy();
+			image=icon->image()->copy();
                         XQDE_ImageSetIntensity(image,currentFade);
                         icon->xSetImage(image);
                         #else
-                        image=icon->image();
+			image=icon->image();
                         imageImage=image->toImage();
                         XQDE_ImageSetIntensity(imageImage,currentFade);
                         Buffer=QPixmap::fromImage(imageImage);
@@ -256,12 +274,12 @@ void XQDEAnimation::stepAgain()
                 case 2://resize from z->0
                         currentSize=(int)(((double)icon->imageCachedRect.z/(double)10)*(double)currentStep);
                         XQDE_ImageResizeWithBorder(*icon->imageClean(),*icon->image(),Buffer,icon->imageCachedRect.z,currentSize);
-                        icon->xSetImage(Buffer);
+			icon->xSetImage(Buffer);
                         break;
                 case 3://resize from 0->.z
                         currentSize=(int)(((double)icon->imageCachedRect.z/(double)10)*(double)(10-currentStep));
                         XQDE_ImageResizeWithBorder(*icon->imageClean(),*icon->image(),Buffer,icon->imageCachedRect.z,currentSize);
-                        icon->xSetImage(Buffer);
+			icon->xSetImage(Buffer);
                         break;
                 case 4:	// fly object
                 {
@@ -293,17 +311,38 @@ void XQDEAnimation::stepAgain()
                                         icon->detachedRect.y=icon->imageCachedRect.y;
                                 break;
                         }
-                        if(lastZ!=icon->detachedRect.z)
-                        {
-                                qDebug("if(lastZ!=icon->detachedRect.z)");
-                                lastZ=icon->detachedRect.z;
-                                icon->setFixedSize(DesktopEnvironment->GUI.sizeIconsMax,DesktopEnvironment->GUI.sizeIconsMax);
-                                icon->xRepaintDetached();
-                                icon->repaint();
-                        }
-                        icon->move(icon->detachedRect.x+MainWindow->x(),icon->detachedRect.y+MainWindow->y());
-                        //ToDo: non usare show per mostrare icona, resta sopra alle finestre
-                        icon->show();
+			if(lastZ!=icon->detachedRect.z)
+			{
+				qDebug("if(lastZ!=icon->detachedRect.z)");
+				lastZ=icon->detachedRect.z;
+				icon->setFixedSize(DesktopEnvironment->GUI.sizeIconsMax,DesktopEnvironment->GUI.sizeIconsMax);
+				icon->xRepaintDetached();
+				icon->repaint();
+			}
+			icon->move(icon->detachedRect.x+MainWindow->x(),icon->detachedRect.y+MainWindow->y());
+			//ToDo: non usare show per mostrare icona, resta sopra alle finestre
+			icon->show();
+
+//			QPropertyAnimation *animation = new QPropertyAnimation(icon, "geometry");
+//			animation->setDuration(1000);
+//			animation->setStartValue(QRect(icon->imageCachedRect.x, icon->imageCachedRect.y, DesktopEnvironment->GUI.sizeIconsMax, DesktopEnvironment->GUI.sizeIconsMax));
+//			animation->setEndValue(QRect(icon->imageCachedRect.x, icon->imageCachedRect.y-currentSize, DesktopEnvironment->GUI.sizeIconsMax, DesktopEnvironment->GUI.sizeIconsMax));
+
+//			animation->setEasingCurve(QEasingCurve::OutBounce);
+
+//			animation->start();
+
+//			//newIcon->move(QPoint(100,100));
+//			icon->raise();
+
+//			QGraphicsDropShadowEffect *m_glowEffect = new QGraphicsDropShadowEffect(icon);
+//			m_glowEffect->setOffset(0);
+//			icon->setGraphicsEffect(m_glowEffect);
+
+//			m_glowEffect->setEnabled(true);
+//			m_glowEffect->setBlurRadius(5);
+//			m_glowEffect->setColor(Qt::blue);
+
 
                         }
                         break;

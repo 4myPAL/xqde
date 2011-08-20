@@ -36,7 +36,7 @@ void XQDEPuzzle::import(const QString &)
 	v->setViewMode(QListView::IconMode);
 
 	XQDEWidgetsManaged.append(v);
-	QIcon ic(QPixmap("/mnt/documenti/users/stefano/mirror/temi/icone/lime.png"));
+	QIcon ic(QPixmap(":images/xqde_logo.png"));
 	QString is="ciao";
 	QListWidgetItem *i=new QListWidgetItem(ic,is,v);
 	v->addItem(i);

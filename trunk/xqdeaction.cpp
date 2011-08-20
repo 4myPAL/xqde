@@ -13,6 +13,14 @@
 #include <QProcess>
 #include <QTimer>
 
+#include <QAbstractAnimation>
+#include <QStateMachine>
+#include <QAbstractTransition>
+#include <QPropertyAnimation>
+#include <QAnimationGroup>
+#include <QSequentialAnimationGroup>
+#include <QParallelAnimationGroup>
+
 #include "xqdebasket.h"
 #include "xqdeaction.h"
 #include "xqdeanimation.h"
@@ -63,9 +71,23 @@ void XQDEAction::doit()
 				XQDEAction *EndAction=NULL;
 				RequiredAction->Pointer=Pointer;
 				XQDEAnimation *RequiredAnimation=new XQDEAnimation(4,newIcon,0,RequiredAction,EndAction);
-                                newIcon->animations->append(RequiredAnimation);
-                                newIcon->animationsNextFrameCounter=1;
-                                XQDE_IconAddedNewAnimation();
+				newIcon->animations->append(RequiredAnimation);
+				RequiredAnimation->step();
+				newIcon->animationsNextFrameCounter=1;
+				XQDE_IconAddedNewAnimation();
+
+//				QPropertyAnimation *animation = new QPropertyAnimation(newIcon, "geometry");
+//				animation->setDuration(3000);
+//				animation->setStartValue(QRect(0, 0, 100, 30));
+//				animation->setEndValue(QRect(10, 10, 100, 30));
+
+//				animation->setEasingCurve(QEasingCurve::OutBounce);
+
+//				animation->start();
+
+//				newIcon->move(QPoint(100,100));
+//				newIcon->raise();
+
 			}
 		}
 

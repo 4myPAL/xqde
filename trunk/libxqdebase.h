@@ -9,6 +9,7 @@
 
 #include "xqdeclass.h"
 #include "xqwidget.h"
+#include "xqimageautozoom.h"
 
 
 class XQDEBase : public XQWidget 
@@ -20,8 +21,10 @@ class XQDEBase : public XQWidget
 	virtual void paintEvent(QPaintEvent *);
 	virtual void paint(QPainter &);
 	virtual void xReset();
+	void mouseMoveEvent(QMouseEvent *);
 	
 	QList<XQWidget *> globalXQDEWidgets;
+	QList<XQImageAutoZoom *> globalXQImages;
 	QImage iBuffer;
 	QPainter pBuffer;
 };

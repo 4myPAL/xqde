@@ -42,7 +42,7 @@ void XRenderResizeImage(QPixmap &Source,QPixmap &thumbnail,int mx, int my);
 
 
 
-XQDEIcon::XQDEIcon(QString logicName,QObject *parent, void *cData,QImage *defaultImg, QString strTitle, QString defaulticon): XQWidget(parent)
+XQDEIcon::XQDEIcon(QString logicName,QObject *parent, void *cData,QImage *defaultImg, QString strTitle, QString defaulticon) : XQWidget(parent) //QGraphicsWidget(parent)
 {
         qDebug("XQDEIcon::XQDEIcon(QString logicName,QObject *parent, void *cData,QImage *defaultImg, QString strTitle, QString defaulticon): XQWidget(parent)");
 
@@ -347,7 +347,7 @@ void XQDEIcon::xReset()
 {
         qDebug("void XQDEIcon::xReset() %s",localIcon.toUtf8().constData());
 
-
+	if( localIconImage.isNull()){
         // ricerca icona, 1) locale, 2) carica da Window Manager 3)imagine per removed icon
 	int bad=1;
 	QString newImageFile=DesktopEnvironment->Theme.findImage(localIcon);
@@ -376,7 +376,7 @@ void XQDEIcon::xReset()
 			}
 		}
         }
-
+    }
         qDebug("void XQDEIcon::xReset() localIconImage.width()=%d to %ld", localIconImage.width(),DesktopEnvironment->GUI.sizeIconsMax);
 
 	//check if the size of the icon is correct

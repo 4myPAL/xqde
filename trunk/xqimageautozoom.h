@@ -24,6 +24,7 @@ public:
     XQImageAutoZoom(QObject *, QWidget *parent = 0);
 
     ~XQImageAutoZoom();
+    virtual void MoveEvent(QMouseEvent *);
 	virtual void mouseMoveEvent(QMouseEvent *);
 	virtual void mousePressEvent(QMouseEvent *);
 public slots:

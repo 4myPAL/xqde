@@ -221,9 +221,10 @@ void XQWFirstHand::purgeCacheMovements()
         if(!isRaised) onEnter();
 
 // Removed (21.02.09)
-//        static timespec req,rem;
-//        req.tv_nsec=SleepFPS*1000;
-//        req.tv_sec=0;
+	SleepFPS=15000;
+	static timespec req,rem;
+	req.tv_nsec=SleepFPS*1000;
+	req.tv_sec=0;
 	
 	
 	
@@ -342,11 +343,12 @@ void XQWFirstHand::purgeCacheMovements()
 //			if(isRaised)recallme=1;
 //			xRepaint();
                         repaintDock();
-			//QApplication::flushX();
+//			QApplication::flush();
+			QApplication::flush(); QApplication::syncX();
 //                        QCoreApplication::flush ();
 //			qApp->processEvents();
-//                        QApplication::syncX();
-//                        nanosleep(&req,&rem);
+//			QApplication::syncX();
+			nanosleep(&req,&rem);
 //		}
 
 	}
@@ -365,6 +367,8 @@ void XQWFirstHand::repaintDock()
 
 void XQWFirstHand::mouseMoveEventSW(int x,int y,int force,int quality)
 {
+    qDebug("mouseMoveEventSW x:%d \t y:%d", x, y);
+
 	xLastX=x;
 	xLastY=y;
 
@@ -384,7 +388,7 @@ void XQWFirstHand::mouseMoveEventSW(int x,int y,int force,int quality)
 		{
 			XQDEIcon *thisIcon=Basket->items.at(i);
 			mouseMoveEventSWIcon(x,y,i,thisIcon,quality);
-                }
+		}
 		xMakeUp_BackgroundCoords();
 	}
 }
@@ -392,6 +396,34 @@ void XQWFirstHand::mouseMoveEventSW(int x,int y,int force,int quality)
 
 void XQWFirstHand::xMakeUp_BackgroundCoords()
 {
+}
+
+int XQWFirstHand::iconIndexByCoords(int,int)
+{
+	return 0;
+}
+
+/***************************************************/
+/******************** MOUSE CONTROL ****************/
+/***************************************************/
+
+void XQWFirstHand::mousePressEvent( QMouseEvent *e)
+{
+	lastButtonStatus=e->button();
+	hasDragged=-1;
+	isDragging=1;
+
+}
+
+void XQWFirstHand::mouseMoveEvent(QMouseEvent *e)
+{
+	if(cacheBusy->tryLock()==false)return;
+	if(!isRaised && !maskNormal->contains(e->pos()))
+	{
+		cacheBusy->unlock();
+		e->ignore();
+	}
+	else purgeCacheMovements();
 }
 
 void XQWFirstHand::mouseReleaseEvent (QMouseEvent *e)
@@ -406,24 +438,25 @@ void XQWFirstHand::mouseReleaseEvent (QMouseEvent *e)
 		hasDragged=-1;
 		isDragging=0;
 		// We need to check if you have dropped out of the docker
-		/*
-		if(e->pos().y()>=0&&e->pos().y()<=ActiveConfiguration->Window.Height&&lastIcon>=0&&lastIcon<(int)activeIconsCounter)
-		{
-			// done into the engine
-		}
+
+//		if(e->pos().y()>=0&&e->pos().y()<=ActiveConfiguration->Window.Height&&lastIcon>=0&&lastIcon<(int)activeIconsCounter)
+		if(maskRaised->contains(e->pos()))return;
+//		{
+//			// done into the engine
+//		}
 		else
 		{
 			if(hasDragged>0&&hasDragged<(int)activeIconsCounter)
 			{
-				if(UpdateViaDND!="0" && UpdateViaDND!="no" )
-				{
-				XSGObjectIcon *itorm=ActiveConfiguration->ObjectsIcons.at(hasDragged);
-				Configurator->xEventInRemovingIcon(hasDragged,0);
-				ActiveConfiguration->RollingIcons.remove(itorm);
-				}
+//				if(UpdateViaDND!="0" && UpdateViaDND!="no" )
+//				{
+//				XSGObjectIcon *itorm=ActiveConfiguration->ObjectsIcons.at(hasDragged);
+//				Configurator->xEventInRemovingIcon(hasDragged,0);
+//				ActiveConfiguration->RollingIcons.remove(itorm);
+//				}
 			}
 		}
-		*/
+
 	}
 	else
 	{
@@ -485,6 +518,32 @@ void XQWFirstHand::wheelEvent(QWheelEvent *e)
 		}			
 }
 
+void XQWFirstHand::slot_mousePolling()
+{
+        if(isRaised)
+        {
+                mousePolling->stop();
+                qDebug("void XQWFirstHand::slot_mousePolling() stop");
+                return;
+        }
+
+        // Mouse polling vars
+        QPoint mouse;
+        mouse = mapFromGlobal(QCursor::pos());
+
+        if(maskAutoRaise->contains(mouse))
+        {
+                mousePolling->stop();
+                qDebug("void XQWFirstHand::slot_mousePolling() onEnter!!!");
+                onEnter();
+	}
+
+}
+
+void XQWFirstHand::mouseMoveEventSWIcon(int,int,int,XQDEIcon *,int)
+{
+}
+
 void XQWFirstHand::onEnter()
 {
         //mostra XQwidget per testo
@@ -512,7 +571,7 @@ void XQWFirstHand::onExit()
 {
         //nascondi XQwidget per testo
         qDebug("void XQWFirstHand::onExit()");
-        MakeWindowOnBottom((void*)winId());
+	MakeWindowOnBottom((void*)winId());
 //        Qt::WindowFlags flags = windowFlags();
 //        flags ^= Qt::WindowStaysOnTopHint;
 //        flags |= Qt::WindowStaysOnBottomHint;
@@ -525,62 +584,13 @@ void XQWFirstHand::onExit()
 
 }
 
-int XQWFirstHand::iconIndexByCoords(int,int)
-{
-	return 0;
-}
-
-/***************************************************/
-/******************** MOUSE CONTROL ****************/
-/***************************************************/
-
-void XQWFirstHand::mousePressEvent( QMouseEvent *e)
-{
-	lastButtonStatus=e->button();
-	hasDragged=-1;
-	isDragging=1;
-}
-
-void XQWFirstHand::mouseMoveEvent(QMouseEvent *e)
-{
-	if(cacheBusy->tryLock()==false)return;
-	if(!isRaised && !maskNormal->contains(e->pos()))
-	{
-		cacheBusy->unlock();
-	}
-	else purgeCacheMovements();
-}
-
-void XQWFirstHand::slot_mousePolling()
-{
-        if(isRaised)
-        {
-                mousePolling->stop();
-                qDebug("void XQWFirstHand::slot_mousePolling() stop");
-                return;
-        }
-
-        // Mouse polling vars
-        QPoint mouse;
-        mouse = mapFromGlobal(QCursor::pos());
-
-        if(maskAutoRaise->contains(mouse))
-        {
-                mousePolling->stop();
-                qDebug("void XQWFirstHand::slot_mousePolling() onEnter!!!");
-                onEnter();
-        }
-
-}
-
-void XQWFirstHand::mouseMoveEventSWIcon(int,int,int,XQDEIcon *,int)
-{
-}
-
 
 /***************************************************/
 /******************** DRAG AND DROP ****************/
 /***************************************************/
+void XQWFirstHand::dragMoveEvent(QDragMoveEvent *event){
+
+}
 
 void XQWFirstHand::dragEnterEvent(QDragEnterEvent *event)
 {
@@ -591,60 +601,53 @@ void XQWFirstHand::dragEnterEvent(QDragEnterEvent *event)
                 //TODO: if the widget...
                 //QByteArray remotePluginName=event->mimeData()->data("text/plain");
                 //application/x-qabstractitemmodeldatalist
-                const char *AddedDropTitle=event->mimeData()->text().toAscii().data();
 
-                void *ClassWidget=proxy->newInstanceOf(event->mimeData()->text());
-                if(ClassWidget!=0)
-                {
-                        Basket->AddtoBasketWidget((QObject *) ClassWidget,(void *)0,(class XQDEPlugin *)ClassWidget,AddedDropTitle);
-                }
-
-//                QMap <QString, QString> metaData = mediaObject->metaData();
-
-//                 XQDEIcon *addedIcon=NULL;
-//                QImage defaultimg;
-//                addedIcon=new XQDEIcon("prova123",0,0,&defaultimg,event->mimeData()->text(),"");
-//                addedIcon->storeOnExit=1;// this will avoid lost of icon after
-//                qWarning("Adding:%s", event->mimeData()->text());
-////		XQDEIcon *newItem=iconImport(qd->path()+"/"+OldXMLs[i]);
-//                addedIcon->xReset();
-////		con->append(newItem);
-////		if(con==&items)
-//                    emit Basket_As_Changed(1, addedIcon, NULL);
-
-//                if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
-//                    QByteArray itemData = event->mimeData()->data("application/x-dnditemdata");
-//                    QDataStream dataStream(&itemData, QIODevice::ReadOnly);
-//
-//                    QPixmap pixmap;
-//                    QPoint offset;
-//                    dataStream >> pixmap >> offset;
-//
-////                    XQDEIcon *addedIcon=NULL;
-//////                    QLabel *newIcon = new QLabel(this);
-////                    QImage defaultimg = pixmap.toImage();
-////                    addedIcon=new XQDEIcon("prova123",0,0,&defaultimg,event->mimeData()->text(),"");
-////                    addedIcon->storeOnExit=1;// this will avoid lost of icon after
-////                    emit Basket_As_Changed(1, addedIcon, NULL);
-////                    newIcon->setPixmap(pixmap);
-////                    newIcon->move(event->pos() - offset);
-////                    newIcon->show();
-////                    newIcon->setAttribute(Qt::WA_DeleteOnClose);
-//
-//                    if (event->source() == this) {
-//                        event->setDropAction(Qt::MoveAction);
-//                        event->accept();
-//                    } else {
-//                        event->acceptProposedAction();
-//                    }
-//                } else {
-//                    event->ignore();
-//                }
-
-
-                event->acceptProposedAction();
         }
 
+	//                QMap <QString, QString> metaData = mediaObject->metaData();
+
+	//                 XQDEIcon *addedIcon=NULL;
+	//                QImage defaultimg;
+	//                addedIcon=new XQDEIcon("prova123",0,0,&defaultimg,event->mimeData()->text(),"");
+	//                addedIcon->storeOnExit=1;// this will avoid lost of icon after
+	//                qWarning("Adding:%s", event->mimeData()->text());
+	////		XQDEIcon *newItem=iconImport(qd->path()+"/"+OldXMLs[i]);
+	//                addedIcon->xReset();
+	////		con->append(newItem);
+	////		if(con==&items)
+	//                    emit Basket_As_Changed(1, addedIcon, NULL);
+
+//	    if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
+//		QByteArray itemData = event->mimeData()->data("application/x-dnditemdata");
+//		QDataStream dataStream(&itemData, QIODevice::ReadOnly);
+//
+//		QPixmap pixmap;
+//		QPoint offset;
+//		dataStream >> pixmap >> offset;
+//
+//	//                    XQDEIcon *addedIcon=NULL;
+//	////                    QLabel *newIcon = new QLabel(this);
+//	//                    QImage defaultimg = pixmap.toImage();
+//	//                    addedIcon=new XQDEIcon("prova123",0,0,&defaultimg,event->mimeData()->text(),"");
+//	//                    addedIcon->storeOnExit=1;// this will avoid lost of icon after
+//	//                    emit Basket_As_Changed(1, addedIcon, NULL);
+//	//                    newIcon->setPixmap(pixmap);
+//	//                    newIcon->move(event->pos() - offset);
+//	//                    newIcon->show();
+//	//                    newIcon->setAttribute(Qt::WA_DeleteOnClose);
+//
+//		if (event->source() == this) {
+//		    event->setDropAction(Qt::MoveAction);
+//		    event->accept();
+//		} else {
+//		    event->acceptProposedAction();
+//		}
+//	    } else {
+//		event->ignore();
+//	    }
+
+
+	    event->acceptProposedAction();
 
 
 
@@ -657,9 +660,21 @@ void XQWFirstHand::dragEnterEvent(QDragEnterEvent *event)
 }
 
 
-void XQWFirstHand::dropEvent(QDropEvent *event)
-{
-        Q_UNUSED(event);
+//void XQWFirstHand::dropEvent(QDropEvent *event)
+//{
+//        Q_UNUSED(event);
+//}
+
+void XQWFirstHand::dropEvent(QDropEvent *event){
+
+    const char *AddedDropTitle=event->mimeData()->text().toAscii().data();
+
+    void *ClassWidget=proxy->newInstanceOf(event->mimeData()->text());
+    if(ClassWidget!=0)
+    {
+	    Basket->AddtoBasketWidget((QObject *) ClassWidget,(void *)0,(class XQDEPlugin *)ClassWidget,AddedDropTitle);
+    }
+
 }
 
 
@@ -685,6 +700,7 @@ void XQWFirstHand::Basket_As_Changed(int action, XQDEIcon *newIcon, void *pW)
 	switch(action)
 	{
 		case 0:	// remove
+			//m_layout->removeItem(newIcon);
                         //If icon must be in dock dont remove it!
 		    if(newIcon->storeOnExit == 1) {
 			xRepaintSingle(newIcon);
@@ -694,7 +710,7 @@ void XQWFirstHand::Basket_As_Changed(int action, XQDEIcon *newIcon, void *pW)
 
 			EndAction=new XQDEAction();
 			EndAction->ActionType="removeicon";
-                        RequiredAnimation=new XQDEAnimation(2,newIcon,0,RequiredAction,EndAction);
+			RequiredAnimation=new XQDEAnimation(DesktopEnvironment->UserProfile.animation_remove,newIcon,0,RequiredAction,EndAction);
 			newIcon->animations->append(RequiredAnimation);
 			RequiredAnimation->step(); 
 			newIcon->animationsNextFrameCounter=1;
@@ -704,8 +720,10 @@ void XQWFirstHand::Basket_As_Changed(int action, XQDEIcon *newIcon, void *pW)
                         xMakeCentered();
 		break;
 		case 1: // add
+			//ToDo: scene
+			//m_layout->addItem(newIcon);
 //                        newIcon->animations->append(new XQDEAnimation(1,newIcon,5));//fade
-			RequiredAnimation=new XQDEAnimation(3,newIcon,0,RequiredAction,EndAction);
+			RequiredAnimation=new XQDEAnimation(DesktopEnvironment->UserProfile.animation_new,newIcon,0,RequiredAction,EndAction);
 			newIcon->animations->append(RequiredAnimation);// 0->iconsize...
 			RequiredAnimation->step(); // this will resize the icon to 0 ;)
 			newIcon->xRepaintSmall();
@@ -727,8 +745,7 @@ void XQWFirstHand::Basket_As_Changed(int action, XQDEIcon *newIcon, void *pW)
 //			sz=newIcon->imageCachedRect.z;
 
                         xRepaintSingle(newIcon);
-                        //ToDo: il valore 10 indica l'altezza del riflesso, rendere dinamico
-                        update(newIcon->imageCachedRect.x,newIcon->imageCachedRect.y,newIcon->imageCachedRect.z,newIcon->imageCachedRect.y+newIcon->imageCachedRect.z+10);
+			update(newIcon->imageCachedRect.x,newIcon->imageCachedRect.y,newIcon->imageCachedRect.z,newIcon->imageCachedRect.y+newIcon->imageCachedRect.z);
 
 		break;
 		case 3:	// free
@@ -918,7 +935,7 @@ void XQWFirstHand::xRepaintSingle(XQDEIcon *icon)
                 //erase remaing area before draw icon (Bug fix: 19.04.09)
 		//if the icon is "small" (inside the dock) not repaint the background
 		//if is outside clear the area
-		if(sz > topBackgroundSize[1])
+		if(sz > topBackgroundSize[1]-xMakeUp_ArrowSize)
 		    widgetpaint->fillRect(sx,sy, sz, sz-topBackgroundSize[1]+xMakeUp_ArrowSize, Qt::transparent);
 
                 //Start drawing images on top of source(background)
@@ -985,12 +1002,12 @@ void XQWFirstHand::xRepaintSingle(XQDEIcon *icon)
                 if(icon->isRunning())
                 {
                         #ifndef RESIZEVIAXRENDER
-                        widgetpaint->drawImage(icon->imageCachedArrowRect.x,icon->imageCachedArrowRect.y,icon->imageCachedArrow);
+			widgetpaint->drawImage(icon->imageCachedArrowRect.x,icon->imageCachedArrowRect.y,icon->imageCachedArrow);
                         #else
                         widgetpaint->drawPixmap(icon->imageCachedArrowRect.x,icon->imageCachedArrowRect.y,icon->imageCachedArrow);
                         #endif
-                }
-                
+		}
+
                 widgetpaint->end();
                 //XQDE_ImageCopyRop(paint2Buffer, paintBuffer,sx,sy,sz);
 	}
@@ -1048,6 +1065,12 @@ void XQWFirstHand::xReset()
                 animationPolling=new QTimer();
                 connect(animationPolling,SIGNAL(timeout()),this,SLOT(slot_animationPolling()));
         }
+
+//	m_layout = new QGraphicsLinearLayout;
+//	m_layout->setContentsMargins(5, 5, 5, 5);
+//	m_layout->setSpacing(0);
+
+//	setLayout(m_layout);
 
 }
 

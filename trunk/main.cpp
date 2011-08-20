@@ -87,16 +87,6 @@ int main(int argc, char *argv[])
 //        }
 //        app->setQuitOnLastWindowClosed(false);
 
-        app->setApplicationName("xqde");
-        app->setOrganizationDomain ("www.xiaprojects.com");
-        app->setOrganizationName("XIA Projects 2009");
-
-        //Loading a interface translation, ex: "xqde_it.qm"
-        QTranslator appTranslator;
-        QString translationFile = ":/translations/xqde_" + QLocale::system().name();
-        appTranslator.load(translationFile);
-        app->installTranslator(&appTranslator);
-        qDebug()<<"Loaded language is: "<<translationFile;
 
 	app->xReset();
 	return app->exec();
