@@ -17,7 +17,7 @@
 #define qt_xrootwin() QX11Info::appRootWindow()
 
 // ToDo convert all to the class QDesktopWidget
-XQDEWindowManagerInterface::XQDEWindowManagerInterface *WindowManagerInterface;
+XQDEWindowManagerInterface *WindowManagerInterface;
 
 XQDEWindowManagerInterface::XQDEWindowManagerInterface(XQDEClass *parent)
  : XQDEClass(parent)
